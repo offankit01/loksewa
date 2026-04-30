@@ -1,32 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@extends('layouts.main')
 
-    <title>{{ config('app.name', 'LokSewa Tayari') }} - {{ $title }}</title>
+@section('title', config('app.name', 'LokSewa Tayari') . ' - ' . $title)
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Styles / Scripts -->
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet">
-    @endif
-
+@section('extra_css')
     <style>
-        body {
-            background-color: var(--light-bg);
-            padding-top: 76px;
-        }
-        .navbar-custom {
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        }
         .service-header {
             background: linear-gradient(135deg, var(--primary-blue), #152c6e);
             color: white;
@@ -97,39 +74,9 @@
             margin-bottom: 0;
         }
     </style>
-</head>
-<body>
+@endsection
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom py-3">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-primary-blue d-flex align-items-center" href="{{ url('/') }}">
-                <i class="bi bi-journal-bookmark-fill me-2 fs-3 text-accent-orange"></i>
-                LokSewa Tayari
-            </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('services') }}">Services</a>
-                    </li>
-                </ul>
-                <div class="d-flex align-items-center gap-3">
-                    <a href="{{ url('/services') }}" class="btn btn-outline-secondary rounded-pill px-4 me-2">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Roadmap
-                    </a>
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="btn btn-primary-custom">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-primary-custom">Log In</a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
-
+@section('content')
     <!-- Header -->
     <div class="service-header">
         <div class="header-bg-shape"></div>
@@ -203,15 +150,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container text-center">
-            <p class="mb-0 text-white-50 small">&copy; {{ date('Y') }} LokSewa Tayari Platform. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

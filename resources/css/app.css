@@ -13,6 +13,7 @@ body {
     font-family: 'Inter', sans-serif;
     color: var(--dark-text);
     background-color: var(--light-bg);
+    padding-top: 85px; /* Global fix for fixed navbar overlap */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
