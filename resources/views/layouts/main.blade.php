@@ -42,7 +42,7 @@
                             Services
                         </a>
                         <!-- Submenu logic simplified for layout -->
-                        <ul class="dropdown-menu shadow-sm border-0 mt-2">
+                        <ul class="dropdown-menu shadow-sm border-0">
                              <li><a class="dropdown-item" href="{{ route('services') }}">All Services Roadmap</a></li>
                              <li><hr class="dropdown-divider"></li>
                              <li><a class="dropdown-item" href="{{ route('service.show', 'kharidar') }}">Kharidar</a></li>
@@ -55,6 +55,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/#features') }}">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('pricing') ? 'active' : '' }}" href="{{ route('pricing') }}">Pricing</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center gap-3">
@@ -99,6 +102,7 @@
                 <div class="col-lg-2 col-md-6">
                     <h6 class="fw-bold text-white mb-4">Platform</h6>
                     <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
+                        <li><a href="{{ route('pricing') }}" class="text-decoration-none text-white-50 hover-text-white">Pricing Plans</a></li>
                         <li><a href="#" class="text-decoration-none text-white-50 hover-text-white">Mock Tests</a></li>
                         <li><a href="#" class="text-decoration-none text-white-50 hover-text-white">Study Materials</a></li>
                         <li><a href="#" class="text-decoration-none text-white-50 hover-text-white">Current Affairs</a></li>
