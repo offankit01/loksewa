@@ -144,7 +144,14 @@
                     <h4 class="fw-bold mb-3">Ready to start your journey?</h4>
                     <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">Get personalized progress tracking, earn badges, and join thousands of other aspirants preparing for the {{ $title }} exam.</p>
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="{{ route('register') }}" class="btn btn-accent-custom btn-lg px-5">Join the Platform</a>
+                        @auth
+                            <form action="{{ route('service.enroll', $slug) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-accent-custom btn-lg px-5">Enroll in Course Now</button>
+                            </form>
+                        @else
+                            <a href="{{ route('register') }}" class="btn btn-accent-custom btn-lg px-5">Join the Platform</a>
+                        @endauth
                     </div>
                 </div>
             </div>

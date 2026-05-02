@@ -139,13 +139,7 @@
                             </div>
                             @endif
                             
-                            <hr class="my-4 text-muted opacity-25">
-                            
-                            <div class="text-center">
-                                <a href="{{ route('admin.login') }}" class="text-muted small text-decoration-none hover-text-primary">
-                                    <i class="bi bi-shield-lock me-1"></i> Admin Login
-                                </a>
-                            </div>
+
                         </form>
                     </div>
                 </div>

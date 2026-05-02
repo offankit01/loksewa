@@ -51,19 +51,27 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/#mock-tests') }}">Mock Tests</a>
+                        <a class="nav-link {{ Request::is('blogs*') ? 'active' : '' }}" href="{{ route('blogs.index') }}">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/#features') }}">Features</a>
+                        <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('pricing') ? 'active' : '' }}" href="{{ route('pricing') }}">Pricing</a>
+                        <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center gap-3">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="btn btn-primary-custom">Dashboard</a>
+                            <div class="d-flex align-items-center gap-3">
+                                <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary border-primary-blue text-primary-blue">Dashboard</a>
+                                <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary-custom">
+                                        <i class="bi bi-box-arrow-right me-1"></i> Log Out
+                                    </button>
+                                </form>
+                            </div>
                         @else
                             <a href="{{ route('login') }}" class="text-decoration-none text-dark fw-medium pe-2 hover-text-primary">Log in</a>
                             @if (Route::has('register'))

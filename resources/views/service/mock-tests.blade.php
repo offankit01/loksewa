@@ -46,7 +46,7 @@
                     </div>
 
                     @auth
-                        <a href="#" class="btn btn-accent-custom btn-lg w-100 rounded-pill py-3 fw-bold">
+                        <a href="{{ route('service.mock-attempt', $slug) }}" class="btn btn-accent-custom btn-lg w-100 rounded-pill py-3 fw-bold shadow-lg">
                             START MOCK TEST NOW <i class="bi bi-play-fill ms-1"></i>
                         </a>
                     @else
