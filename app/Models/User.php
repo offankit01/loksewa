@@ -20,7 +20,16 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'address',
         'password',
+        'is_active',
+        'is_admin',
+        'notify_email_newsletter',
+        'notify_mock_tests',
+        'theme_preference',
+        'two_fa_enabled',
+        'two_fa_secret',
     ];
 
     /**
@@ -43,6 +52,11 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'is_admin' => 'boolean',
+            'notify_email_newsletter' => 'boolean',
+            'notify_mock_tests' => 'boolean',
+            'two_fa_enabled' => 'boolean',
         ];
     }
 }

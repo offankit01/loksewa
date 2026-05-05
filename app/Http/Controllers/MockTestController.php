@@ -2,40 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\MockTest;
+use App\Models\Question;
 use App\Models\TestAttempt;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MockTestController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        
-        // Stats
-        $totalTests = 12;
-        $avgScore = 68.5;
-        $accuracy = 74.2;
-        $weakTopics = [
-            ['name' => 'General Knowledge', 'score' => 45],
-            ['name' => 'IQ & Aptitude', 'score' => 62],
-            ['name' => 'Nepal History', 'score' => 38],
-            ['name' => 'Current Affairs', 'score' => 55],
-        ];
+        $mockTests = MockTest::where('is_published', true)->latest()->paginate(9);
+        return view('mock-tests.index', compact('mockTests'));
+    }
 
-        // In a real app, we would fetch these from DB
-        if ($user && $user->id == 999) { // Dummy check to show real logic structure
-            $attempts = TestAttempt::where('user_id', $user->id)->get();
-            if ($attempts->count() > 0) {
-                $totalTests = $attempts->count();
-                $avgScore = $attempts->avg('score');
-                $accuracy = ($avgScore / 100) * 100;
-            }
+    public function start(MockTest $mockTest)
+    {
+        return view('mock-tests.start', compact('mockTest'));
+    }
+
+    public function attempt(Request $request, MockTest $mockTest)
+    {
+        $difficulty = $request->input('difficulty', 'medium');
+        
+        $questions = $mockTest->questions()
+            ->where('difficulty', $difficulty)
+            ->inRandomOrder()
+            ->get();
+
+        if ($questions->isEmpty()) {
+            $questions = $mockTest->questions()->inRandomOrder()->get();
         }
 
-        $availableTests = MockTest::all();
+        if ($questions->isEmpty()) {
+            return back()->with('error', 'No questions available for this test yet.');
+        }
 
-        return view('mock-tests.index', compact('totalTests', 'avgScore', 'accuracy', 'weakTopics', 'availableTests'));
+        return view('service.mock-attempt', [
+            'mockTest' => $mockTest,
+            'questions' => $questions,
+            'difficulty' => $difficulty
+        ]);
+    }
+
+    public function autoGenerate(Request $request, \App\Models\StudyMaterial $material)
+    {
+        $difficulty = $request->input('difficulty', 'medium');
+        
+        // Check if an AI test already exists for this material and difficulty
+        $existingTest = MockTest::where('study_material_id', $material->id)
+            ->where('difficulty', $difficulty)
+            ->where('is_ai_generated', true)
+            ->first();
+
+        if ($existingTest) {
+            return redirect()->route('mock-tests.start', $existingTest->slug);
+        }
+
+        // Generate new test
+        $generator = new \App\Services\MockTestGenerator();
+        $mockTest = $generator->generate($material, $difficulty);
+
+        return redirect()->route('mock-tests.start', $mockTest->slug)
+            ->with('success', 'AI has generated a fresh practice test for you!');
     }
 }

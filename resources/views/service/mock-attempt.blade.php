@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Attempting ' . $title . ' Mock Test')
+@section('title', 'Attempting ' . $mockTest->title)
 
 @section('extra_css')
     <style>
@@ -30,14 +30,14 @@
                         <i class="bi bi-pencil-square fs-4"></i>
                     </div>
                     <div>
-                        <h5 class="fw-bold mb-0">{{ $title }} Mock Test</h5>
-                        <small class="text-muted">Section: Paper I - General Knowledge</small>
+                        <h5 class="fw-bold mb-0">{{ $mockTest->title }}</h5>
+                        <span class="badge bg-light text-dark extra-small rounded-pill">{{ ucfirst($difficulty) }} Level</span>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-4">
                     <div class="timer-badge px-4 py-2 rounded-pill d-flex align-items-center gap-2">
                         <i class="bi bi-clock-history"></i>
-                        <span class="fw-bold fs-5" id="timer">45:00</span>
+                        <span class="fw-bold fs-5" id="timer">{{ $mockTest->time_limit }}:00</span>
                     </div>
                     <button class="btn btn-primary-custom rounded-pill px-4 fw-bold shadow-sm" onclick="finishTest()">Finish Test</button>
                 </div>
@@ -81,17 +81,27 @@
                         <div class="question-card p-4 p-md-5 mb-4">
                             <div class="d-flex justify-content-between align-items-start mb-4">
                                 <span class="badge bg-light text-dark px-3 py-2 rounded-pill fw-bold">Question {{ $index + 1 }} of {{ count($questions) }}</span>
-                                <span class="text-muted small">Marks: 2.0</span>
+                                <span class="text-muted small">Difficulty: {{ ucfirst($q->difficulty) }}</span>
                             </div>
-                            <h4 class="fw-bold mb-5 leading-relaxed">{{ $q['question'] }}</h4>
+                            <h4 class="fw-bold mb-5 leading-relaxed">{{ $q->question_text }}</h4>
                             
                             <div class="options-container">
-                                @foreach($q['options'] as $o_index => $option)
-                                <div class="option-item" onclick="selectOption({{ $index }}, {{ $o_index }})" id="q{{ $index }}-o{{ $o_index }}">
+                                <div class="option-item" onclick="selectOption({{ $index }}, 'a')" id="q{{ $index }}-oa">
                                     <div class="option-radio me-3"></div>
-                                    <div class="flex-grow-1">{{ $option }}</div>
+                                    <div class="flex-grow-1">{{ $q->option_a }}</div>
                                 </div>
-                                @endforeach
+                                <div class="option-item" onclick="selectOption({{ $index }}, 'b')" id="q{{ $index }}-ob">
+                                    <div class="option-radio me-3"></div>
+                                    <div class="flex-grow-1">{{ $q->option_b }}</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption({{ $index }}, 'c')" id="q{{ $index }}-oc">
+                                    <div class="option-radio me-3"></div>
+                                    <div class="flex-grow-1">{{ $q->option_c }}</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption({{ $index }}, 'd')" id="q{{ $index }}-od">
+                                    <div class="option-radio me-3"></div>
+                                    <div class="flex-grow-1">{{ $q->option_d }}</div>
+                                </div>
                             </div>
                         </div>
 
@@ -99,7 +109,7 @@
                             <button class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold" onclick="prevQuestion({{ $index }})" {{ $index == 0 ? 'disabled' : '' }}>
                                 <i class="bi bi-arrow-left me-2"></i> Previous
                             </button>
-                            <button class="btn btn-primary-custom rounded-pill px-5 py-2 fw-bold shadow-lg" onclick="nextQuestion({{ $index }})">
+                            <button class="btn btn-primary-blue rounded-pill px-5 py-2 fw-bold shadow-lg" onclick="nextQuestion({{ $index }})">
                                 {{ $index == count($questions) - 1 ? 'Review All' : 'Next Question' }} <i class="bi bi-arrow-right ms-2"></i>
                             </button>
                         </div>
@@ -110,9 +120,10 @@
         </div>
     </div>
 
-    <form id="submit-test-form" action="{{ route('service.mock-submit', $slug) }}" method="POST" class="d-none">
+    <form id="submit-test-form" action="{{ route('service.mock-submit', $mockTest->slug) }}" method="POST" class="d-none">
         @csrf
         <input type="hidden" name="answers" id="answers-input">
+        <input type="hidden" name="difficulty" value="{{ $difficulty }}">
     </form>
 
     <!-- Completion Modal -->
@@ -126,7 +137,7 @@
                     <h3 class="fw-bold mb-3">Test Completed!</h3>
                     <p class="text-muted mb-4">You have reached the end of the mock test. Your answers have been recorded. You can now submit to see your detailed performance analysis.</p>
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-primary-custom btn-lg rounded-pill fw-bold" onclick="finishTest()">View Results Now</button>
+                        <button type="button" class="btn btn-primary-blue btn-lg rounded-pill fw-bold" onclick="finishTest()">View Results Now</button>
                         <button type="button" class="btn btn-link text-muted text-decoration-none" data-bs-dismiss="modal">Go Back & Review</button>
                     </div>
                 </div>
@@ -137,16 +148,16 @@
     <script>
         let currentIdx = 0;
         const totalQuestions = {{ count($questions) }};
-        const answers = new Array(totalQuestions).fill(null);
+        const answers = {};
 
-        function selectOption(qIdx, oIdx) {
+        function selectOption(qIdx, optionKey) {
             // Remove selection from all options of this question
             const options = document.querySelectorAll(`#q-${qIdx} .option-item`);
             options.forEach(opt => opt.classList.remove('selected'));
             
             // Select the clicked option
-            document.getElementById(`q${qIdx}-o${oIdx}`).classList.add('selected');
-            answers[qIdx] = oIdx;
+            document.getElementById(`q${qIdx}-o${optionKey}`).classList.add('selected');
+            answers[qIdx] = optionKey;
 
             // Mark nav button as answered
             document.getElementById(`nav-${qIdx}`).classList.add('answered');
@@ -189,13 +200,14 @@
         }
 
         // Timer Logic
-        let time = 45 * 60;
+        let time = {{ $mockTest->time_limit }} * 60;
         const timerEl = document.getElementById('timer');
         setInterval(() => {
             const minutes = Math.floor(time / 60);
             const seconds = time % 60;
             timerEl.innerHTML = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             if (time > 0) time--;
+            else finishTest(); // Auto-submit when time is up
         }, 1000);
     </script>
 @endsection

@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('test_attempts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('mock_test_id')->constrained()->onDelete('cascade');
+            $table->integer('score')->default(0);
+            $table->integer('total_questions')->default(0);
+            $table->integer('correct_answers')->default(0);
+            $table->integer('wrong_answers')->default(0);
+            $table->integer('time_taken')->nullable(); // seconds
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }

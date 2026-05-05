@@ -109,6 +109,15 @@
         .content-area {
             padding: 2rem;
         }
+        .profile-link {
+            transition: all 0.2s ease;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        .profile-link:hover {
+            background: rgba(30, 58, 138, 0.03);
+            transform: translateY(-1px);
+        }
     </style>
     @yield('extra_css')
 </head>
@@ -134,9 +143,7 @@
             <a href="{{ route('mock-tests') }}" class="sidebar-link {{ Request::is('mock-tests*') ? 'active' : '' }}">
                 <i class="bi bi-laptop"></i> My Mock Tests
             </a>
-            <a href="{{ route('study-library') }}" class="sidebar-link {{ Request::is('study-library*') ? 'active' : '' }}">
-                <i class="bi bi-book"></i> Study Library
-            </a>
+
             <a href="{{ route('performance') }}" class="sidebar-link {{ Request::is('performance*') ? 'active' : '' }}">
                 <i class="bi bi-graph-up"></i> Performance
             </a>
@@ -174,20 +181,24 @@
             </div>
             
             <div class="d-flex align-items-center gap-4">
-                <div class="d-none d-md-flex align-items-center gap-3 pe-4 border-end">
+                <a href="{{ route('profile.edit') }}" class="d-none d-md-flex align-items-center gap-3 pe-4 border-end text-decoration-none text-dark profile-link">
                     <div class="text-end">
                         <div class="fw-bold small lh-1">{{ Auth::user()->name }}</div>
                         <div class="text-muted small">Standard Plan</div>
                     </div>
-                    <div class="bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                    <div class="bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 40px; height: 40px;">
                         {{ substr(Auth::user()->name, 0, 1) }}
                     </div>
-                </div>
-                <button class="btn btn-light position-relative p-2 rounded-circle border-0">
+                </a>
+                <!-- Notification Button -->
+                <button class="btn btn-light position-relative p-2 rounded-circle border-0" type="button" data-bs-toggle="modal" data-bs-target="#notificationsModal">
                     <i class="bi bi-bell fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="padding: 3px 6px; font-size: 0.6rem;">
-                        3
+                    @php $unreadCount = Auth::user()->unreadNotifications->count(); @endphp
+                    @if($unreadCount > 0)
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notification-badge" style="padding: 3px 6px; font-size: 0.6rem;">
+                        {{ $unreadCount }}
                     </span>
+                    @endif
                 </button>
             </div>
         </header>
@@ -198,12 +209,124 @@
         </main>
     </div>
 
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-md modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-bottom p-4 bg-light">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-primary-blue text-white p-2 rounded-3">
+                            <i class="bi bi-bell-fill"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold" id="notificationsModalLabel">Notifications Center</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="list-group list-group-flush" id="notification-list-container">
+                        @forelse(Auth::user()->notifications as $notification)
+                            <div class="list-group-item p-4 border-0 border-bottom notification-item {{ $notification->read_at ? 'bg-white' : 'bg-light bg-opacity-50' }}" data-id="{{ $notification->id }}">
+                                <div class="d-flex gap-4">
+                                    <div class="bg-primary-blue bg-opacity-10 text-primary-blue p-3 rounded-4 h-100">
+                                        <i class="bi bi-info-circle fs-4"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="fw-bold mb-0">{{ $notification->data['title'] ?? 'Notification' }}</h6>
+                                            @if(!$notification->read_at)
+                                                <span class="badge bg-primary-blue bg-opacity-10 text-primary-blue rounded-pill">New</span>
+                                            @endif
+                                        </div>
+                                        <p class="text-muted small mb-3">{{ $notification->data['message'] ?? '' }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-muted small"><i class="bi bi-clock me-1"></i> {{ $notification->created_at->diffForHumans() }}</span>
+                                            <button onclick="markAsRead('{{ $notification->id }}')" class="btn btn-sm btn-link text-primary-blue fw-bold text-decoration-none p-0">Dismiss</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <!-- Mock Data for Demonstration if no real notifications -->
+                            <div class="p-5 text-center py-5">
+                                <div class="bg-light p-4 rounded-circle d-inline-block mb-3">
+                                    <i class="bi bi-check2-all text-success fs-1"></i>
+                                </div>
+                                <h6 class="fw-bold">You're all caught up!</h6>
+                                <p class="text-muted small mb-0">Check back later for new updates and alerts.</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+                <div class="modal-footer border-top p-3 bg-light d-flex justify-content-between">
+                    <button onclick="markAllRead()" class="btn btn-link text-muted text-decoration-none small fw-bold" {{ $unreadCount == 0 ? 'disabled' : '' }}>Mark all as read</button>
+                    <button type="button" class="btn btn-primary-custom rounded-pill px-4 shadow-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('show');
         });
+
+        // Notifications Logic
+        async function markAsRead(id) {
+            try {
+                const response = await fetch(`/notifications/${id}/read`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const item = document.querySelector(`.notification-item[data-id="${id}"]`);
+                    item.classList.remove('bg-light', 'bg-opacity-50');
+                    item.querySelector('.badge')?.remove();
+                    updateBadgeCount(-1);
+                }
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        }
+
+        async function markAllRead() {
+            try {
+                const response = await fetch('/notifications/read-all', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    document.querySelectorAll('.notification-item').forEach(item => {
+                        item.classList.remove('bg-light', 'bg-opacity-50');
+                        item.querySelector('.badge')?.remove();
+                    });
+                    document.getElementById('notification-badge')?.remove();
+                }
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+            }
+        }
+
+        function updateBadgeCount(delta) {
+            const badge = document.getElementById('notification-badge');
+            if (badge) {
+                let count = parseInt(badge.innerText) + delta;
+                if (count <= 0) {
+                    badge.remove();
+                } else {
+                    badge.innerText = count;
+                }
+            }
+        }
     </script>
     @yield('extra_js')
 </body>

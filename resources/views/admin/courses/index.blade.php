@@ -1,58 +1,72 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Courses')
+@section('title', 'Manage Services')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item small"><a href="{{ url('/admin/dashboard') }}" class="text-decoration-none">Dashboard</a></li>
-    <li class="breadcrumb-item active small" aria-current="page">Courses</li>
+    <li class="breadcrumb-item small"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+    <li class="breadcrumb-item active small" aria-current="page">Services</li>
 @endsection
 
-@section('page_title', 'Manage Services & Courses')
+@section('page_title', 'LokSewa Services (Courses)')
 
 @section('admin_content')
-    <div class="card border-0 shadow-sm rounded-4 bg-white mb-4">
-        <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
-            <h5 class="fw-bold mb-0">Course List</h5>
-            <button class="btn btn-primary-custom rounded-pill px-4">
-                <i class="bi bi-plus-lg me-2"></i> Add New Course
-            </button>
+    <div class="row g-4 mb-5">
+        @foreach($courses as $course)
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                <div class="card-body p-4 text-center">
+                    <div class="bg-primary-blue bg-opacity-10 text-primary-blue d-inline-flex p-3 rounded-circle mb-3">
+                        <i class="bi bi-briefcase fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ $course->title }}</h5>
+                    <p class="text-muted small mb-4">{{ $course->mock_tests_count }} Mock Tests Available</p>
+                    
+                    <div class="d-grid">
+                        <a href="{{ route('admin.tests.create', ['course_id' => $course->id]) }}" class="btn btn-primary-blue rounded-pill py-2 fw-bold">
+                            <i class="bi bi-cloud-upload me-2"></i>Upload New Test
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-light border-0 px-4 py-3 d-flex justify-content-between align-items-center">
+                    <span class="extra-small fw-bold text-uppercase text-muted">Status: Active</span>
+                    <a href="#" class="extra-small text-decoration-none fw-bold">Edit Details</a>
+                </div>
+            </div>
         </div>
-        <div class="card-body p-4">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th class="text-muted small fw-medium text-uppercase border-0">Course Name</th>
-                            <th class="text-muted small fw-medium text-uppercase border-0">Service Category</th>
-                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Students</th>
-                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Status</th>
-                            <th class="text-muted small fw-medium text-uppercase border-0 text-end">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($courses as $course)
-                        <tr>
-                            <td class="border-0">
-                                <div class="fw-bold">{{ $course['name'] }}</div>
-                                <div class="small text-muted">ID: #{{ str_pad($course['id'], 4, '0', STR_PAD_LEFT) }}</div>
-                            </td>
-                            <td class="border-0 text-muted">{{ $course['service'] }}</td>
-                            <td class="border-0 text-center fw-bold">{{ $course['students'] }}</td>
-                            <td class="border-0 text-center">
-                                <span class="badge {{ $course['status'] == 'Active' ? 'badge-soft-success' : 'badge-soft-warning' }}">
-                                    {{ $course['status'] }}
-                                </span>
-                            </td>
-                            <td class="border-0 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn btn-sm btn-light p-2 rounded-3"><i class="bi bi-pencil-square text-primary"></i></button>
-                                    <button class="btn btn-sm btn-light p-2 rounded-3"><i class="bi bi-trash text-danger"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        @endforeach
+
+        {{-- Add New Service Card --}}
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100 border-2 border-dashed bg-light d-flex align-items-center justify-content-center p-5 text-center">
+                <button class="btn btn-soft-primary rounded-circle p-3 mb-3" data-bs-toggle="modal" data-bs-target="#addServiceModal">
+                    <i class="bi bi-plus-lg fs-4"></i>
+                </button>
+                <h6 class="fw-bold mb-0">Add New Service</h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div class="modal fade" id="addServiceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <form action="{{ route('admin.courses.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-header border-0 pt-4 px-4">
+                        <h5 class="fw-bold m-0">Add New Service Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Service Title</label>
+                            <input type="text" name="title" class="form-control rounded-3" placeholder="e.g. Kharidar, Nasu, etc." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pb-4 px-4">
+                        <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-blue rounded-pill px-4 fw-bold">Create Service</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

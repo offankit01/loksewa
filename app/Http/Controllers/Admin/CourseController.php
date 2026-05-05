@@ -3,22 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        $courses = [
-            ['id' => 1, 'name' => 'Section Officer', 'service' => 'Administrative', 'students' => 450, 'status' => 'Active'],
-            ['id' => 2, 'name' => 'Nayab Subba', 'service' => 'Justice', 'students' => 320, 'status' => 'Active'],
-            ['id' => 3, 'name' => 'Kharidar', 'service' => 'Parliamentary', 'students' => 150, 'status' => 'Draft'],
-        ];
+        $courses = Course::withCount('mockTests')->orderBy('title', 'asc')->get();
         return view('admin.courses.index', compact('courses'));
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('admin.courses.create');
+        $request->validate(['title' => 'required|string|max:255']);
+        Course::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'is_active' => true
+        ]);
+        return back()->with('success', 'Service created successfully.');
     }
 }

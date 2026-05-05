@@ -17,7 +17,7 @@ class UpgradeController extends Controller
             'expiry' => 'Dec 24, 2024',
             'features' => [
                 'Unlimited Mock Tests',
-                'Basic Study Library',
+
                 'Score Analytics'
             ]
         ];

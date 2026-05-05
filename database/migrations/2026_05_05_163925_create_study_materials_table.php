@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mock_tests', function (Blueprint $table) {
+        Schema::create('study_materials', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->integer('time_limit')->default(45); // minutes
-            $table->enum('difficulty', ['easy', 'medium', 'hard'])->default('medium');
-            $table->unsignedBigInteger('study_material_id')->nullable();
-            $table->boolean('is_published')->default(true);
-            $table->boolean('is_ai_generated')->default(false);
+            $table->longText('content')->nullable(); // For text analysis
+            $table->string('file_path')->nullable(); // For PDF analysis
+            $table->string('category')->nullable();
+            $table->integer('downloads')->default(0);
+            $table->boolean('is_premium')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mock_tests');
+        Schema::dropIfExists('study_materials');
     }
 };
