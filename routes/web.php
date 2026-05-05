@@ -22,6 +22,7 @@ Route::get('/contact', function () {
 
 Route::get('/mock-tests', [App\Http\Controllers\MockTestController::class, 'index'])->name('mock-tests');
 Route::get('/study-library', [App\Http\Controllers\StudyLibraryController::class, 'index'])->name('study-library');
+Route::get('/study-library/saved', [App\Http\Controllers\StudyLibraryController::class, 'saved'])->name('study-library.saved');
 Route::get('/performance', [App\Http\Controllers\PerformanceController::class, 'index'])->name('performance');
 Route::get('/upgrade-plan', [App\Http\Controllers\UpgradeController::class, 'index'])->name('upgrade-plan');
 Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings');

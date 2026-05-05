@@ -205,5 +205,6 @@
             document.getElementById('sidebar').classList.toggle('show');
         });
     </script>
+    @yield('extra_js')
 </body>
 </html>

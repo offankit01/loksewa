@@ -38,9 +38,7 @@
             <h3 class="fw-bold mb-1">My Mock Tests</h3>
             <p class="text-muted small mb-0">Track your performance and start new practice sets</p>
         </div>
-        <button class="btn btn-primary-custom rounded-pill px-4">
-            <i class="bi bi-plus-lg me-1"></i> New Test
-        </button>
+
     </div>
 
     @auth
@@ -118,44 +116,7 @@
     </div>
     @endauth
 
-    <h4 class="fw-bold mb-4">Recommended Test Sets</h4>
-    <div class="row g-4">
-        @forelse($availableTests as $test)
-        <div class="col-md-6 col-lg-4">
-            <div class="mock-test-card p-4 h-100 shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <span class="badge bg-primary-blue bg-opacity-10 text-primary-blue px-3 py-2 rounded-pill fw-bold">
-                        {{ $test->category ?? 'General' }}
-                    </span>
-                    <span class="text-muted small"><i class="bi bi-clock me-1"></i> 45m</span>
-                </div>
-                <h5 class="fw-bold mb-3">{{ $test->title }}</h5>
-                <p class="text-muted small mb-4">Complete simulation of the official LokSewa exam pattern with negative marking.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-dark fw-bold">50 Questions</span>
-                    <a href="#" class="btn btn-accent-custom rounded-pill px-4">Start Test</a>
-                </div>
-            </div>
-        </div>
-        @empty
-        @foreach(['Administrative Officer Set 1', 'Kharidar Model Set 2', 'Nepal Police SI Set A'] as $mockTitle)
-        <div class="col-md-6 col-lg-4">
-            <div class="mock-test-card p-4 h-100 shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <span class="badge bg-primary-blue bg-opacity-10 text-primary-blue px-3 py-2 rounded-pill fw-bold">Model Set</span>
-                    <span class="text-muted small"><i class="bi bi-clock me-1"></i> 45m</span>
-                </div>
-                <h5 class="fw-bold mb-3">{{ $mockTitle }}</h5>
-                <p class="text-muted small mb-4">Full-length model paper with GK, IQ, and Subjective portions.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-dark fw-bold">50 Questions</span>
-                    <a href="#" class="btn btn-accent-custom rounded-pill px-4">Take Test</a>
-                </div>
-            </div>
-        </div>
-        @endforeach
-        @endforelse
-    </div>
+
     <h4 class="fw-bold mb-4 mt-5">Your Attempt History</h4>
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-5">
         <div class="table-responsive">

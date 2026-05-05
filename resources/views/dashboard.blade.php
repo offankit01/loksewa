@@ -199,18 +199,14 @@
                 </div>
                 <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-3">
-                        <i class="bi bi-play-circle text-primary-blue"></i>
-                        <span class="small fw-bold">Video Lecture</span>
+                        <i class="bi bi-question-circle text-primary-blue"></i>
+                        <span class="small fw-bold">Practice Questions</span>
                     </div>
                     <i class="bi bi-chevron-right small text-muted"></i>
                 </div>
             </div>
         </div>
-        <div class="card border-0 shadow-sm rounded-4 p-4 bg-accent-orange text-white">
-            <h6 class="fw-bold mb-2">Live Quiz Starting!</h6>
-            <p class="small mb-3">General Knowledge quiz starts in 15 minutes.</p>
-            <button class="btn btn-light text-accent-orange fw-bold rounded-pill w-100">Join Now</button>
-        </div>
+
     </div>
 </div>
 @endsection

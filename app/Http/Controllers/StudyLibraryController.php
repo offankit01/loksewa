@@ -26,4 +26,14 @@ class StudyLibraryController extends Controller
 
         return view('study-library.index', compact('categories', 'recentMaterials'));
     }
+    public function saved()
+    {
+        $recentMaterials = [
+            ['title' => 'Ancient History of Nepal', 'category' => 'History', 'type' => 'PDF', 'date' => '2 days ago'],
+            ['title' => 'Verbal Reasoning Guide', 'category' => 'IQ', 'type' => 'Note', 'date' => '3 days ago'],
+            ['title' => 'Budget 2081/82 Analysis', 'category' => 'Economy', 'type' => 'PDF', 'date' => '1 week ago'],
+        ];
+
+        return view('study-library.saved', compact('recentMaterials'));
+    }
 }
