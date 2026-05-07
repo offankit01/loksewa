@@ -16,17 +16,21 @@ class MockTestController extends Controller
 
     public function create()
     {
-        $courses = \App\Models\Course::where('is_active', true)->get();
+        $courses = \App\Models\Course::where('is_active', true)->orderBy('title')->get();
         
-        // Seed courses if empty for demo
-        if ($courses->isEmpty()) {
-            \App\Models\Course::create(['title' => 'Kharidar', 'slug' => 'kharidar', 'is_active' => true]);
-            \App\Models\Course::create(['title' => 'Na.Su.', 'slug' => 'nasu', 'is_active' => true]);
-            \App\Models\Course::create(['title' => 'Section Officer', 'slug' => 'section-officer', 'is_active' => true]);
-            $courses = \App\Models\Course::all();
-        }
+        // Define Main Category mapping for UI
+        $mainCategories = [
+            ['id' => 'admin', 'name' => 'Nepal Administrative Service', 'name_nep' => 'नेपाल प्रशासन सेवा', 'icon' => 'bi-briefcase'],
+            ['id' => 'police', 'name' => 'Nepal Police Service', 'name_nep' => 'नेपाल प्रहरी सेवा', 'icon' => 'bi-shield-shaded'],
+            ['id' => 'army', 'name' => 'Nepal Army Service', 'name_nep' => 'नेपाली सेना सेवा', 'icon' => 'bi-shield-fill-check'],
+            ['id' => 'judicial', 'name' => 'Nepal Judicial Service', 'name_nep' => 'नेपाल न्याय सेवा', 'icon' => 'bi-balance-scale'],
+            ['id' => 'foreign', 'name' => 'Nepal Foreign Affairs', 'name_nep' => 'नेपाल परराष्ट्र सेवा', 'icon' => 'bi-globe-asia-australia'],
+            ['id' => 'audit', 'name' => 'Nepal Audit Service', 'name_nep' => 'नेपाल लेखापरीक्षण सेवा', 'icon' => 'bi-calculator'],
+            ['id' => 'parliament', 'name' => 'Nepal Parliamentary', 'name_nep' => 'नेपाल संसदीय सेवा', 'icon' => 'bi-building'],
+            ['id' => 'technical', 'name' => 'Technical Services', 'name_nep' => 'प्राविधिक सेवाहरू', 'icon' => 'bi-tools'],
+        ];
 
-        return view('admin.tests.create', compact('courses'));
+        return view('admin.tests.create', compact('courses', 'mainCategories'));
     }
 
     public function store(Request $request)

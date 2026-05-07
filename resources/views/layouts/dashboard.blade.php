@@ -140,7 +140,7 @@
             <a href="{{ url('/dashboard') }}" class="sidebar-link {{ Request::is('dashboard') ? 'active' : '' }}">
                 <i class="bi bi-grid-1x2-fill"></i> Dashboard
             </a>
-            <a href="{{ route('mock-tests') }}" class="sidebar-link {{ Request::is('mock-tests*') ? 'active' : '' }}">
+            <a href="{{ route('mock-tests.index') }}" class="sidebar-link {{ Request::is('mock-tests*') ? 'active' : '' }}">
                 <i class="bi bi-laptop"></i> My Mock Tests
             </a>
 

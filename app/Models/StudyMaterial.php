@@ -16,8 +16,15 @@ class StudyMaterial extends Model
         'content',
         'file_path',
         'category',
+        'type',
         'downloads',
         'is_premium',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'is_premium' => 'boolean',
     ];
 
     public function mockTests()

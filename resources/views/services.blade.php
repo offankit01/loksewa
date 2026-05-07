@@ -121,21 +121,12 @@
                                                     <li><a href="{{ route('service.show', 'nayab-subba') }}" class="text-decoration-none text-dark hover-text-primary">Nayab Subba (नायब सुब्बा)</a></li>
                                                 </ul>
                                             </div>
-                                            <div class="service-category">
-                                                <h5>SPECIAL CLASS (विशिष्ट श्रेणी)</h5>
-                                                <ul class="service-list">
-                                                    <li><a href="{{ route('service.show', 'chief-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Chief Secretary (मुख्य सचिव)</a></li>
-                                                </ul>
-                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="service-category h-100">
                                                 <h5>GAZETTED (राजपत्रांकित)</h5>
                                                 <ul class="service-list">
-                                                    <li><a href="{{ route('service.show', 'section-officer') }}" class="text-decoration-none text-dark hover-text-primary">Section Officer (शाखा अधिकृत)</a></li>
-                                                    <li><a href="{{ route('service.show', 'under-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Under Secretary (उपसचिव)</a></li>
-                                                    <li><a href="{{ route('service.show', 'joint-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Joint Secretary (सहसचिव)</a></li>
-                                                    <li><a href="{{ route('service.show', 'secretary') }}" class="text-decoration-none text-dark hover-text-primary">Secretary (सचिव)</a></li>
+                                                    <li><a href="{{ route('service.show', 'section-officer') }}" class="text-decoration-none text-dark hover-text-primary">Section Officer (शाखा अधिकृत) - Gazetted 3rd</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -154,23 +145,11 @@
                             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
                                 <div class="accordion-body p-4 p-md-5">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-12">
                                             <ul class="service-list">
                                                 <li><a href="{{ route('service.show', 'police-constable') }}" class="text-decoration-none text-dark hover-text-primary">Constable (प्रहरी जवान)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-head-constable') }}" class="text-decoration-none text-dark hover-text-primary">Head Constable (प्रहरी हवल्दार)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-asi') }}" class="text-decoration-none text-dark hover-text-primary">Assistant Sub Inspector (प्रहरी सहायक निरीक्षक - ASI)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-si') }}" class="text-decoration-none text-dark hover-text-primary">Sub Inspector (प्रहरी निरीक्षक - SI)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-inspector') }}" class="text-decoration-none text-dark hover-text-primary">Inspector (प्रहरी नायब उपरीक्षक - Inspector)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-dsp') }}" class="text-decoration-none text-dark hover-text-primary">Deputy Superintendent (प्रहरी उपरीक्षक - DSP)</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6 mt-3 mt-md-0">
-                                            <ul class="service-list">
-                                                <li><a href="{{ route('service.show', 'police-sp') }}" class="text-decoration-none text-dark hover-text-primary">Superintendent (प्रहरी वरिष्ठ उपरीक्षक - SP)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-ssp') }}" class="text-decoration-none text-dark hover-text-primary">Senior Superintendent (प्रहरी नायब महानिरीक्षक - SSP)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-dig') }}" class="text-decoration-none text-dark hover-text-primary">Deputy Inspector General (प्रहरी उप महानिरीक्षक - DIG)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-aig') }}" class="text-decoration-none text-dark hover-text-primary">Additional Inspector General (प्रहरी अतिरिक्त महानिरीक्षक - AIG)</a></li>
-                                                <li><a href="{{ route('service.show', 'police-igp') }}" class="text-decoration-none text-dark hover-text-primary">Inspector General (प्रहरी महानिरीक्षक - IGP)</a></li>
+                                                <li><a href="{{ route('service.show', 'police-asi') }}" class="text-decoration-none text-dark hover-text-primary">Assistant Sub Inspector — प्रहरी सहायक निरीक्षक (ASI)</a></li>
+                                                <li><a href="{{ route('service.show', 'police-inspector') }}" class="text-decoration-none text-dark hover-text-primary">Inspector (प्रहरी निरीक्षक)</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -188,26 +167,10 @@
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
                                 <div class="accordion-body p-4 p-md-5">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-12">
                                             <ul class="service-list">
                                                 <li><a href="{{ route('service.show', 'army-sainik') }}" class="text-decoration-none text-dark hover-text-primary">Sainik (सैनिक / Soldier)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-lance-corporal') }}" class="text-decoration-none text-dark hover-text-primary">Lance Corporal (लान्स कर्पोरल)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-corporal') }}" class="text-decoration-none text-dark hover-text-primary">Corporal (कर्पोरल)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-sergeant') }}" class="text-decoration-none text-dark hover-text-primary">Sergeant (हवल्दार)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-warrant-officer') }}" class="text-decoration-none text-dark hover-text-primary">Warrant Officer (वारेन्ट अफिसर)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-second-lieutenant') }}" class="text-decoration-none text-dark hover-text-primary">Second Lieutenant (द्वितीय लेफ्टिनेन्ट)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-lieutenant') }}" class="text-decoration-none text-dark hover-text-primary">Lieutenant (लेफ्टिनेन्ट)</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6 mt-3 mt-md-0">
-                                            <ul class="service-list">
-                                                <li><a href="{{ route('service.show', 'army-captain') }}" class="text-decoration-none text-dark hover-text-primary">Captain (क्याप्टेन)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-major') }}" class="text-decoration-none text-dark hover-text-primary">Major (मेजर)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-lieutenant-colonel') }}" class="text-decoration-none text-dark hover-text-primary">Lieutenant Colonel (लेफ्टिनेन्ट कर्नल)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-colonel') }}" class="text-decoration-none text-dark hover-text-primary">Colonel (कर्नल)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-brigadier-general') }}" class="text-decoration-none text-dark hover-text-primary">Brigadier General (ब्रिगेडियर जनरल)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-major-general') }}" class="text-decoration-none text-dark hover-text-primary">Major General (मेजर जनरल)</a></li>
-                                                <li><a href="{{ route('service.show', 'army-general') }}" class="text-decoration-none text-dark hover-text-primary">General (जनरल / रथी)</a></li>
+                                                <li><a href="{{ route('service.show', 'army-second-lieutenant') }}" class="text-decoration-none text-dark hover-text-primary">Second Lieutenant (द्वितीय लेफ्टिनेन्ट / अधिकृत क्याडेट)</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -233,23 +196,13 @@
                                                     <li><a href="{{ route('service.show', 'nayab-subba') }}" class="text-decoration-none text-dark hover-text-primary">Nayab Subba (नायब सुब्बा)</a></li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="service-category">
                                                 <h5>GAZETTED (राजपत्रांकित)</h5>
                                                 <ul class="service-list">
                                                     <li><a href="{{ route('service.show', 'section-officer') }}" class="text-decoration-none text-dark hover-text-primary">Section Officer (शाखा अधिकृत)</a></li>
-                                                    <li><a href="{{ route('service.show', 'under-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Under Secretary (उपसचिव)</a></li>
-                                                    <li><a href="{{ route('service.show', 'joint-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Joint Secretary (सहसचिव)</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="service-category h-100">
-                                                <h5>JUDICIAL OFFICERS (न्यायिक अधिकारी)</h5>
-                                                <ul class="service-list">
                                                     <li><a href="{{ route('service.show', 'judge') }}" class="text-decoration-none text-dark hover-text-primary">Judge (न्यायाधीश)</a></li>
-                                                    <li><a href="{{ route('service.show', 'district-judge') }}" class="text-decoration-none text-dark hover-text-primary">District Judge (जिल्ला न्यायाधीश)</a></li>
-                                                    <li><a href="{{ route('service.show', 'high-court-judge') }}" class="text-decoration-none text-dark hover-text-primary">High Court Judge (उच्च अदालत न्यायाधीश)</a></li>
-                                                    <li><a href="{{ route('service.show', 'supreme-court-judge') }}" class="text-decoration-none text-dark hover-text-primary">Supreme Court Judge (सर्वोच्च अदालत न्यायाधीश)</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -268,11 +221,9 @@
                             <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
                                 <div class="accordion-body p-4 p-md-5">
                                     <ul class="service-list">
+                                        <li><a href="{{ route('service.show', 'kharidar') }}" class="text-decoration-none text-dark hover-text-primary">Kharidar (खरिदार)</a></li>
+                                        <li><a href="{{ route('service.show', 'nayab-subba') }}" class="text-decoration-none text-dark hover-text-primary">Nayab Subba (नायब सुब्बा)</a></li>
                                         <li><a href="{{ route('service.show', 'section-officer') }}" class="text-decoration-none text-dark hover-text-primary">Section Officer (शाखा अधिकृत)</a></li>
-                                        <li><a href="{{ route('service.show', 'under-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Under Secretary (उपसचिव)</a></li>
-                                        <li><a href="{{ route('service.show', 'joint-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Joint Secretary (सहसचिव)</a></li>
-                                        <li><a href="{{ route('service.show', 'ambassador') }}" class="text-decoration-none text-dark hover-text-primary">Ambassador (राजदूत)</a></li>
-                                        <li><a href="{{ route('service.show', 'foreign-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Foreign Secretary (परराष्ट्र सचिव)</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -302,8 +253,6 @@
                                                 <h5>GAZETTED (राजपत्रांकित)</h5>
                                                 <ul class="service-list">
                                                     <li><a href="{{ route('service.show', 'section-officer') }}" class="text-decoration-none text-dark hover-text-primary">Section Officer (शाखा अधिकृत)</a></li>
-                                                    <li><a href="{{ route('service.show', 'under-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Under Secretary (उपसचिव)</a></li>
-                                                    <li><a href="{{ route('service.show', 'auditor-general') }}" class="text-decoration-none text-dark hover-text-primary">Auditor General (महालेखापरीक्षक)</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -336,8 +285,6 @@
                                                 <h5>GAZETTED (राजपत्रांकित)</h5>
                                                 <ul class="service-list">
                                                     <li><a href="{{ route('service.show', 'section-officer') }}" class="text-decoration-none text-dark hover-text-primary">Section Officer (शाखा अधिकृत)</a></li>
-                                                    <li><a href="{{ route('service.show', 'under-secretary') }}" class="text-decoration-none text-dark hover-text-primary">Under Secretary (उपसचिव)</a></li>
-                                                    <li><a href="{{ route('service.show', 'secretary-general') }}" class="text-decoration-none text-dark hover-text-primary">Secretary General (महासचिव)</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -362,7 +309,6 @@
                                                 <ul class="service-list">
                                                     <li><a href="{{ route('service.show', 'sub-engineer') }}" class="text-decoration-none text-dark hover-text-primary">Sub Engineer (सब इञ्जिनियर)</a></li>
                                                     <li><a href="{{ route('service.show', 'engineer') }}" class="text-decoration-none text-dark hover-text-primary">Engineer (इञ्जिनियर)</a></li>
-                                                    <li><a href="{{ route('service.show', 'senior-engineer') }}" class="text-decoration-none text-dark hover-text-primary">Senior Engineer (वरिष्ठ इञ्जिनियर)</a></li>
                                                 </ul>
                                             </div>
                                             <div class="service-category">
@@ -390,48 +336,16 @@
                                                     <li><a href="{{ route('service.show', 'staff-nurse') }}" class="text-decoration-none text-dark hover-text-primary">Staff Nurse (स्टाफ नर्स)</a></li>
                                                     <li><a href="{{ route('service.show', 'lab-technician') }}" class="text-decoration-none text-dark hover-text-primary">Lab Technician (प्रयोगशाला प्राविधिक)</a></li>
                                                     <li><a href="{{ route('service.show', 'health-officer') }}" class="text-decoration-none text-dark hover-text-primary">Health Officer (स्वास्थ्य अधिकृत)</a></li>
-                                                    <li><a href="{{ route('service.show', 'doctor') }}" class="text-decoration-none text-dark hover-text-primary">Doctor/Medical Officer (चिकित्सक)</a></li>
                                                 </ul>
                                             </div>
                                             <div class="service-category mb-0">
                                                 <h5>Education (शिक्षा सेवा)</h5>
                                                 <ul class="service-list">
                                                     <li><a href="{{ route('service.show', 'primary-teacher') }}" class="text-decoration-none text-dark hover-text-primary">Primary Teacher (प्राथमिक शिक्षक)</a></li>
-                                                    <li><a href="{{ route('service.show', 'lower-secondary-teacher') }}" class="text-decoration-none text-dark hover-text-primary">Lower Secondary Teacher (निम्न माध्यमिक शिक्षक)</a></li>
                                                     <li><a href="{{ route('service.show', 'secondary-teacher') }}" class="text-decoration-none text-dark hover-text-primary">Secondary Teacher (माध्यमिक शिक्षक)</a></li>
                                                     <li><a href="{{ route('service.show', 'education-officer') }}" class="text-decoration-none text-dark hover-text-primary">Education Officer (शिक्षा अधिकृत)</a></li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 9. Provincial -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine">
-                                    <i class="bi bi-map me-3"></i> 9. Provincial Services (प्रदेश सेवाहरू)
-                                </button>
-                            </h2>
-                            <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
-                                <div class="accordion-body p-4 p-md-5">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <ul class="service-list">
-                                                <li><a href="{{ route('service.show', 'province-1') }}" class="text-decoration-none text-dark hover-text-primary">Province No. 1 (कोशी प्रदेश)</a></li>
-                                                <li><a href="{{ route('service.show', 'province-2') }}" class="text-decoration-none text-dark hover-text-primary">Province No. 2 (मधेश प्रदेश)</a></li>
-                                                <li><a href="{{ route('service.show', 'bagmati-province') }}" class="text-decoration-none text-dark hover-text-primary">Bagmati Province (बागमती प्रदेश)</a></li>
-                                                <li><a href="{{ route('service.show', 'gandaki-province') }}" class="text-decoration-none text-dark hover-text-primary">Gandaki Province (गण्डकी प्रदेश)</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6 mt-3 mt-md-0">
-                                            <ul class="service-list">
-                                                <li><a href="{{ route('service.show', 'lumbini-province') }}" class="text-decoration-none text-dark hover-text-primary">Lumbini Province (लुम्बिनी प्रदेश)</a></li>
-                                                <li><a href="{{ route('service.show', 'karnali-province') }}" class="text-decoration-none text-dark hover-text-primary">Karnali Province (कर्णाली प्रदेश)</a></li>
-                                                <li><a href="{{ route('service.show', 'sudurpashchim-province') }}" class="text-decoration-none text-dark hover-text-primary">Sudurpashchim Province (सुदूरपश्चिम प्रदेश)</a></li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>

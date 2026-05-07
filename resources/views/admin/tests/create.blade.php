@@ -8,6 +8,22 @@
     <li class="breadcrumb-item active small" aria-current="page">Generator</li>
 @endsection
 
+@section('extra_css')
+    <style>
+        .cursor-pointer { cursor: pointer; }
+        .hover-shadow:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1) !important;
+            border-color: var(--primary-blue) !important;
+        }
+        .category-btn { transition: all 0.3s ease; }
+        .category-btn:active, .hover-shadow:active { 
+            transform: scale(0.96); 
+            background-color: #f0f7ff !important;
+        }
+    </style>
+@endsection
+
 @section('page_title', 'Manual Quiz Generator')
 
 @section('admin_content')
@@ -24,13 +40,13 @@
                     <input type="text" name="title" class="form-control rounded-3" placeholder="e.g. Kharidar 2081 Set A" required>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-4">
                     <label class="form-label small fw-bold">Service Category</label>
-                    <select name="course_id" class="form-select rounded-3" required>
-                        @foreach($courses as $course)
-                            <option value="{{ $course->id }}" {{ request('course_id') == $course->id ? 'selected' : '' }}>{{ $course->title }}</option>
-                        @endforeach
-                    </select>
+                    <div id="selectedServiceDisplay" class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#serviceSelectorModal">
+                        <span class="text-muted" id="selectedCourseName">Select Service Category...</span>
+                        <i class="bi bi-chevron-right small"></i>
+                    </div>
+                    <input type="hidden" name="course_id" id="course_id_input" required>
                 </div>
 
                 <div class="row g-2 mb-3">
@@ -136,8 +152,157 @@
 </div>
 @endsection
 
+<!-- Service Selector Modal -->
+<div class="modal fade" id="serviceSelectorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="fw-bold m-0" id="selectorTitle">Select Service Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                {{-- Step 1: Main Categories --}}
+                <div id="categoryStep" class="row g-4">
+                    @foreach($mainCategories as $cat)
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100 cursor-pointer hover-shadow category-btn bg-white" 
+                             onclick="showSubCategories('{{ $cat['id'] }}', '{{ $cat['name'] }} ({{ $cat['name_nep'] }})')">
+                            <div class="bg-primary-blue bg-opacity-10 text-primary-blue d-inline-flex p-3 rounded-circle mb-3 mx-auto">
+                                <i class="bi {{ $cat['icon'] }} fs-3"></i>
+                            </div>
+                            <h6 class="fw-bold mb-1 text-dark">{{ $cat['name'] }}</h6>
+                            <div class="extra-small text-accent-orange fw-bold">{{ $cat['name_nep'] }}</div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                {{-- Step 2: Specific Exams (Sub-categories) --}}
+                <div id="examStep" class="d-none">
+                    <button class="btn btn-sm btn-light rounded-pill mb-4 px-3 fw-bold" onclick="backToCategories()">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Categories
+                    </button>
+                    <div class="row g-3" id="examList">
+                        {{-- Populated via JS --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Category Mapping Data for JS --}}
+<script>
+    const allCourses = @json($courses);
+    const categoryMapping = {
+        'admin': [
+            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab Subba (नायब सुब्बा)'] },
+            { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)'] }
+        ],
+        'police': [
+            { label: 'POSTS (पदहरू)', items: ['Constable (प्रहरी जवान)', 'Assistant Sub Inspector (प्रहरी सहायक निरीक्षक)', 'Inspector (प्रहरी निरीक्षक)'] }
+        ],
+        'army': [
+            { label: 'POSTS (पदहरू)', items: ['Sainik (सैनिक)', 'Second Lieutenant (सहायक सेनानी)'] }
+        ],
+        'judicial': [
+            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab Subba (नायब सुब्बा)'] },
+            { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)', 'Judge (न्यायाधीश)'] }
+        ],
+        'foreign': [
+            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab Subba (नायब सुब्बा)'] },
+            { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)'] }
+        ],
+        'audit': [
+            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab Subba (नायब सुब्बा)'] },
+            { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)'] }
+        ],
+        'parliament': [
+            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab Subba (नायब सुब्बा)'] },
+            { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)'] }
+        ],
+        'technical': [
+            { label: 'ENGINEERING (इञ्जिनियरिङ)', items: ['Sub Engineer', 'Engineer'] },
+            { label: 'AGRICULTURE (कृषि)', items: ['Junior Technical Assistant', 'Technical Assistant', 'Agriculture Officer'] },
+            { label: 'FOREST (वन)', items: ['Forest Guard', 'Forest Ranger', 'Forest Officer'] },
+            { label: 'HEALTH (स्वास्थ्य)', items: ['Health Assistant', 'Staff Nurse', 'Lab Technician', 'Health Officer'] },
+            { label: 'EDUCATION (शिक्षा)', items: ['Primary Teacher', 'Secondary Teacher', 'Education Officer'] }
+        ]
+    };
+</script>
+
 @section('extra_js')
 <script>
+    function showSubCategories(catId, catName) {
+        document.getElementById('selectorTitle').textContent = catName;
+        document.getElementById('categoryStep').classList.add('d-none');
+        document.getElementById('examStep').classList.remove('d-none');
+        
+        const list = document.getElementById('examList');
+        list.innerHTML = '';
+        
+        const subGroups = categoryMapping[catId] || [];
+        
+        if (subGroups.length === 0) {
+            list.innerHTML = '<div class="col-12 text-center py-4 text-muted small">No specific exams found in this category.</div>';
+            return;
+        }
+
+        subGroups.forEach(group => {
+            // Create Group Header
+            const header = document.createElement('div');
+            header.className = 'col-12 mt-4 first:mt-0';
+            header.innerHTML = `<h6 class="text-primary-blue fw-bold small border-bottom pb-2 mb-3">${group.label}</h6>`;
+            list.appendChild(header);
+
+            // Filter items for this group
+            const filtered = allCourses.filter(course => {
+                return group.items.some(key => course.title === key);
+            });
+
+            if (filtered.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'col-12 text-muted extra-small italic ps-3 mb-3';
+                empty.textContent = 'No exams available under this rank yet.';
+                list.appendChild(empty);
+            } else {
+                const row = document.createElement('div');
+                row.className = 'row g-3 px-2';
+                filtered.forEach(course => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-6';
+                    col.innerHTML = `
+                        <div class="card border rounded-3 p-3 cursor-pointer hover-shadow bg-white" onclick="selectCourse(${course.id}, '${course.title}')">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="bg-accent-orange rounded-circle p-1" style="width: 8px; height: 8px;"></div>
+                                    <span class="fw-bold small">${course.title}</span>
+                                </div>
+                                <i class="bi bi-plus-circle text-primary-blue small"></i>
+                            </div>
+                        </div>
+                    `;
+                    row.appendChild(col);
+                });
+                list.appendChild(row);
+            }
+        });
+    }
+
+    function backToCategories() {
+        document.getElementById('selectorTitle').textContent = 'Select Service Category';
+        document.getElementById('examStep').classList.add('d-none');
+        document.getElementById('categoryStep').classList.remove('d-none');
+    }
+
+    function selectCourse(id, title) {
+        document.getElementById('course_id_input').value = id;
+        document.getElementById('selectedCourseName').textContent = title;
+        document.getElementById('selectedCourseName').classList.remove('text-muted');
+        document.getElementById('selectedCourseName').classList.add('text-dark', 'fw-bold');
+        bootstrap.Modal.getInstance(document.getElementById('serviceSelectorModal')).hide();
+    }
+
     let questionCount = 1;
     const container = document.getElementById('questionsContainer');
     const addBtn = document.getElementById('addQuestionBtn');

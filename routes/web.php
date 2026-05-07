@@ -23,7 +23,8 @@ Route::get('/contact', function () {
 Route::get('/mock-tests', [App\Http\Controllers\MockTestController::class, 'index'])->name('mock-tests.index');
 Route::get('/mock-tests/{mockTest:slug}/start', [App\Http\Controllers\MockTestController::class, 'start'])->name('mock-tests.start');
 Route::post('/mock-tests/{mockTest:slug}/attempt', [App\Http\Controllers\MockTestController::class, 'attempt'])->name('mock-tests.attempt');
-Route::get('/materials/{material:slug}/generate-test', [App\Http\Controllers\MockTestController::class, 'autoGenerate'])->name('materials.generate-test');
+Route::post('/mock-tests/{mockTest:slug}/submit', [App\Http\Controllers\MockTestController::class, 'submit'])->name('mock-tests.submit');
+
 
 Route::get('/performance', [App\Http\Controllers\PerformanceController::class, 'index'])->name('performance');
 Route::get('/upgrade-plan', [App\Http\Controllers\UpgradeController::class, 'index'])->name('upgrade-plan');
@@ -105,7 +106,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     
     // Study Materials
     Route::get('/materials', [App\Http\Controllers\Admin\StudyMaterialController::class, 'index'])->name('materials.index');
-    Route::post('/materials/{material}/generate-test', [App\Http\Controllers\Admin\StudyMaterialController::class, 'generateMockTest'])->name('materials.generate-test');
+    Route::get('/materials/create', [App\Http\Controllers\Admin\StudyMaterialController::class, 'create'])->name('materials.create');
+    Route::post('/materials', [App\Http\Controllers\Admin\StudyMaterialController::class, 'store'])->name('materials.store');
+
     
     // Content Management
     Route::get('/content/blogs', [App\Http\Controllers\Admin\ContentController::class, 'blogs'])->name('content.blogs');

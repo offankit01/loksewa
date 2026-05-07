@@ -13,9 +13,9 @@
     <div class="card border-0 shadow-sm rounded-4 bg-white mb-4">
         <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
             <h5 class="fw-bold mb-0">PDF & Note Management</h5>
-            <button class="btn btn-primary-blue rounded-pill px-4">
-                <i class="bi bi-cloud-upload me-2"></i> Upload PDF
-            </button>
+            <a href="{{ route('admin.materials.create') }}" class="btn btn-primary-blue rounded-pill px-4">
+                <i class="bi bi-cloud-upload me-2"></i> Upload Note/PYQ
+            </a>
         </div>
         <div class="card-body p-4">
             <div class="table-responsive">
@@ -45,36 +45,7 @@
                             <td class="border-0 text-center small text-muted">{{ $material->created_at->format('Y-m-d') }}</td>
                             <td class="border-0 text-end">
                                 <div class="d-flex justify-content-end gap-2">
-                                    {{-- Generate Mock Test Dropdown --}}
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-soft-primary rounded-pill px-3 dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            <i class="bi bi-robot me-1"></i> Generate Test
-                                        </button>
-                                        <ul class="dropdown-menu border-0 shadow-sm rounded-3">
-                                            <li><h6 class="dropdown-header extra-small text-uppercase">Select Difficulty</h6></li>
-                                            <li>
-                                                <form action="{{ route('admin.materials.generate-test', $material) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="difficulty" value="easy">
-                                                    <button type="submit" class="dropdown-item small py-2"><i class="bi bi-reception-1 text-success me-2"></i>Easy Level</button>
-                                                </form>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('admin.materials.generate-test', $material) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="difficulty" value="medium">
-                                                    <button type="submit" class="dropdown-item small py-2"><i class="bi bi-reception-2 text-warning me-2"></i>Medium Level</button>
-                                                </form>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('admin.materials.generate-test', $material) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="difficulty" value="hard">
-                                                    <button type="submit" class="dropdown-item small py-2"><i class="bi bi-reception-4 text-danger me-2"></i>Hard Level</button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
+
                                     
                                     <button class="btn btn-sm btn-light p-2 rounded-3"><i class="bi bi-trash text-danger"></i></button>
                                 </div>

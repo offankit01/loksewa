@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <form id="submit-test-form" action="{{ route('service.mock-submit', $mockTest->slug) }}" method="POST" class="d-none">
+    <form id="submit-test-form" action="{{ route('mock-tests.submit', $mockTest->slug) }}" method="POST" class="d-none">
         @csrf
         <input type="hidden" name="answers" id="answers-input">
         <input type="hidden" name="difficulty" value="{{ $difficulty }}">

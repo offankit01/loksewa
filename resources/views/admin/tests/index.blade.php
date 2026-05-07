@@ -14,9 +14,7 @@
         <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
             <h5 class="fw-bold mb-0">Exam Management</h5>
             <div class="d-flex gap-2">
-                <a href="{{ route('admin.materials.index') }}" class="btn btn-soft-primary rounded-pill px-4 btn-sm">
-                    <i class="bi bi-robot me-2"></i>Generate AI Test
-                </a>
+
                 <a href="{{ route('admin.tests.create') }}" class="btn btn-primary-blue rounded-pill px-4 btn-sm">
                     <i class="bi bi-plus-lg me-2"></i>Manual Test
                 </a>
@@ -30,7 +28,7 @@
                             <th class="text-muted small fw-medium text-uppercase border-0">Test Details</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-center">Questions</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-center">Difficulty</th>
-                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Source</th>
+
                             <th class="text-muted small fw-medium text-uppercase border-0 text-end">Status</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-end">Action</th>
                         </tr>
@@ -52,13 +50,7 @@
                                     <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3">Hard</span>
                                 @endif
                             </td>
-                            <td class="border-0 text-center small">
-                                @if($test->is_ai_generated)
-                                    <span class="text-primary-blue fw-bold"><i class="bi bi-robot me-1"></i>AI Generated</span>
-                                @else
-                                    <span class="text-muted">Manual</span>
-                                @endif
-                            </td>
+
                             <td class="border-0 text-end">
                                 <form action="{{ route('admin.tests.toggle-publish', $test) }}" method="POST">
                                     @csrf
@@ -80,7 +72,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center py-5 text-muted">No mock tests found. Generate one from study materials!</td>
+                            <td colspan="5" class="text-center py-5 text-muted">No mock tests found. Create one manually!</td>
                         </tr>
                         @endforelse
                     </tbody>
