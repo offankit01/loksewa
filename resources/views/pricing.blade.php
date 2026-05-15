@@ -94,6 +94,32 @@
     <div class="container py-5 mt-n5">
         <div class="row g-4 align-items-stretch justify-content-center">
             
+            @forelse($plans as $plan)
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card {{ $plan->is_popular ? 'featured' : '' }}">
+                    @if($plan->is_popular)
+                        <div class="featured-badge">MOST POPULAR</div>
+                    @endif
+                    <h5 class="fw-bold text-muted text-uppercase small">{{ $plan->name }}</h5>
+                    <h3 class="fw-bold mb-0">Plan</h3>
+                    <div class="price-tag">Rs. {{ number_format($plan->price) }}<span>/{{ $plan->duration }}</span></div>
+                    <p class="text-muted small">Comprehensive features for your preparation.</p>
+                    
+                    <ul class="feature-list">
+                        @foreach(explode("\n", $plan->features) as $feature)
+                            @if(trim($feature))
+                                <li><i class="bi bi-check-circle-fill"></i> {{ trim($feature) }}</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                    
+                    <a href="{{ route('register') }}" class="btn {{ $plan->is_popular ? 'btn-primary-custom shadow' : 'btn-outline-primary' }} rounded-pill py-3 fw-bold">
+                        {{ $plan->is_popular ? 'Get Started Now' : 'Join Now' }}
+                    </a>
+                </div>
+            </div>
+            @empty
+            <!-- Fallback Static Plans if none in DB -->
             <!-- Free Plan -->
             <div class="col-lg-4 col-md-6">
                 <div class="pricing-card">
@@ -136,27 +162,7 @@
                     <a href="{{ route('register') }}" class="btn btn-primary-custom rounded-pill py-3 fw-bold shadow">Unlock Pro Access</a>
                 </div>
             </div>
-
-            <!-- Premium Plan -->
-            <div class="col-lg-4 col-md-6">
-                <div class="pricing-card">
-                    <h5 class="fw-bold text-muted text-uppercase small">Civil Servant</h5>
-                    <h3 class="fw-bold mb-0">Premium</h3>
-                    <div class="price-tag">Rs. 2,499<span>/mo</span></div>
-                    <p class="text-muted small">Dedicated support for serious aspirants.</p>
-                    
-                    <ul class="feature-list">
-                        <li><i class="bi bi-check-circle-fill"></i> Everything in Pro</li>
-                        <li><i class="bi bi-check-circle-fill"></i> 1-on-1 Mentorship</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Live Q&A Sessions</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Advanced AI Analytics</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Exclusive Video Lessons</li>
-                        <li><i class="bi bi-check-circle-fill"></i> Interview Preparation</li>
-                    </ul>
-                    
-                    <a href="{{ route('register') }}" class="btn btn-outline-primary rounded-pill py-3 fw-bold">Go Premium</a>
-                </div>
-            </div>
+            @endforelse
 
         </div>
 

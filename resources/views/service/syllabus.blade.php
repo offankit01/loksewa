@@ -18,7 +18,11 @@
     </header>
 
     <div class="container pb-5">
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        {{-- Exam Pattern Summary --}}
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+            <div class="card-header bg-white border-0 pt-4 px-4">
+                <h5 class="fw-bold mb-0">Exam Pattern Summary</h5>
+            </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table syllabus-table table-hover mb-0 align-middle">
@@ -53,6 +57,37 @@
                     </table>
                 </div>
             </div>
+        </div>
+
+        {{-- Dynamic Syllabus Downloads --}}
+        <div class="row g-4">
+            <div class="col-12">
+                <h5 class="fw-bold mb-4">Official Detailed Syllabus</h5>
+            </div>
+            @forelse($materials as $material)
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 p-4 hover-shadow transition-all">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="bg-primary-blue bg-opacity-10 text-primary-blue p-3 rounded-4">
+                            <i class="bi bi-file-earmark-text fs-2"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="fw-bold mb-1">{{ $material->title }}</h5>
+                            <p class="text-muted small mb-0">{{ $material->description ?? 'Official syllabus and course details for ' . $title }}</p>
+                        </div>
+                        <div>
+                            <a href="{{ Storage::url($material->file_path) }}" target="_blank" class="btn btn-outline-primary rounded-pill px-4">
+                                <i class="bi bi-download me-2"></i>PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center py-4 bg-light rounded-4">
+                <p class="text-muted mb-0 italic small">Detailed syllabus PDF not available for download yet.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 @endsection

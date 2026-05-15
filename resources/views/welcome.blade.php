@@ -4,49 +4,70 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="hero-section py-5">
-        <div class="container">
+    <section class="hero-section py-5 overflow-hidden position-relative">
+        <div class="hero-bg-overlay"></div>
+        <div class="container position-relative z-1">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <div class="badge bg-accent-orange bg-opacity-10 text-accent-orange px-3 py-2 rounded-pill mb-4 fw-bold">
-                        <i class="bi bi-star-fill me-1"></i> Most Trusted Platform
+                    <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
+                        <div class="badge-icon"><i class="bi bi-shield-check"></i></div>
+                        <span class="badge-text">The Future of LokSewa Preparation</span>
                     </div>
-                    <h1 class="display-3 fw-bold mb-4">Master Your <span class="text-accent-orange">LokSewa</span> Journey with Confidence</h1>
-                    <p class="lead text-muted mb-5">Access premium notes, practice mock tests, and track your progress in real-time. Prepare in both English and Nepali with our expert-curated content.</p>
+                    <h1 class="display-2 fw-extrabold mb-4 lh-1">
+                        Empower Your <br>
+                        <span class="text-gradient">LokSiksha</span> Journey
+                    </h1>
+                    <p class="lead text-muted mb-5 fs-4 fw-light">
+                        Unlock your potential with the most advanced LokSewa platform. Expert notes, real-time analytics, and a community of success.
+                    </p>
                     
                     <div class="d-flex flex-wrap gap-3">
-                        <a href="{{ route('register') }}" class="btn btn-primary-custom btn-lg rounded-pill px-5 py-3 shadow-lg">
-                            Get Started Free
+                        <a href="{{ route('register') }}" class="btn btn-primary-custom btn-lg rounded-pill px-5 py-3 shadow-xl hover-scale d-inline-flex align-items-center gap-2">
+                            Get Started Free <i class="bi bi-arrow-right-circle-fill"></i>
                         </a>
-                        <a href="{{ route('services') }}" class="btn btn-outline-secondary btn-lg rounded-pill px-4 py-3 fw-bold border-2">
-                            View Roadmap
+                        <a href="{{ route('services') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-bold border-2 hover-bg-light">
+                            View Study Roadmap
                         </a>
                     </div>
                     
-                    <div class="mt-5 d-flex align-items-center gap-4">
-                        <div class="d-flex">
-                            <div class="avatar border-2 border-white rounded-circle bg-light d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px; margin-right: -12px; z-index: 3;">A</div>
-                            <div class="avatar border-2 border-white rounded-circle bg-primary-blue text-white d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px; margin-right: -12px; z-index: 2;">B</div>
-                            <div class="avatar border-2 border-white rounded-circle bg-accent-orange text-white d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px; z-index: 1;">+</div>
+                    <div class="mt-5 d-flex align-items-center gap-4 animate-slide-up">
+                        <div class="d-flex overlap-avatars">
+                            <div class="avatar-circle bg-light shadow-sm">A</div>
+                            <div class="avatar-circle bg-primary-blue text-white shadow-sm">B</div>
+                            <div class="avatar-circle bg-accent-orange text-white shadow-sm">+</div>
                         </div>
-                        <div class="text-muted small">
-                            <span class="fw-bold text-dark">50,000+</span> Students already joined
+                        <div class="text-muted border-start ps-4">
+                            <span class="fw-bold text-dark fs-5">50,000+</span> Aspirants already joined
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-image-container position-relative">
-                        <div class="hero-blob"></div>
-                        <img src="https://img.freepik.com/free-vector/learning-concept-illustration_114360-6186.jpg" alt="Learning" class="img-fluid position-relative z-1 rounded-4 shadow-lg">
+                    <div class="hero-visual position-relative">
+                        <div class="hero-glow"></div>
+                        <img src="{{ asset('assets/images/hero.png') }}" alt="LokSiksha Learning" class="img-fluid rounded-5 shadow-2xl animate-float hero-main-img">
                         
-                        <!-- Floating Stat Cards -->
-                        <div class="stat-card p-3 rounded-3 shadow-sm bg-white d-flex align-items-center gap-3 position-absolute" style="top: 10%; right: 2%; z-index: 10;">
-                            <div class="bg-success bg-opacity-10 text-success p-2 rounded-2">
-                                <i class="bi bi-check-circle-fill"></i>
+                        <!-- Floating Glass Cards -->
+                        <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float" style="top: 15%; right: -5%; z-index: 10;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-circle bg-success">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">98%</h6>
+                                    <p class="small text-muted mb-0">Success Rate</p>
+                                </div>
                             </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">98%</h6>
-                                <p class="small text-muted mb-0">Success Rate</p>
+                        </div>
+
+                        <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float-delayed" style="bottom: 15%; left: -5%; z-index: 10;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-circle bg-accent-orange">
+                                    <i class="bi bi-lightning-charge-fill"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">Smart Prep</h6>
+                                    <p class="small text-muted mb-0">AI-Powered Insights</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -56,26 +77,28 @@
     </section>
 
     <!-- Exam Categories -->
-    <section class="py-5 bg-white">
+    <section class="py-5 bg-white position-relative overflow-hidden">
         <div class="container text-center mb-5">
-            <h2 class="fw-bold">Popular Exam Categories</h2>
-            <p class="text-muted">Specialized preparation for all major LokSewa positions</p>
+            <h2 class="fw-extrabold display-5 mb-3">Popular Exam Categories</h2>
+            <p class="text-muted max-w-2xl mx-auto">Specialized preparation for all major LokSewa positions in Nepal.</p>
         </div>
         <div class="container">
             <div class="row g-4">
                 @foreach([
-                    ['name' => 'Section Officer', 'icon' => 'bi-briefcase', 'count' => '120+ Sets'],
-                    ['name' => 'Nayab Subba', 'icon' => 'bi-journal-text', 'count' => '95+ Sets'],
-                    ['name' => 'Kharidar', 'icon' => 'bi-file-earmark-person', 'count' => '80+ Sets'],
-                    ['name' => 'Bank & Finance', 'icon' => 'bi-bank', 'count' => '60+ Sets'],
-                    ['name' => 'Security Forces', 'icon' => 'bi-shield-check', 'count' => '50+ Sets'],
-                    ['name' => 'TSC (Teachers)', 'icon' => 'bi-mortarboard', 'count' => '110+ Sets']
+                    ['name' => 'Section Officer', 'icon' => 'bi-briefcase-fill', 'count' => '120+ Sets', 'color' => 'var(--primary-blue)'],
+                    ['name' => 'Nayab Subba', 'icon' => 'bi-journal-check', 'count' => '95+ Sets', 'color' => '#6366f1'],
+                    ['name' => 'Kharidar', 'icon' => 'bi-person-badge-fill', 'count' => '80+ Sets', 'color' => '#8b5cf6'],
+                    ['name' => 'Bank & Finance', 'icon' => 'bi-bank2', 'count' => '60+ Sets', 'color' => '#ec4899'],
+                    ['name' => 'Security Forces', 'icon' => 'bi-shield-shaded', 'count' => '50+ Sets', 'color' => '#10b981'],
+                    ['name' => 'TSC (Teachers)', 'icon' => 'bi-mortarboard-fill', 'count' => '110+ Sets', 'color' => 'var(--accent-orange)']
                 ] as $exam)
                 <div class="col-md-4 col-lg-2">
-                    <div class="card border-0 shadow-none text-center h-100 py-3 bg-light rounded-4 hover-translate">
-                        <div class="fs-1 text-primary-blue mb-2"><i class="bi {{ $exam['icon'] }}"></i></div>
-                        <h6 class="fw-bold mb-1">{{ $exam['name'] }}</h6>
-                        <span class="small text-muted">{{ $exam['count'] }}</span>
+                    <div class="category-card p-4 text-center h-100 hover-translate shadow-sm">
+                        <div class="category-icon-wrapper mb-3" style="background-color: {{ $exam['color'] }}20; color: {{ $exam['color'] }};">
+                            <i class="bi {{ $exam['icon'] }}"></i>
+                        </div>
+                        <h6 class="fw-bold mb-1 text-dark">{{ $exam['name'] }}</h6>
+                        <span class="badge rounded-pill bg-light text-muted fw-normal">{{ $exam['count'] }}</span>
                     </div>
                 </div>
                 @endforeach
@@ -84,74 +107,90 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-5" id="features">
+    <section class="py-5 bg-light" id="features">
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6 order-lg-2">
-                    <h2 class="display-5 fw-bold mb-4">Why Aspirants Choose Us?</h2>
-                    <p class="text-muted mb-5">We provide the most comprehensive ecosystem for your government job preparation journey.</p>
+                    <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
+                        <div class="badge-icon"><i class="bi bi-patch-check-fill"></i></div>
+                        <span class="badge-text">Why LokSiksha?</span>
+                    </div>
+                    <h2 class="display-5 fw-extrabold mb-4">Why Aspirants Choose Us?</h2>
+                    <p class="text-muted mb-5 fs-5">We provide the most comprehensive ecosystem for your government job preparation journey, trusted by thousands of successful candidates.</p>
                     
                     <div class="row g-4">
                         <div class="col-md-6">
-                            <div class="p-4 rounded-4 border-0 shadow-sm h-100 bg-white">
-                                <div class="bg-primary-blue bg-opacity-10 text-primary-blue p-2 rounded-3 d-inline-block mb-3">
-                                    <i class="bi bi-translate fs-4"></i>
+                            <div class="feature-card-premium p-4">
+                                <div class="feature-icon-box bg-primary-blue">
+                                    <i class="bi bi-translate"></i>
                                 </div>
-                                <h4 class="fw-bold">Bilingual Content</h4>
-                                <p class="text-muted small">Switch seamlessly between Nepali and English materials.</p>
+                                <h4 class="fw-bold mb-3">Bilingual Content</h4>
+                                <p class="text-muted small mb-0">Switch seamlessly between Nepali and English materials with one click.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="p-4 rounded-4 border-0 shadow-sm h-100 bg-white">
-                                <div class="bg-accent-orange bg-opacity-10 text-accent-orange p-2 rounded-3 d-inline-block mb-3">
-                                    <i class="bi bi-laptop fs-4"></i>
+                            <div class="feature-card-premium p-4">
+                                <div class="feature-icon-box bg-accent-orange">
+                                    <i class="bi bi-laptop"></i>
                                 </div>
-                                <h4 class="fw-bold">Smart Mock Tests</h4>
-                                <p class="text-muted small">Real exam simulation with detailed performance analytics.</p>
+                                <h4 class="fw-bold mb-3">Smart Mock Tests</h4>
+                                <p class="text-muted small mb-0">Real exam simulation with detailed AI-driven performance analytics.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 order-lg-1">
-                    <img src="https://img.freepik.com/free-vector/expert-concept-illustration_114360-6180.jpg" alt="Features" class="img-fluid rounded-4 shadow-sm">
+                    <div class="position-relative">
+                        <div class="feature-img-glow"></div>
+                        <img src="{{ asset('assets/images/why-us.png') }}" alt="LokSiksha Features" class="img-fluid rounded-5 shadow-2xl position-relative z-1">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- How It Works -->
-    <section class="py-5 bg-primary-blue text-white overflow-hidden position-relative">
+    <section class="py-5 bg-gradient-dark text-white overflow-hidden position-relative">
+        <div class="hero-bg-overlay opacity-25"></div>
         <div class="container text-center mb-5 position-relative z-1">
-            <h2 class="fw-bold text-white">How It Works</h2>
-            <p class="text-white-50">3 Simple steps to your dream job</p>
+            <div class="badge bg-white bg-opacity-10 text-white px-3 py-2 rounded-pill mb-4 fw-bold">
+                <i class="bi bi-gear-wide-connected me-1"></i> THE PROCESS
+            </div>
+            <h2 class="display-5 fw-extrabold text-white">How It Works</h2>
+            <p class="text-white-50 fs-5">3 simple steps to achieve your government service goals</p>
         </div>
         <div class="container position-relative z-1">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="text-center p-4">
-                        <div class="bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
-                            <span class="display-5 fw-bold text-accent-orange">1</span>
+            <div class="row g-5">
+                <div class="col-md-4 position-relative">
+                    <div class="flow-connector"></div>
+                    <div class="step-card-glass text-center">
+                        <div class="step-number-wrap">
+                            <span class="step-number">1</span>
+                            <div class="step-icon-overlay"><i class="bi bi-person-plus-fill"></i></div>
                         </div>
-                        <h4 class="fw-bold">Register</h4>
-                        <p class="text-white-50">Create your account and select your targeted exam categories.</p>
+                        <h4 class="fw-bold mb-3">Register</h4>
+                        <p class="text-white-50">Create your account in seconds and choose your targeted categories.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 position-relative">
+                    <div class="flow-connector"></div>
+                    <div class="step-card-glass text-center">
+                        <div class="step-number-wrap">
+                            <span class="step-number">2</span>
+                            <div class="step-icon-overlay"><i class="bi bi-journal-text"></i></div>
+                        </div>
+                        <h4 class="fw-bold mb-3">Practice</h4>
+                        <p class="text-white-50">Daily curated notes and unlimited high-quality mock tests.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-center p-4">
-                        <div class="bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
-                            <span class="display-5 fw-bold text-accent-orange">2</span>
+                    <div class="step-card-glass text-center">
+                        <div class="step-number-wrap">
+                            <span class="step-number">3</span>
+                            <div class="step-icon-overlay"><i class="bi bi-trophy-fill"></i></div>
                         </div>
-                        <h4 class="fw-bold">Practice</h4>
-                        <p class="text-white-50">Access daily notes and attempt unlimited mock tests in your language.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="text-center p-4">
-                        <div class="bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
-                            <span class="display-5 fw-bold text-accent-orange">3</span>
-                        </div>
-                        <h4 class="fw-bold">Succeed</h4>
-                        <p class="text-white-50">Analyze your weak areas and improve until you crack the real exam.</p>
+                        <h4 class="fw-bold mb-3">Succeed</h4>
+                        <p class="text-white-50">Detailed performance insights to help you crack the real exam.</p>
                     </div>
                 </div>
             </div>
@@ -159,147 +198,219 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="py-5 bg-white">
+    <section class="py-5 bg-soft-light">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold">Voices of Success</h2>
-                <p class="text-muted">Thousands of students have achieved their government service goals with us.</p>
+                <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
+                    <div class="badge-icon"><i class="bi bi-chat-heart-fill"></i></div>
+                    <span class="badge-text">Success Stories</span>
+                </div>
+                <h2 class="display-5 fw-extrabold mb-3">Voices of Success</h2>
+                <p class="text-muted fs-5">Join thousands of students who have achieved their dreams with LokSiksha.</p>
             </div>
             <div class="row g-4">
+                @forelse($testimonials as $testimonial)
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-light">
-                        <div class="text-warning mb-3">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    <div class="testimonial-card-premium h-100">
+                        <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
+                        <div class="star-rating mb-3">
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class="bi bi-star{{ $i <= $testimonial->rating ? '-fill' : '' }}"></i>
+                            @endfor
                         </div>
-                        <p class="text-dark font-italic mb-4">"The bilingual feature helped me understand complex legal terms in the Constitution paper. Highly recommended!"</p>
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 50px; height: 50px;">A</div>
+                        <p class="testimonial-content">"{{ $testimonial->content }}"</p>
+                        <div class="d-flex align-items-center gap-3 mt-auto">
+                            <div class="user-avatar-styled">
+                                @if($testimonial->avatar)
+                                    <img src="{{ Storage::url($testimonial->avatar) }}" class="w-100 h-100 object-fit-cover rounded-3" alt="User">
+                                @else
+                                    {{ strtoupper(substr($testimonial->user_name, 0, 1)) }}
+                                @endif
+                            </div>
                             <div>
-                                <h6 class="fw-bold mb-0">Ankit Adhikari</h6>
-                                <small class="text-muted">Section Officer Candidate</small>
+                                <h6 class="user-name-styled mb-0">{{ $testimonial->user_name }}</h6>
+                                <small class="user-designation-styled">{{ $testimonial->designation ?? 'Verified Student' }}</small>
                             </div>
                         </div>
                     </div>
                 </div>
+                @empty
+                @foreach([
+                    ['name' => 'Ankit Yadav', 'text' => 'LokSiksha has transformed the way I prepare for LokSewa. The mock tests are incredibly realistic!', 'role' => 'Section Officer Aspirant'],
+                    ['name' => 'Priya Sharma', 'text' => 'The bilingual notes are a lifesaver. I can switch between Nepali and English easily.', 'role' => 'Nayab Subba Candidate'],
+                    ['name' => 'Suman Thapa', 'text' => 'I passed my Kharidar exam thanks to the consistent practice on this platform. Highly recommended!', 'role' => 'Successful Candidate']
+                ] as $item)
                 <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-light">
-                        <div class="text-warning mb-3">
+                    <div class="testimonial-card-premium h-100">
+                        <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
+                        <div class="star-rating mb-3">
                             <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                         </div>
-                        <p class="text-dark font-italic mb-4">"The performance analytics showed me exactly where I was lacking. My IQ scores improved by 40%."</p>
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="bg-accent-orange text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 50px; height: 50px;">S</div>
+                        <p class="testimonial-content">"{{ $item['text'] }}"</p>
+                        <div class="d-flex align-items-center gap-3 mt-auto">
+                            <div class="user-avatar-styled">
+                                {{ strtoupper(substr($item['name'], 0, 1)) }}
+                            </div>
                             <div>
-                                <h6 class="fw-bold mb-0">Sunita Rai</h6>
-                                <small class="text-muted">Nayab Subba Selected</small>
+                                <h6 class="user-name-styled mb-0">{{ $item['name'] }}</h6>
+                                <small class="user-designation-styled">{{ $item['role'] }}</small>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-light">
-                        <div class="text-warning mb-3">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                        <p class="text-dark font-italic mb-4">"Best interface for mock tests. It feels exactly like the real computer-based exam."</p>
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 50px; height: 50px;">B</div>
-                            <div>
-                                <h6 class="fw-bold mb-0">Bibek Thapa</h6>
-                                <small class="text-muted">Kharidar Aspirant</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                @endforelse
             </div>
         </div>
     </section>
 
     <!-- Blog Section -->
-    <section class="py-5 bg-white">
+    <section class="py-5 bg-white position-relative overflow-hidden">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-end mb-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-5 gap-4">
                 <div>
-                    <h2 class="fw-bold mb-2">Latest from Our Blog</h2>
-                    <p class="text-muted mb-0">Stay updated with the latest news and preparation strategies.</p>
+                    <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
+                        <div class="badge-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                        <span class="badge-text">Knowledge Hub</span>
+                    </div>
+                    <h2 class="display-5 fw-extrabold mb-2">Latest from Our Blog</h2>
+                    <p class="text-muted mb-0 fs-5">Stay updated with the latest news, prep strategies, and LokSewa insights.</p>
                 </div>
-                <a href="{{ route('blogs.index') }}" class="btn btn-outline-primary border-primary-blue text-primary-blue rounded-pill px-4">View All Posts</a>
+                <a href="{{ route('blogs.index') }}" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold border-2 hover-bg-light">
+                    View All Posts <i class="bi bi-arrow-up-right ms-1"></i>
+                </a>
             </div>
             
-            <div class="row g-4">
-                @foreach([
-                    ['title' => 'Top 10 Tips to Crack LokSewa Exams', 'tag' => 'Strategy', 'date' => 'May 15', 'img' => 'https://img.freepik.com/free-vector/blogging-concept-illustration_114360-788.jpg'],
-                    ['title' => 'Understanding the New Exam Pattern 2081', 'tag' => 'News', 'date' => 'May 12', 'img' => 'https://img.freepik.com/free-vector/writing-concept-illustration_114360-1011.jpg'],
-                    ['title' => 'Daily GK & Current Affairs Capsule', 'tag' => 'Daily GK', 'date' => 'May 10', 'img' => 'https://img.freepik.com/free-vector/reading-news-concept-illustration_114360-1013.jpg']
-                ] as $blog)
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 hover-translate">
-                        <img src="{{ $blog['img'] }}" class="card-img-top" alt="Blog" style="height: 200px; object-fit: cover;">
-                        <div class="card-body p-4">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <span class="badge bg-primary-blue bg-opacity-10 text-primary-blue px-3 py-1 rounded-pill small fw-bold">{{ $blog['tag'] }}</span>
-                                <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> {{ $blog['date'] }}</span>
+            <!-- Blog Slider -->
+            <div class="swiper blogSwiper pb-5">
+                <div class="swiper-wrapper">
+                    @foreach([
+                        ['title' => 'Top 10 Tips to Crack LokSewa Exams', 'tag' => 'Strategy', 'date' => 'May 15', 'img' => 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800'],
+                        ['title' => 'Daily Current Affairs: Nepal & Global', 'tag' => 'News', 'date' => 'May 14', 'img' => 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800'],
+                        ['title' => 'How to Master Mathematics for Exams', 'tag' => 'Study Guide', 'date' => 'May 12', 'img' => 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=800'],
+                        ['title' => 'Understanding the New Syllabus Pattern', 'tag' => 'Updates', 'date' => 'May 10', 'img' => 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=800'],
+                        ['title' => 'Memory Techniques for Fast Learning', 'tag' => 'Psychology', 'date' => 'May 08', 'img' => 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=800']
+                    ] as $blog)
+                    <div class="swiper-slide h-auto">
+                        <div class="blog-card-premium h-100">
+                            <div class="blog-img-wrap">
+                                <div class="blog-badge">{{ $blog['tag'] }}</div>
+                                <img src="{{ $blog['img'] }}" alt="{{ $blog['title'] }}">
                             </div>
-                            <h5 class="fw-bold mb-3">{{ $blog['title'] }}</h5>
-                            <p class="text-muted small mb-4">Preparation is the key to success. Here are the top 10 strategies used by toppers to secure their dream job...</p>
-                            <a href="#" class="text-primary-blue fw-bold text-decoration-none small d-flex align-items-center gap-2">
-                                Read More <i class="bi bi-arrow-right"></i>
-                            </a>
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="blog-date-styled">
+                                    <i class="bi bi-calendar3 text-primary-blue"></i> {{ $blog['date'] }}, 2024
+                                </div>
+                                <h4 class="fw-bold mb-3 lh-base">
+                                    <a href="{{ route('blogs.show', \Illuminate\Support\Str::slug($blog['title'])) }}" class="text-dark text-decoration-none hover-text-primary">{{ $blog['title'] }}</a>
+                                </h4>
+                                <p class="text-muted small mb-4 line-clamp-2">Master the essential strategies and time management skills needed to ace your upcoming civil service examinations.</p>
+                                
+                                <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top border-light">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="user-avatar-styled">A</div>
+                                        <span class="small fw-bold text-dark">Admin</span>
+                                    </div>
+                                    <a href="{{ route('blogs.show', \Illuminate\Support\Str::slug($blog['title'])) }}" class="btn btn-link text-primary-blue fw-bold text-decoration-none p-0 small">
+                                        Read Full <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
+                
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-center gap-3 mt-5">
+                    <div class="swiper-button-prev-custom">
+                        <i class="bi bi-chevron-left"></i>
+                    </div>
+                    <div class="swiper-button-next-custom">
+                        <i class="bi bi-chevron-right"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper('.blogSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                speed: 800,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next-custom',
+                    prevEl: '.swiper-button-prev-custom',
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    }
+                }
+            });
+        });
+    </script>
+
     <!-- FAQ Section -->
-    <section class="py-5 bg-light">
+    <section class="py-5 bg-white">
         <div class="container">
-            <div class="row g-5">
+            <div class="row g-5 align-items-center">
                 <div class="col-lg-5">
-                    <h2 class="fw-bold mb-4">Frequently Asked Questions</h2>
-                    <p class="text-muted mb-4">Everything you need to know about the platform and how to get the most out of it.</p>
-                    <a href="{{ route('contact') }}" class="btn btn-primary-custom rounded-pill">Contact Support</a>
+                    <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
+                        <div class="badge-icon"><i class="bi bi-question-lg"></i></div>
+                        <span class="badge-text">Support Center</span>
+                    </div>
+                    <h2 class="display-5 fw-extrabold mb-4">Frequently Asked Questions</h2>
+                    <p class="text-muted mb-5 fs-5">Everything you need to know about the platform and how to get the most out of it.</p>
+                    <a href="{{ route('contact') }}" class="btn btn-outline-dark rounded-pill px-5 py-3 fw-bold border-2 hover-bg-light">
+                        Contact Support <i class="bi bi-headset ms-2"></i>
+                    </a>
                 </div>
                 <div class="col-lg-7">
                     <div class="accordion accordion-flush" id="faqAccordion">
-                        <div class="accordion-item bg-transparent border-bottom">
+                        @forelse($faqs as $faq)
+                        <div class="accordion-item bg-transparent faq-item-custom">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-transparent fw-bold text-dark px-0 py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                    How do I switch between Nepali and English?
+                                <button class="accordion-button collapsed bg-transparent fw-bold text-dark faq-btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ $faq->id }}">
+                                    {{ $faq->question }}
                                 </button>
                             </h2>
-                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body px-0 text-muted">
-                                    Every study material and mock test has a language switcher toggle at the top right of the content area.
+                            <div id="faq{{ $faq->id }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body px-0 text-muted fs-6 pb-4">
+                                    {{ $faq->answer }}
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item bg-transparent border-bottom">
+                        @empty
+                        @foreach([
+                            ['q' => 'How do I get started with LokSiksha?', 'a' => 'Simply click on the "Get Started" button, create a free account, and you can immediately access our basic study materials and trial mock tests.'],
+                            ['q' => 'Is there a bilingual option for all materials?', 'a' => 'Yes! LokSiksha is designed to be fully bilingual. You can switch between Nepali and English for most of our notes and exam sets.'],
+                            ['q' => 'How often are the mock tests updated?', 'a' => 'Our expert team updates the test bank weekly to reflect the latest LokSewa patterns and current affairs.']
+                        ] as $index => $item)
+                        <div class="accordion-item bg-transparent faq-item-custom">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-transparent fw-bold text-dark px-0 py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                    Can I access materials offline?
+                                <button class="accordion-button {{ $index !== 0 ? 'collapsed' : '' }} bg-transparent fw-bold text-dark faq-btn-custom" type="button" data-bs-toggle="collapse" data-bs-target="#faqDef{{ $index }}">
+                                    {{ $item['q'] }}
                                 </button>
                             </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body px-0 text-muted">
-                                    Yes, premium members can download PDF notes and mock test results for offline viewing.
+                            <div id="faqDef{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body px-0 text-muted fs-6 pb-4">
+                                    {{ $item['a'] }}
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item bg-transparent">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-transparent fw-bold text-dark px-0 py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                    Is there negative marking in mock tests?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body px-0 text-muted">
-                                    Yes, our system calculates scores exactly like the LokSewa commission, including 20% negative marking for wrong answers.
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -307,15 +418,22 @@
     </section>
 
     <!-- Final CTA -->
-    <section class="py-5">
+    <section class="py-5 bg-white">
         <div class="container">
-            <div class="bg-primary-blue rounded-5 p-5 text-center text-white position-relative overflow-hidden shadow-lg">
-                <div class="position-absolute top-0 end-0 opacity-10" style="width: 300px; height: 300px; background: white; border-radius: 50%; margin-top: -100px; margin-right: -100px;"></div>
-                <h2 class="display-5 fw-bold mb-4">Start Your Preparation Today</h2>
-                <p class="lead text-white-50 mb-5 max-w-2xl mx-auto">Join thousands of aspirants who are already ahead of the competition. Your government career starts here.</p>
-                <div class="d-flex flex-wrap justify-content-center gap-3">
-                    <a href="{{ route('register') }}" class="btn btn-accent-custom btn-lg rounded-pill px-5">Join for Free</a>
-                    <a href="{{ route('pricing') }}" class="btn btn-outline-light btn-lg rounded-pill px-4">View Premium Plans</a>
+            <div class="cta-block-premium text-center text-white">
+                <div class="cta-pattern"></div>
+                <div class="cta-pattern-2"></div>
+                <div class="position-relative z-1">
+                    <h2 class="display-3 fw-extrabold mb-4">Start Your Preparation Today</h2>
+                    <p class="lead mb-5 opacity-75 max-w-2xl mx-auto">Join thousands of aspirants who are already ahead of the competition. Your government career starts here.</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="{{ route('register') }}" class="btn btn-accent-custom btn-lg rounded-pill px-5 py-3 shadow-lg hover-scale">
+                            Join for Free <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                        <a href="{{ route('services') }}" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-bold border-2">
+                            View Premium Plans
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

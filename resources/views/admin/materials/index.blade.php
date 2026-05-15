@@ -14,7 +14,7 @@
         <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
             <h5 class="fw-bold mb-0">PDF & Note Management</h5>
             <a href="{{ route('admin.materials.create') }}" class="btn btn-primary-blue rounded-pill px-4">
-                <i class="bi bi-cloud-upload me-2"></i> Upload Note/PYQ
+                <i class="bi bi-cloud-upload me-2"></i> Upload Resource
             </a>
         </div>
         <div class="card-body p-4">
@@ -24,6 +24,7 @@
                         <tr>
                             <th class="text-muted small fw-medium text-uppercase border-0">Material Title</th>
                             <th class="text-muted small fw-medium text-uppercase border-0">Category</th>
+                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Type</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-center">Downloads</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-center">Uploaded On</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-end">Action</th>
@@ -40,14 +41,35 @@
                                     <div class="fw-bold">{{ $material->title }}</div>
                                 </div>
                             </td>
-                            <td class="border-0 text-muted">{{ $material->category }}</td>
+                            <td class="border-0 text-muted small">{{ $material->category }}</td>
+                            <td class="border-0 text-center">
+                                @if($material->type == 'note')
+                                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 rounded-pill border border-primary border-opacity-10 small">Study Note</span>
+                                @elseif($material->type == 'pyq')
+                                    <span class="badge bg-warning bg-opacity-10 text-warning px-3 rounded-pill border border-warning border-opacity-10 small">PYQ</span>
+                                @elseif($material->type == 'syllabus')
+                                    <span class="badge bg-info bg-opacity-10 text-info px-3 rounded-pill border border-info border-opacity-10 small">Syllabus</span>
+                                @elseif($material->type == 'model')
+                                    <span class="badge bg-success bg-opacity-10 text-success px-3 rounded-pill border border-success border-opacity-10 small">Model Q.</span>
+                                @else
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 rounded-pill border border-secondary border-opacity-10 small">{{ ucfirst($material->type) }}</span>
+                                @endif
+                            </td>
                             <td class="border-0 text-center fw-bold">{{ number_format($material->downloads) }}</td>
                             <td class="border-0 text-center small text-muted">{{ $material->created_at->format('Y-m-d') }}</td>
                             <td class="border-0 text-end">
                                 <div class="d-flex justify-content-end gap-2">
-
+                                    <a href="{{ route('admin.materials.edit', $material->id) }}" class="btn btn-sm btn-light p-2 rounded-3" title="Edit">
+                                        <i class="bi bi-pencil-square text-primary"></i>
+                                    </a>
                                     
-                                    <button class="btn btn-sm btn-light p-2 rounded-3"><i class="bi bi-trash text-danger"></i></button>
+                                    <form action="{{ route('admin.materials.destroy', $material->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this resource?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-light p-2 rounded-3" title="Delete">
+                                            <i class="bi bi-trash text-danger"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

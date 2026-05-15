@@ -18,53 +18,100 @@
     @endif
 
     <style>
-        body { background-color: #f8fafc; }
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: rgba(255, 255, 255, 0.05);
+            --sidebar-active: rgba(249, 115, 22, 0.15);
+            --accent-color: #f97316;
+        }
+        body { background-color: #f1f5f9; font-family: 'Inter', system-ui, sans-serif; }
         .sidebar {
-            width: 260px;
+            width: var(--sidebar-width);
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #1e3a8a;
-            color: white;
-            padding-top: 1.5rem;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            background-color: var(--sidebar-bg);
+            color: #94a3b8;
+            padding: 0;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.05);
             z-index: 1030;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .main-content {
-            margin-left: 260px;
-            padding: 2rem;
-            min-height: 100vh;
+        .sidebar-brand {
+            padding: 2rem 1.5rem;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent);
+            margin-bottom: 1rem;
+        }
+        .nav-section-label {
+            padding: 1.5rem 1.75rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #475569;
         }
         .nav-link {
-            color: rgba(255, 255, 255, 0.7);
-            padding: 0.85rem 1.5rem;
+            color: #94a3b8;
+            padding: 0.75rem 1.5rem;
+            margin: 0.2rem 1rem;
             display: flex;
             align-items: center;
             gap: 12px;
             font-weight: 500;
-            transition: all 0.2s;
-            border-left: 4px solid transparent;
+            font-size: 0.9rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            border: none;
         }
-        .nav-link:hover, .nav-link.active {
+        .nav-link i { font-size: 1.1rem; transition: transform 0.2s; }
+        .nav-link:hover {
+            color: #f8fafc;
+            background-color: var(--sidebar-hover);
+            transform: translateX(4px);
+        }
+        .nav-link:hover i { transform: scale(1.1); }
+        .nav-link.active {
             color: white;
-            background-color: rgba(255, 255, 255, 0.08);
-            border-left-color: #f97316;
+            background-color: var(--sidebar-active);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
         }
-        .sidebar-brand {
-            padding: 0 1.5rem 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 1.5rem;
+        .nav-link.active i { color: var(--accent-color); }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2.5rem;
+            min-height: 100vh;
         }
-        .card-custom {
-            background: white;
-            border: 0;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        
+        /* Dropdown custom styling */
+        .submenu-container {
+            margin: 0.2rem 1rem 0.2rem 2.5rem;
+            border-left: 1px solid rgba(255,255,255,0.1);
         }
-        .badge-soft-success { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-        .badge-soft-warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-        .badge-soft-primary { background: rgba(30, 58, 138, 0.1); color: #1e3a8a; }
+        .submenu-link {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.85rem;
+            color: #64748b;
+            display: block;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .submenu-link:hover, .submenu-link.active {
+            color: white;
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .user-profile-mini {
+            margin: 1.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
     </style>
     @yield('extra_css')
 </head>
@@ -73,67 +120,105 @@
     <!-- Sidebar -->
     <div class="sidebar d-flex flex-column">
         <div class="sidebar-brand">
-            <h5 class="fw-bold d-flex align-items-center m-0">
-                <i class="bi bi-shield-lock-fill me-2 text-accent-orange"></i>
-                Admin Panel
-            </h5>
+            <h4 class="fw-bold d-flex align-items-center m-0 text-white">
+                @if(isset($site_settings['site_logo']))
+                    <img src="{{ asset('storage/' . $site_settings['site_logo']) }}" alt="Logo" style="height: 35px; filter: brightness(0) invert(1);" class="me-2">
+                @else
+                    <div class="bg-accent-orange p-2 rounded-3 me-3 shadow-sm">
+                        <i class="bi bi-shield-lock-fill text-white fs-5"></i>
+                    </div>
+                @endif
+                LokSewa <span class="text-accent-orange ms-1">Pro</span>
+            </h4>
         </div>
         
-        <ul class="nav flex-column mb-auto">
-            <li class="nav-item">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
-                    <i class="bi bi-speedometer2"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
-                    <i class="bi bi-people"></i> Manage Users
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.tests.index') }}" class="nav-link {{ Request::is('admin/tests*') ? 'active' : '' }}">
-                    <i class="bi bi-journal-text"></i> Mock Tests
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.materials.index') }}" class="nav-link {{ Request::is('admin/materials*') ? 'active' : '' }}">
-                    <i class="bi bi-file-earmark-pdf"></i> Study Materials
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.courses.index') }}" class="nav-link {{ Request::is('admin/courses*') ? 'active' : '' }}">
-                    <i class="bi bi-briefcase"></i> Services / Courses
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.content.blogs') }}" class="nav-link {{ Request::is('admin/content/blogs*') ? 'active' : '' }}">
-                    <i class="bi bi-newspaper"></i> Blog Posts
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#contentSubmenu">
-                    <i class="bi bi-window-sidebar"></i> Site Content
-                </a>
-                <div class="collapse {{ Request::is('admin/content*') && !Request::is('admin/content/blogs*') ? 'show' : '' }} bg-black bg-opacity-10" id="contentSubmenu">
-                    <a href="{{ route('admin.content.testimonials') }}" class="nav-link ps-5 small py-2 {{ Request::is('admin/content/testimonials*') ? 'active' : '' }}">Testimonials</a>
-                    <a href="{{ route('admin.content.faqs') }}" class="nav-link ps-5 small py-2 {{ Request::is('admin/content/faqs*') ? 'active' : '' }}">FAQs</a>
-                    <a href="#" class="nav-link ps-5 small py-2">Pricing Plans</a>
-                </div>
-            </li>
-            <li class="nav-item mt-3">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-gear"></i> Settings
-                </a>
-            </li>
-        </ul>
+        <div class="flex-grow-1 overflow-y-auto custom-scrollbar">
+            <div class="nav-section-label">General</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                        <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
+                        <i class="bi bi-people-fill"></i> User Management
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-section-label">Academic Content</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="{{ route('admin.tests.index') }}" class="nav-link {{ Request::is('admin/tests*') ? 'active' : '' }}">
+                        <i class="bi bi-pencil-square"></i> Mock Exams
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.materials.index') }}" class="nav-link {{ Request::is('admin/materials*') ? 'active' : '' }}">
+                        <i class="bi bi-journal-bookmark-fill"></i> Study Materials
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.courses.index') }}" class="nav-link {{ Request::is('admin/courses*') ? 'active' : '' }}">
+                        <i class="bi bi-mortarboard-fill"></i> Programs & Courses
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-section-label">Marketing & Site</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="{{ route('admin.content.blogs') }}" class="nav-link {{ Request::is('admin/content/blogs*') ? 'active' : '' }}">
+                        <i class="bi bi-megaphone-fill"></i> Announcements
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contentSubmenu" class="nav-link dropdown-toggle" data-bs-toggle="collapse">
+                        <i class="bi bi-window-stack"></i> Page Builder
+                    </a>
+                    <div class="collapse {{ Request::is('admin/content*') && !Request::is('admin/content/blogs*') ? 'show' : '' }}" id="contentSubmenu">
+                        <div class="submenu-container">
+                            <a href="{{ route('admin.content.testimonials') }}" class="submenu-link {{ Request::is('admin/content/testimonials*') ? 'active' : '' }}">
+                                <i class="bi bi-dot me-1"></i> Testimonials
+                            </a>
+                            <a href="{{ route('admin.content.faqs') }}" class="submenu-link {{ Request::is('admin/content/faqs*') ? 'active' : '' }}">
+                                <i class="bi bi-dot me-1"></i> FAQ List
+                            </a>
+                            <a href="{{ route('admin.content.plans') }}" class="submenu-link {{ Request::is('admin/content/plans*') ? 'active' : '' }}">
+                                <i class="bi bi-dot me-1"></i> Membership Plans
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="nav-section-label">System</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="{{ route('admin.settings.index') }}" class="nav-link {{ Request::is('admin/settings*') ? 'active' : '' }}">
+                        <i class="bi bi-sliders2"></i> Global Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
         
-        <div class="p-4 mt-auto">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center py-2">
-                    <i class="bi bi-box-arrow-right me-2"></i> Logout
-                </button>
-            </form>
+        <div class="user-profile-mini">
+            <div class="d-flex align-items-center gap-3">
+                <div class="avatar bg-accent-orange text-white rounded-3 d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                    {{ substr(Auth::user()->name, 0, 1) }}
+                </div>
+                <div class="overflow-hidden">
+                    <h6 class="text-white mb-0 small text-truncate">{{ Auth::user()->name }}</h6>
+                    <p class="text-muted extra-small mb-0">System Admin</p>
+                </div>
+                <form method="POST" action="{{ route('logout') }}" class="ms-auto">
+                    @csrf
+                    <button type="submit" class="btn btn-link text-muted p-0 border-0">
+                        <i class="bi bi-power fs-5"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 

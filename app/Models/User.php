@@ -23,6 +23,9 @@ class User extends Authenticatable
         'phone',
         'address',
         'password',
+        'social_id',
+        'social_type',
+        'email_verified_at',
         'is_active',
         'is_admin',
         'notify_email_newsletter',
@@ -30,6 +33,8 @@ class User extends Authenticatable
         'theme_preference',
         'two_fa_enabled',
         'two_fa_secret',
+        'otp',
+        'otp_expires_at',
     ];
 
     /**
@@ -57,6 +62,7 @@ class User extends Authenticatable
             'notify_email_newsletter' => 'boolean',
             'notify_mock_tests' => 'boolean',
             'two_fa_enabled' => 'boolean',
+            'otp_expires_at' => 'datetime',
         ];
     }
 }

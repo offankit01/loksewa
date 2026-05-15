@@ -34,8 +34,11 @@
                         {{-- Resource Title --}}
                         <div class="col-12">
                             <label class="form-label fw-bold small">Resource Title</label>
-                            <input type="text" name="title" class="form-control form-control-lg rounded-3 bg-light border-0" 
-                                   placeholder="e.g. Nepal Constitution 2072 Summary" required>
+                            <input type="text" name="title" class="form-control form-control-lg rounded-3 bg-light border-0 @error('title') is-invalid @enderror" 
+                                   value="{{ old('title') }}" placeholder="e.g. Nepal Constitution 2072 Summary" required>
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         {{-- Category Selection (Step 1 & 2) --}}
@@ -45,22 +48,37 @@
                                 <span class="text-muted small" id="selectedCourseName">Select Category...</span>
                                 <i class="bi bi-chevron-down small"></i>
                             </div>
-                            <input type="hidden" name="category" id="course_slug_input" required>
+                            <input type="hidden" name="category" id="course_slug_input" value="{{ old('category') }}" required>
+                            @error('category')
+                                <div class="text-danger extra-small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">Resource Type</label>
-                            <div class="d-flex gap-3">
-                                <div class="flex-grow-1">
+                            <div class="row g-2">
+                                <div class="col-6">
                                     <input type="radio" class="btn-check" name="type" id="type_note" value="note" checked>
-                                    <label class="btn btn-outline-primary w-100 py-2 rounded-3 border-dashed" for="type_note">
+                                    <label class="btn btn-outline-primary w-100 py-2 rounded-3 border-dashed small" for="type_note">
                                         <i class="bi bi-journal-text me-2"></i>Study Note
                                     </label>
                                 </div>
-                                <div class="flex-grow-1">
+                                <div class="col-6">
                                     <input type="radio" class="btn-check" name="type" id="type_pyq" value="pyq">
-                                    <label class="btn btn-outline-warning w-100 py-2 rounded-3 border-dashed" for="type_pyq">
-                                        <i class="bi bi-clock-history me-2"></i>PYQ (Previous Year)
+                                    <label class="btn btn-outline-warning w-100 py-2 rounded-3 border-dashed small" for="type_pyq">
+                                        <i class="bi bi-clock-history me-2"></i>PYQ
+                                    </label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check" name="type" id="type_syllabus" value="syllabus">
+                                    <label class="btn btn-outline-info w-100 py-2 rounded-3 border-dashed small" for="type_syllabus">
+                                        <i class="bi bi-list-columns me-2"></i>Syllabus
+                                    </label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check" name="type" id="type_model" value="model">
+                                    <label class="btn btn-outline-success w-100 py-2 rounded-3 border-dashed small" for="type_model">
+                                        <i class="bi bi-file-earmark-check me-2"></i>Model Q.
                                     </label>
                                 </div>
                             </div>
@@ -69,20 +87,26 @@
                         {{-- File Upload Area --}}
                         <div class="col-12">
                             <label class="form-label fw-bold small">Upload File (PDF Recommended)</label>
-                            <div class="upload-area p-5 border-dashed rounded-4 text-center bg-light cursor-pointer" id="dropArea">
+                            <div class="upload-area p-5 border-dashed rounded-4 text-center bg-light cursor-pointer @error('file') border-danger @enderror" id="dropArea">
                                 <i class="bi bi-file-earmark-pdf text-muted display-4 mb-3 d-block"></i>
                                 <h6 class="fw-bold mb-1">Click to select or drag and drop</h6>
                                 <p class="text-muted extra-small mb-3">PDF, DOCX, JPG, PNG (Max 10MB)</p>
                                 <input type="file" name="file" class="d-none" id="fileInput" required>
                                 <div id="fileNameDisplay" class="badge bg-primary-blue p-2 d-none"></div>
                             </div>
+                            @error('file')
+                                <div class="text-danger extra-small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         {{-- Description --}}
                         <div class="col-12">
                             <label class="form-label fw-bold small">Short Description (Optional)</label>
-                            <textarea name="description" class="form-control rounded-3 bg-light border-0" rows="3" 
-                                      placeholder="Brief summary of what this resource covers..."></textarea>
+                            <textarea name="description" class="form-control rounded-3 bg-light border-0 @error('description') is-invalid @enderror" rows="3" 
+                                      placeholder="Brief summary of what this resource covers...">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         {{-- Access Level --}}

@@ -4,17 +4,21 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('auth/{provider}', [App\Http\Controllers\Auth\SocialController::class, 'redirectToProvider'])->name('social.redirect');
+Route::get('auth/{provider}/callback', [App\Http\Controllers\Auth\SocialController::class, 'handleProviderCallback'])->name('social.callback');
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/pricing', function () {
-    return view('pricing');
+    $plans = \App\Models\Plan::where('is_active', true)->orderBy('price')->get();
+    return view('pricing', compact('plans'));
 })->name('pricing');
 
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+Route::post('/feedback', [App\Http\Controllers\FeedbackController::class, 'store'])->name('feedback.store');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -26,14 +30,24 @@ Route::post('/mock-tests/{mockTest:slug}/attempt', [App\Http\Controllers\MockTes
 Route::post('/mock-tests/{mockTest:slug}/submit', [App\Http\Controllers\MockTestController::class, 'submit'])->name('mock-tests.submit');
 
 
-Route::get('/performance', [App\Http\Controllers\PerformanceController::class, 'index'])->name('performance');
-Route::get('/upgrade-plan', [App\Http\Controllers\UpgradeController::class, 'index'])->name('upgrade-plan');
-Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
-Route::get('/blogs', [App\Http\Controllers\BlogController::class, 'index'])->name('blogs.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/performance', [App\Http\Controllers\PerformanceController::class, 'index'])->name('performance');
+    Route::get('/upgrade-plan', [App\Http\Controllers\UpgradeController::class, 'index'])->name('upgrade-plan');
+    Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
+});
+
+Route::get('/blogs', [App\Http\Controllers\BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blogs.show');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-phone', [App\Http\Controllers\Auth\OtpController::class, 'showVerifyForm'])->name('otp.verify');
+    Route::post('/verify-phone', [App\Http\Controllers\Auth\OtpController::class, 'verify'])->name('otp.verify.submit');
+    Route::post('/verify-phone/resend', [App\Http\Controllers\Auth\OtpController::class, 'resend'])->name('otp.resend');
+});
 
 Route::get('/services', function () {
     return view('services');
@@ -103,15 +117,34 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Service (Course) Management
     Route::get('/courses', [App\Http\Controllers\Admin\CourseController::class, 'index'])->name('courses.index');
     Route::post('/courses', [App\Http\Controllers\Admin\CourseController::class, 'store'])->name('courses.store');
+    Route::patch('/courses/{course}', [App\Http\Controllers\Admin\CourseController::class, 'update'])->name('courses.update');
+    Route::delete('/courses/{course}', [App\Http\Controllers\Admin\CourseController::class, 'destroy'])->name('courses.destroy');
+    Route::post('/courses/{course}/toggle-status', [App\Http\Controllers\Admin\CourseController::class, 'toggleStatus'])->name('courses.toggle-status');
     
     // Study Materials
-    Route::get('/materials', [App\Http\Controllers\Admin\StudyMaterialController::class, 'index'])->name('materials.index');
-    Route::get('/materials/create', [App\Http\Controllers\Admin\StudyMaterialController::class, 'create'])->name('materials.create');
-    Route::post('/materials', [App\Http\Controllers\Admin\StudyMaterialController::class, 'store'])->name('materials.store');
+    Route::resource('materials', App\Http\Controllers\Admin\StudyMaterialController::class);
 
     
     // Content Management
     Route::get('/content/blogs', [App\Http\Controllers\Admin\ContentController::class, 'blogs'])->name('content.blogs');
+    Route::get('/content/blogs/create', [App\Http\Controllers\Admin\ContentController::class, 'createBlog'])->name('content.blogs.create');
+    Route::post('/content/blogs', [App\Http\Controllers\Admin\ContentController::class, 'storeBlog'])->name('content.blogs.store');
+    Route::get('/content/blogs/{blog}/edit', [App\Http\Controllers\Admin\ContentController::class, 'editBlog'])->name('content.blogs.edit');
+    Route::patch('/content/blogs/{blog}', [App\Http\Controllers\Admin\ContentController::class, 'updateBlog'])->name('content.blogs.update');
+    Route::delete('/content/blogs/{blog}', [App\Http\Controllers\Admin\ContentController::class, 'destroyBlog'])->name('content.blogs.destroy');
     Route::get('/content/testimonials', [App\Http\Controllers\Admin\ContentController::class, 'testimonials'])->name('content.testimonials');
+    Route::post('/content/testimonials', [App\Http\Controllers\Admin\ContentController::class, 'storeTestimonial'])->name('content.testimonials.store');
+    Route::patch('/content/testimonials/{testimonial}', [App\Http\Controllers\Admin\ContentController::class, 'updateTestimonial'])->name('content.testimonials.update');
+    Route::delete('/content/testimonials/{testimonial}', [App\Http\Controllers\Admin\ContentController::class, 'destroyTestimonial'])->name('content.testimonials.destroy');
     Route::get('/content/faqs', [App\Http\Controllers\Admin\ContentController::class, 'faqs'])->name('content.faqs');
+    Route::post('/content/faqs', [App\Http\Controllers\Admin\ContentController::class, 'storeFaq'])->name('content.faqs.store');
+    Route::patch('/content/faqs/{faq}', [App\Http\Controllers\Admin\ContentController::class, 'updateFaq'])->name('content.faqs.update');
+    Route::delete('/content/faqs/{faq}', [App\Http\Controllers\Admin\ContentController::class, 'destroyFaq'])->name('content.faqs.destroy');
+    Route::get('/content/plans', [App\Http\Controllers\Admin\ContentController::class, 'plans'])->name('content.plans');
+    Route::post('/content/plans', [App\Http\Controllers\Admin\ContentController::class, 'storePlan'])->name('content.plans.store');
+    Route::patch('/content/plans/{plan}', [App\Http\Controllers\Admin\ContentController::class, 'updatePlan'])->name('content.plans.update');
+    Route::delete('/content/plans/{plan}', [App\Http\Controllers\Admin\ContentController::class, 'destroyPlan'])->name('content.plans.destroy');
+
+    Route::get('/settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });

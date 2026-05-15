@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'LokSewa Tayari') }} - Login</title>
+    <title>{{ $site_settings['site_name'] ?? 'LokSewa Tayari' }} - Login</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -18,134 +23,272 @@
     @endif
 
     <style>
-        body {
-            background-color: var(--light-bg);
-            background-image: radial-gradient(circle at top left, rgba(249,115,22,0.05), transparent 40%),
-                              radial-gradient(circle at bottom right, rgba(30,58,138,0.05), transparent 40%);
+        :root {
+            --primary-blue: #1e3a8a;
+            --accent-orange: #f97316;
+            --dark-navy: #0f172a;
         }
-        .login-card {
-            border: none;
-            border-radius: 1rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            background: #fff;
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 100vh;
+            width: 100%;
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8fafc;
         }
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
+        .split-container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .visual-side {
+            flex: 1;
+            background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            position: relative;
+            height: 100%;
+            color: white;
+            overflow: hidden;
+        }
+        .visual-side::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .form-side {
+            flex: 1;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            z-index: 2;
+            height: 100%;
+            overflow-y: auto;
+        }
+        @media (min-width: 992px) {
+            .visual-side { display: flex; }
+            .form-side { padding: 4rem 6rem; max-width: 650px; }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
         }
         .form-control {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(0,0,0,0.1);
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 0.85rem 1.25rem;
+            border-radius: 12px;
+            transition: all 0.3s;
         }
         .form-control:focus {
+            background-color: white;
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 0.25rem rgba(30, 58, 138, 0.15);
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
         }
-        .brand-logo-container {
-            width: 80px;
-            height: 80px;
-            background: rgba(30, 58, 138, 0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem auto;
+        .btn-login {
+            background: linear-gradient(to right, var(--primary-blue), #1e40af);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
+            transition: all 0.3s;
         }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(30, 58, 138, 0.3);
+            color: white;
+        }
+        .social-btn {
+            transition: all 0.3s;
+            border-color: #e2e8f0 !important;
+        }
+        .social-btn:hover {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            transform: translateY(-2px);
+        }
+        .floating-icon {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .letter-spacing-1 { letter-spacing: 1px; }
     </style>
 </head>
-<body class="d-flex align-items-center min-vh-100 py-5">
+<body>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-                <div class="card login-card overflow-hidden">
-                    <div class="card-body p-4 p-md-5">
-                        
-                        <div class="login-header">
-                            <a href="{{ url('/') }}" class="text-decoration-none">
-                                <div class="brand-logo-container">
-                                    <i class="bi bi-journal-bookmark-fill fs-1 text-primary-blue"></i>
-                                </div>
-                            </a>
-                            <h3 class="fw-bold mb-1">Welcome Back!</h3>
-                            <p class="text-muted small">Sign in to continue your LokSewa preparation</p>
+    <div class="split-container">
+        <!-- Visual Side -->
+        <div class="visual-side">
+            <div class="text-center mb-5">
+                <a href="{{ url('/') }}" class="text-decoration-none text-white d-inline-flex align-items-center gap-3 mb-5">
+                    @if(isset($site_settings['site_logo']))
+                        <img src="{{ asset('storage/' . $site_settings['site_logo']) }}" alt="Logo" style="height: 50px; filter: brightness(0) invert(1);">
+                    @else
+                        <div class="bg-accent-orange p-3 rounded-4 shadow">
+                            <i class="bi bi-journal-bookmark-fill fs-2"></i>
                         </div>
-                        
-                        <!-- Session Status -->
-                        @if (session('status'))
-                            <div class="alert alert-success mb-4" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                    @endif
+                    <h2 class="fw-bold m-0">{{ $site_settings['site_name'] ?? 'LokSewa Tayari' }}</h2>
+                </a>
+            </div>
 
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            
-                            <!-- Email Address -->
-                            <div class="mb-4">
-                                <label for="email" class="form-label fw-medium text-dark small mb-1">Email Address</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white text-muted">
-                                        <i class="bi bi-envelope"></i>
-                                    </span>
-                                    <input id="email" class="form-control border-start-0 ps-0" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="Enter your email">
-                                </div>
-                                @error('email')
-                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Password -->
-                            <div class="mb-4">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <label for="password" class="form-label fw-medium text-dark small mb-0">Password</label>
-                                    @if (Route::has('password.request'))
-                                        <a class="small text-decoration-none text-accent-orange" href="{{ route('password.request') }}">
-                                            Forgot password?
-                                        </a>
-                                    @endif
-                                </div>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white text-muted">
-                                        <i class="bi bi-lock"></i>
-                                    </span>
-                                    <input id="password" class="form-control border-start-0 ps-0" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
-                                </div>
-                                @error('password')
-                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Remember Me -->
-                            <div class="mb-4 form-check">
-                                <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-                                <label class="form-check-label text-muted small" for="remember_me">
-                                    Remember me
-                                </label>
-                            </div>
-
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-primary-custom btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
-                                    Sign In <i class="bi bi-arrow-right"></i>
-                                </button>
-                            </div>
-                            
-                            @if (Route::has('register'))
-                            <div class="text-center mt-4">
-                                <p class="text-muted small mb-0">
-                                    Don't have an account? <a href="{{ route('register') }}" class="text-primary-blue fw-bold text-decoration-none hover-text-primary">Create an account</a>
-                                </p>
-                            </div>
-                            @endif
-                            
-
-                        </form>
+            <div class="glass-card floating-icon">
+                <h4 class="fw-bold mb-4">Welcome Back, Scholar!</h4>
+                <p class="text-white-50 mb-5">Continue your journey towards excellence. Log in to access your dashboard, saved materials, and mock test results.</p>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-shield-check text-accent-orange fs-4"></i>
+                        <span class="small">Secure Authentication</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-lightning-charge text-accent-orange fs-4"></i>
+                        <span class="small">Instant Access to Study Sets</span>
                     </div>
                 </div>
+            </div>
+
+            <div class="position-absolute bottom-0 start-0 p-5 text-white-50 small">
+                &copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'LokSewa Tayari' }} Platform
+            </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="form-side">
+            <div class="mx-auto w-100" style="max-width: 450px;">
+                <div class="mb-5">
+                    <h2 class="fw-bold text-dark mb-2">Welcome Back!</h2>
+                    <p class="text-muted">Enter your credentials to continue.</p>
+                </div>
+
+                {{-- Error Messages --}}
+                @if (session('error'))
+                    <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4 py-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-exclamation-octagon-fill fs-4 text-danger"></i>
+                            <div>
+                                <div class="fw-bold">Login Error</div>
+                                <div class="small">{{ session('error') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if (session('status'))
+                    <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 py-3">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                {{-- Social Logins --}}
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <a href="{{ route('social.redirect', 'google') }}" class="btn btn-outline-light w-100 py-3 rounded-4 d-flex align-items-center justify-content-center gap-3 border text-dark fw-bold social-btn">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" style="height: 20px;">
+                            Sign in with Google
+                        </a>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <hr class="flex-grow-1 text-muted opacity-25">
+                    <span class="extra-small fw-bold text-muted text-uppercase letter-spacing-1">OR CONTINUE WITH EMAIL</span>
+                    <hr class="flex-grow-1 text-muted opacity-25">
+                </div>
+
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    
+                    <!-- Email Address -->
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted">EMAIL ADDRESS</label>
+                        <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" 
+                               required autofocus autocomplete="username" placeholder="e.g. yourname@example.com">
+                        @error('email')
+                            <div class="text-danger extra-small mt-2 fw-bold"><i class="bi bi-exclamation-triangle me-1"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label small fw-bold text-muted mb-0">PASSWORD</label>
+                            @if (Route::has('password.request'))
+                                <a class="extra-small text-decoration-none text-accent-orange fw-bold" href="{{ route('password.request') }}">
+                                    Forgot password?
+                                </a>
+                            @endif
+                        </div>
+                        <div class="position-relative">
+                            <input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+                            <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 text-muted pe-3" onclick="togglePassword('password', this)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <div class="text-danger extra-small mt-2 fw-bold"><i class="bi bi-exclamation-triangle me-1"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-check mb-5">
+                        <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
+                        <label class="form-check-label small text-muted" for="remember_me">
+                            Keep me logged in
+                        </label>
+                    </div>
+
+                    <div class="d-grid mb-5">
+                        <button type="submit" class="btn btn-login btn-lg shadow">
+                            SIGN IN <i class="bi bi-chevron-right ms-2"></i>
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-muted small">
+                            Don't have an account? <a href="{{ route('register') }}" class="text-primary-blue fw-bold text-decoration-none">Create Account</a>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
+    <script>
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
+    </script>
 </body>
 </html>

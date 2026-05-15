@@ -13,9 +13,9 @@
     <div class="card border-0 shadow-sm rounded-4 bg-white">
         <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
             <h5 class="fw-bold mb-0">Existing Blogs</h5>
-            <button class="btn btn-primary-blue rounded-pill px-4 btn-sm">
+            <a href="{{ route('admin.content.blogs.create') }}" class="btn btn-primary-blue rounded-pill px-4 btn-sm">
                 <i class="bi bi-plus-lg me-2"></i>New Blog Post
-            </button>
+            </a>
         </div>
         <div class="card-body p-4">
             <div class="table-responsive">
@@ -24,33 +24,49 @@
                         <tr>
                             <th class="text-muted small fw-medium text-uppercase border-0">Blog Title</th>
                             <th class="text-muted small fw-medium text-uppercase border-0">Author</th>
-                            <th class="text-muted small fw-medium text-uppercase border-0">Views</th>
+                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Status</th>
+                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Views</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($blogs as $blog)
+                        @forelse($blogs as $blog)
                         <tr>
                             <td class="border-0">
-                                <div class="fw-bold">{{ $blog['title'] }}</div>
-                                <div class="small text-muted">ID: #{{ $blog['id'] }}</div>
+                                <div class="fw-bold text-dark">{{ $blog->title }}</div>
+                                <div class="extra-small text-muted">SLUG: {{ $blog->slug }}</div>
                             </td>
-                            <td class="border-0 small">{{ $blog['author'] }}</td>
-                            <td class="border-0 small">
-                                <span class="badge badge-soft-primary px-3">{{ number_format($blog['views']) }} views</span>
+                            <td class="border-0 small text-muted">{{ $blog->author->name ?? 'Unknown' }}</td>
+                            <td class="border-0 text-center">
+                                @if($blog->is_published)
+                                    <span class="badge bg-success bg-opacity-10 text-success px-3 rounded-pill extra-small">Published</span>
+                                @else
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 rounded-pill extra-small">Draft</span>
+                                @endif
+                            </td>
+                            <td class="border-0 text-center small">
+                                <span class="fw-bold text-primary-blue">{{ number_format($blog->views) }}</span>
                             </td>
                             <td class="border-0 text-end">
-                                <div class="btn-group">
-                                    <button class="btn btn-sm btn-light rounded-pill px-3 me-2">
-                                        <i class="bi bi-pencil me-1"></i>Edit
-                                    </button>
-                                    <button class="btn btn-sm btn-light text-danger rounded-pill px-3">
-                                        <i class="bi bi-trash me-1"></i>Delete
-                                    </button>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ route('admin.content.blogs.edit', $blog) }}" class="btn btn-sm btn-soft-primary rounded-3 p-2">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('admin.content.blogs.destroy', $blog) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this blog post?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-soft-danger rounded-3 p-2">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted small italic">No blog posts found. Start by creating one!</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -21,12 +21,14 @@ class ServiceController extends Controller
     public function notes($slug)
     {
         $title = Str::headline($slug);
-        // In real app, we would link slug to a Course ID. For now, simulate.
-        $materials = StudyMaterial::where('category', 'like', "%$slug%")->latest()->get();
+        $materials = StudyMaterial::where('category', 'like', "%$slug%")
+            ->where('type', 'note')
+            ->latest()
+            ->get();
         
         // If empty, just show some default ones for demo
         if ($materials->isEmpty()) {
-            $materials = StudyMaterial::latest()->take(3)->get();
+            $materials = StudyMaterial::where('type', 'note')->latest()->take(3)->get();
         }
 
         return view('service.notes', compact('title', 'slug', 'materials'));
@@ -35,13 +37,31 @@ class ServiceController extends Controller
     public function questions($slug)
     {
         $title = Str::headline($slug);
-        return view('service.questions', compact('title', 'slug'));
+        $materials = StudyMaterial::where('category', 'like', "%$slug%")
+            ->whereIn('type', ['pyq', 'model'])
+            ->latest()
+            ->get();
+
+        if ($materials->isEmpty()) {
+            $materials = StudyMaterial::whereIn('type', ['pyq', 'model'])->latest()->take(3)->get();
+        }
+
+        return view('service.questions', compact('title', 'slug', 'materials'));
     }
 
     public function syllabus($slug)
     {
         $title = Str::headline($slug);
-        return view('service.syllabus', compact('title', 'slug'));
+        $materials = StudyMaterial::where('category', 'like', "%$slug%")
+            ->where('type', 'syllabus')
+            ->latest()
+            ->get();
+
+        if ($materials->isEmpty()) {
+            $materials = StudyMaterial::where('type', 'syllabus')->latest()->take(1)->get();
+        }
+
+        return view('service.syllabus', compact('title', 'slug', 'materials'));
     }
 
     public function mockTests($slug)

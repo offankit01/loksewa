@@ -4,12 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="@yield('meta_description', 'LokSewa Tayari Platform - The best place to prepare for LokSewa exams.')">
+    <meta name="description" content="@yield('meta_description', $site_settings['site_description'] ?? 'LokSewa Tayari Platform - The best place to prepare for LokSewa exams.')">
 
-    <title>@yield('title', config('app.name', 'LokSewa Tayari'))</title>
+    <title>@yield('title', $site_settings['site_name'] ?? config('app.name', 'LokSewa Tayari'))</title>
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -25,9 +31,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary-blue d-flex align-items-center" href="{{ url('/') }}">
-                <i class="bi bi-journal-bookmark-fill me-2 fs-3 text-accent-orange"></i>
-                LokSewa Tayari
+            <a class="navbar-brand fw-bold text-primary-blue d-flex align-items-center gap-2" href="{{ url('/') }}">
+                <img src="{{ asset('storage/logo1.png') }}" alt="Logo" style="height: 60px; width: auto;">
+                <span class="fs-3 fw-extrabold text-primary-blue tracking-tight">LokSiksha</span>
             </a>
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -94,16 +100,15 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
-                    <a class="navbar-brand fw-bold text-white d-flex align-items-center mb-3" href="#">
-                        <i class="bi bi-journal-bookmark-fill me-2 fs-3 text-accent-orange"></i>
-                        LokSewa Tayari
+                    <a class="navbar-brand fw-bold text-white d-flex align-items-center mb-3 gap-2" href="{{ url('/') }}">
+                        <img src="{{ asset('storage/logo1.png') }}" alt="Logo" style="height: 80px; width: auto; filter: brightness(0) invert(1);">
+                        <span class="fs-2 fw-extrabold text-white tracking-tight">LokSiksha</span>
                     </a>
-                    <p class="text-white-50 small mb-4">Empowering students across Nepal to achieve their dreams of serving the nation. Quality preparation, accessible to all.</p>
+                    <p class="text-white-50 small mb-4">{{ $site_settings['site_description'] ?? 'Empowering students across Nepal to achieve their dreams of serving the nation.' }}</p>
                     <div class="d-flex gap-3">
-                        <a href="#" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-linkedin"></i></a>
+                        <a href="{{ $site_settings['facebook_url'] ?? '#' }}" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="{{ $site_settings['youtube_url'] ?? '#' }}" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-youtube"></i></a>
+                        <a href="{{ $site_settings['instagram_url'] ?? '#' }}" class="text-white-50 hover-text-white transition fs-5"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
                 
@@ -137,7 +142,7 @@
             </div>
             <hr class="border-secondary mt-5 mb-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50 small">
-                <p class="mb-0">&copy; {{ date('Y') }} LokSewa Tayari Platform. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'LokSewa Tayari' }}. All rights reserved.</p>
                 <p class="mb-0">Made with <i class="bi bi-heart-fill text-danger"></i> for aspirants.</p>
             </div>
         </div>
@@ -145,6 +150,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
     <script>
         window.addEventListener('scroll', function() {

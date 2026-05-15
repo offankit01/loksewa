@@ -19,6 +19,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share settings globally with all views
+        if (! $this->app->runningInConsole()) {
+            try {
+                $settings = \App\Models\Setting::all()->pluck('value', 'key')->toArray();
+                view()->share('site_settings', $settings);
+            } catch (\Exception $e) {
+                // Table might not exist yet during initial setup
+            }
+        }
     }
 }
