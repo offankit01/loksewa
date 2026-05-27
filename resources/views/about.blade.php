@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'About Us - LokSiksha')
+@section('title', 'About Us - LokSewa')
 
 @section('content')
     <!-- About Hero -->
@@ -14,12 +14,12 @@
                         <span class="badge-text">Our Journey</span>
                     </div>
                     <h1 class="display-3 fw-extrabold text-white mb-4">Empowering the Next Generation of <span class="text-accent-orange">Public Leaders</span></h1>
-                    <p class="lead text-white-50 mb-0 fs-4">LokSiksha was founded on a simple belief: that every talented aspirant in Nepal deserves access to world-class preparation tools, regardless of their location.</p>
+                    <p class="lead text-white-50 mb-0 fs-4">LokSewa was founded on a simple belief: that every talented aspirant in Nepal deserves access to world-class preparation tools, regardless of their location.</p>
                 </div>
                 <div class="col-lg-6">
                     <div class="position-relative animate-float">
                         <div class="bg-white bg-opacity-10 p-2 rounded-5 backdrop-blur shadow-2xl">
-                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" alt="About LokSiksha" class="img-fluid rounded-5 shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" alt="About LokSewa" class="img-fluid rounded-5 shadow-lg">
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                     <div class="badge-icon"><i class="bi bi-people-fill"></i></div>
                     <span class="badge-text">The Experts</span>
                 </div>
-                <h2 class="display-5 fw-extrabold mb-3">Meet the Minds Behind LokSiksha</h2>
+                <h2 class="display-5 fw-extrabold mb-3">Meet the Minds Behind LokSewa</h2>
                 <p class="text-muted fs-5">A dedicated team of educators, technologists, and civil service veterans.</p>
             </div>
             <div class="row g-4">
@@ -141,7 +141,7 @@
                             <div class="col-md-5 bg-gradient-dark p-5 text-white d-flex flex-column justify-content-center position-relative overflow-hidden">
                                 <div class="hero-bg-overlay opacity-25"></div>
                                 <div class="position-relative z-1">
-                                    <h2 class="fw-extrabold mb-4 display-6">Share Your LokSiksha Experience</h2>
+                                    <h2 class="fw-extrabold mb-4 display-6">Share Your LokSewa Experience</h2>
                                     <p class="text-white-50 mb-5">Your feedback fuels our innovation and helps thousands of other aspirants find their path.</p>
                                     <div class="d-flex align-items-center gap-4 mb-4">
                                         <div class="icon-circle bg-white bg-opacity-10 text-white">
@@ -206,7 +206,7 @@
                                         <div class="col-12">
                                             <label class="form-label small fw-bold text-muted text-uppercase">Your Story</label>
                                             <div class="input-group-premium">
-                                                <textarea name="content" class="form-control" rows="4" placeholder="Tell us how LokSiksha helped you..." required></textarea>
+                                                <textarea name="content" class="form-control" rows="4" placeholder="Tell us how LokSewa helped you..." required></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -231,7 +231,7 @@
                 <div class="cta-pattern"></div>
                 <div class="position-relative z-1">
                     <h2 class="display-4 fw-extrabold text-white mb-4">Ready to Change Your Life?</h2>
-                    <p class="text-white-50 mb-5 max-w-xl mx-auto fs-5">Join thousands of students who have already started their journey with LokSiksha. Let's make your dream a reality.</p>
+                    <p class="text-white-50 mb-5 max-w-xl mx-auto fs-5">Join thousands of students who have already started their journey with LokSewa. Let's make your dream a reality.</p>
                     <a href="{{ route('register') }}" class="btn btn-accent-custom btn-lg rounded-pill px-5 py-3 shadow-xl hover-scale">
                         Join Now <i class="bi bi-person-plus ms-2"></i>
                     </a>

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Contact Us - LokSiksha')
+@section('title', 'Contact Us - LokSewa')
 
 @section('content')
     <!-- Contact Header -->
@@ -41,8 +41,8 @@
                             </div>
                             <div>
                                 <h6 class="fw-bold mb-1">Email Support</h6>
-                                <p class="text-muted mb-0 small">hello@loksiksha.com</p>
-                                <p class="text-muted mb-0 small">support@loksiksha.com</p>
+                                <p class="text-muted mb-0 small">hello@LokSewa.com</p>
+                                <p class="text-muted mb-0 small">support@LokSewa.com</p>
                             </div>
                         </div>
 

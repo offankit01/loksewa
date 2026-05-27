@@ -12,8 +12,39 @@ class MockTestController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $attempts = TestAttempt::where('user_id', $user->id)
+            ->with('mockTest')
+            ->latest()
+            ->get();
+
+        $totalTests = $attempts->count();
+        
+        $avgScore = $totalTests > 0 
+            ? ($attempts->sum('score') / ($totalTests * 100)) * 100 // Assuming score is out of 100 or relative
+            : 0;
+
+        $totalCorrect = $attempts->sum('correct_answers');
+        $totalQuestions = $attempts->sum('total_questions');
+        $accuracy = $totalQuestions > 0 ? ($totalCorrect / $totalQuestions) * 100 : 0;
+
+        // Mocking weak topics for now, or could be derived from AttemptAnswer
+        $weakTopics = [
+            ['name' => 'General Knowledge', 'score' => 45],
+            ['name' => 'Intelligence Quotient (IQ)', 'score' => 68],
+            ['name' => 'Public Management', 'score' => 32],
+        ];
+
         $mockTests = MockTest::where('is_published', true)->latest()->paginate(9);
-        return view('mock-tests.index', compact('mockTests'));
+        
+        return view('mock-tests.index', compact(
+            'mockTests', 
+            'attempts', 
+            'totalTests', 
+            'avgScore', 
+            'accuracy', 
+            'weakTopics'
+        ));
     }
 
     public function start(MockTest $mockTest)
@@ -47,25 +78,22 @@ class MockTestController extends Controller
     public function submit(Request $request, MockTest $mockTest)
     {
         $userAnswers = json_decode($request->input('answers', '[]'), true);
-        $difficulty = $request->input('difficulty', 'medium');
         
-        // Fetch questions for this test and difficulty to validate
-        $questions = $mockTest->questions()->where('difficulty', $difficulty)->get();
-        if ($questions->isEmpty()) {
-            $questions = $mockTest->questions()->get();
-        }
-
+        $questions = $mockTest->questions()->get();
         $totalQuestions = $questions->count();
         $correctCount = 0;
         $incorrectCount = 0;
         
+        // Pre-create attempt to get ID
         $attempt = TestAttempt::create([
             'user_id' => Auth::id(),
             'mock_test_id' => $mockTest->id,
-            'difficulty' => $difficulty,
-            'score' => 0, // Will update below
-            'time_taken' => 0, // Placeholder
-            'status' => 'completed'
+            'score' => 0,
+            'total_questions' => $totalQuestions,
+            'correct_answers' => 0,
+            'wrong_answers' => 0,
+            'time_taken' => $request->input('time_taken', 0),
+            'completed_at' => now(),
         ]);
 
         foreach ($questions as $index => $q) {
@@ -85,12 +113,14 @@ class MockTestController extends Controller
             ]);
         }
 
-        // Standard LokSewa Scoring: 2 marks per correct, -20% (0.4) for incorrect
-        $marksPerCorrect = 2;
-        $penaltyPerIncorrect = 0.4;
-        $score = ($correctCount * $marksPerCorrect) - ($incorrectCount * $penaltyPerIncorrect);
+        // LokSewa Scoring: 2 marks per correct, -20% (0.4) for incorrect
+        $score = ($correctCount * 2) - ($incorrectCount * 0.4);
         
-        $attempt->update(['score' => max(0, $score)]);
+        $attempt->update([
+            'score' => max(0, $score),
+            'correct_answers' => $correctCount,
+            'wrong_answers' => $incorrectCount,
+        ]);
 
         $result = [
             'title' => $mockTest->title,
@@ -99,15 +129,11 @@ class MockTestController extends Controller
             'incorrect' => $incorrectCount,
             'unattempted' => $totalQuestions - ($correctCount + $incorrectCount),
             'score' => number_format($score, 2),
-            'percentage' => number_format(($score / ($totalQuestions * 2)) * 100, 1),
-            'status' => ($score / ($totalQuestions * 2)) >= 0.4 ? 'Passed' : 'Failed',
-            'date' => now()->format('M d, Y h:i A')
+            'percentage' => $totalQuestions > 0 ? number_format(($correctCount / $totalQuestions) * 100, 1) : 0,
+            'status' => ($totalQuestions > 0 && ($score / ($totalQuestions * 2)) >= 0.4) ? 'Passed' : 'Failed',
+            'date' => now()->format('M d, Y')
         ];
 
-        return view('service.mock-result', [
-            'result' => $result,
-            'mockTest' => $mockTest,
-            'slug' => 'kharidar' // Fallback for the view logic
-        ]);
+        return view('service.mock-result', compact('result', 'mockTest', 'attempt'));
     }
 }

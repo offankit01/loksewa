@@ -74,6 +74,65 @@ class MockTestController extends Controller
         return redirect()->route('admin.tests.index')->with('success', 'Manual Mock Test created successfully.');
     }
 
+    public function edit(MockTest $test)
+    {
+        $test->load('questions');
+        $courses = \App\Models\Course::where('is_active', true)->orderBy('title')->get();
+        
+        $mainCategories = [
+            ['id' => 'admin', 'name' => 'Nepal Administrative Service', 'name_nep' => 'नेपाल प्रशासन सेवा', 'icon' => 'bi-briefcase'],
+            ['id' => 'police', 'name' => 'Nepal Police Service', 'name_nep' => 'नेपाल प्रहरी सेवा', 'icon' => 'bi-shield-shaded'],
+            ['id' => 'army', 'name' => 'Nepal Army Service', 'name_nep' => 'नेपाली सेना सेवा', 'icon' => 'bi-shield-fill-check'],
+            ['id' => 'judicial', 'name' => 'Nepal Judicial Service', 'name_nep' => 'नेपाल न्याय सेवा', 'icon' => 'bi-balance-scale'],
+            ['id' => 'foreign', 'name' => 'Nepal Foreign Affairs', 'name_nep' => 'नेपाल परराष्ट्र सेवा', 'icon' => 'bi-globe-asia-australia'],
+            ['id' => 'audit', 'name' => 'Nepal Audit Service', 'name_nep' => 'नेपाल लेखापरीक्षण सेवा', 'icon' => 'bi-calculator'],
+            ['id' => 'parliament', 'name' => 'Nepal Parliamentary', 'name_nep' => 'नेपाल संसदीय सेवा', 'icon' => 'bi-building'],
+            ['id' => 'technical', 'name' => 'Technical Services', 'name_nep' => 'प्राविधिक सेवाहरू', 'icon' => 'bi-tools'],
+        ];
+
+        return view('admin.tests.edit', compact('test', 'courses', 'mainCategories'));
+    }
+
+    public function update(Request $request, MockTest $test)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
+            'time_limit' => 'required|integer|min:1',
+            'difficulty' => 'required|in:easy,medium,hard',
+            'questions' => 'required|array|min:1',
+            'questions.*.text' => 'required|string',
+            'questions.*.a' => 'required|string',
+            'questions.*.b' => 'required|string',
+            'questions.*.c' => 'required|string',
+            'questions.*.d' => 'required|string',
+            'questions.*.correct' => 'required|in:a,b,c,d',
+        ]);
+
+        $test->update([
+            'title' => $request->title,
+            'course_id' => $request->course_id,
+            'time_limit' => $request->time_limit,
+            'difficulty' => $request->difficulty,
+        ]);
+
+        // Replace all questions
+        $test->questions()->delete();
+        foreach ($request->questions as $q) {
+            $test->questions()->create([
+                'question_text' => $q['text'],
+                'option_a' => $q['a'],
+                'option_b' => $q['b'],
+                'option_c' => $q['c'],
+                'option_d' => $q['d'],
+                'correct_option' => $q['correct'],
+                'difficulty' => $request->difficulty,
+            ]);
+        }
+
+        return redirect()->route('admin.tests.index')->with('success', 'Mock Test updated successfully.');
+    }
+
     public function destroy(MockTest $test)
     {
         $test->delete();

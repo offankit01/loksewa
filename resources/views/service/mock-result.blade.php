@@ -92,7 +92,7 @@
                     <p class="text-white-50 mb-4">You have performed better than 75% of candidates who attempted this test today. Focus more on General Knowledge to improve your score.</p>
                     <div class="d-grid gap-3">
                         <a href="{{ route('dashboard') }}" class="btn btn-accent-custom rounded-pill fw-bold py-2">Go to Dashboard</a>
-                        <a href="{{ route('service.mock-attempt', $slug) }}" class="btn btn-outline-light rounded-pill fw-bold py-2">Retake Test</a>
+                        <a href="{{ route('mock-tests.start', $mockTest->slug) }}" class="btn btn-outline-light rounded-pill fw-bold py-2">Retake Test</a>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Knowledge Hub - LokSiksha')
+@section('title', 'Knowledge Hub - LokSewa')
 
 @section('content')
     <!-- Blog Hero -->

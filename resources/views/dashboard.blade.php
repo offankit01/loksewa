@@ -71,7 +71,9 @@
         <div class="course-card h-100 shadow-sm">
             <div class="row align-items-center">
                 <div class="col-md-7">
-                    <span class="badge bg-white text-primary-blue mb-3 px-3 py-2 rounded-pill fw-bold">Active Enrollment</span>
+                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 mb-3 px-3 py-2 rounded-pill fw-bold d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-patch-check-fill text-accent-orange"></i> Active Enrollment
+                    </span>
                     <h2 class="fw-bold mb-2">Nepal Administrative Service</h2>
                     <p class="text-white-50 mb-4">Section Officer (शाखा अधिकृत) - 2081 Batch</p>
                     <div class="d-flex align-items-center gap-3 mb-4">
@@ -116,18 +118,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 text-center">
-                <div class="p-3 bg-white rounded-4 border border-dashed border-primary-blue border-opacity-25">
-                    <p class="small text-muted mb-2">Preparation Streak</p>
-                    <div class="d-flex justify-content-center gap-2">
-                        @foreach(['S','M','T','W','T','F','S'] as $day)
-                            <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold {{ $loop->index < 4 ? 'bg-primary-blue text-white' : 'bg-light text-muted' }}" style="width: 32px; height: 32px; font-size: 0.75rem;">
-                                {{ $day }}
+                    <div class="p-3 bg-white rounded-4 border border-dashed border-primary-blue border-opacity-25">
+                        <p class="small text-muted mb-2">Active Plan</p>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary-blue bg-opacity-10 text-primary-blue rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="bi bi-gem"></i>
                             </div>
-                        @endforeach
+                            <div class="text-start">
+                                <h6 class="fw-bold mb-0 text-dark small">Standard Plan</h6>
+                                <p class="extra-small text-muted mb-0">Expires Dec 24, 2024</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

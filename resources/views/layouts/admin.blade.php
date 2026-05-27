@@ -112,10 +112,18 @@
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.05);
         }
+        
+        .hover-text-white { transition: color 0.2s; }
+        .hover-text-white:hover { color: white !important; }
+        
+        body.admin-layout-body {
+            padding-top: 0 !important;
+            background-color: #f4f7fe; /* Keep dashboard background clean */
+        }
     </style>
     @yield('extra_css')
 </head>
-<body>
+<body class="admin-layout-body">
 
     <!-- Sidebar -->
     <div class="sidebar d-flex flex-column">
@@ -128,7 +136,7 @@
                         <i class="bi bi-shield-lock-fill text-white fs-5"></i>
                     </div>
                 @endif
-                LokSewa <span class="text-accent-orange ms-1">Pro</span>
+                Lok<span class="text-accent-orange ms-1">Siksha</span>
             </h4>
         </div>
         
@@ -179,6 +187,9 @@
                     </a>
                     <div class="collapse {{ Request::is('admin/content*') && !Request::is('admin/content/blogs*') ? 'show' : '' }}" id="contentSubmenu">
                         <div class="submenu-container">
+                            <a href="{{ route('admin.content.features') }}" class="submenu-link {{ Request::is('admin/content/features*') ? 'active' : '' }}">
+                                <i class="bi bi-dot me-1"></i> Feature Cards
+                            </a>
                             <a href="{{ route('admin.content.testimonials') }}" class="submenu-link {{ Request::is('admin/content/testimonials*') ? 'active' : '' }}">
                                 <i class="bi bi-dot me-1"></i> Testimonials
                             </a>
@@ -210,11 +221,11 @@
                 </div>
                 <div class="overflow-hidden">
                     <h6 class="text-white mb-0 small text-truncate">{{ Auth::user()->name }}</h6>
-                    <p class="text-muted extra-small mb-0">System Admin</p>
+                    <p class="text-white-50 extra-small mb-0">System Admin</p>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" class="ms-auto">
                     @csrf
-                    <button type="submit" class="btn btn-link text-muted p-0 border-0">
+                    <button type="submit" class="btn btn-link text-white-50 p-0 border-0 hover-text-white">
                         <i class="bi bi-power fs-5"></i>
                     </button>
                 </form>

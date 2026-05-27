@@ -65,4 +65,14 @@ class User extends Authenticatable
             'otp_expires_at' => 'datetime',
         ];
     }
+
+    public function testAttempts()
+    {
+        return $this->hasMany(TestAttempt::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

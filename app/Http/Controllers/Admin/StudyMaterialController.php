@@ -13,7 +13,7 @@ class StudyMaterialController extends Controller
 {
     public function index()
     {
-        $materials = StudyMaterial::latest()->get();
+        $materials = StudyMaterial::with('course')->latest()->get();
         return view('admin.materials.index', compact('materials'));
     }
 
@@ -21,7 +21,6 @@ class StudyMaterialController extends Controller
     {
         $courses = Course::where('is_active', true)->orderBy('title')->get();
         
-        // Define Main Category mapping for UI
         $mainCategories = [
             ['id' => 'admin', 'name' => 'Nepal Administrative Service', 'name_nep' => 'नेपाल प्रशासन सेवा', 'icon' => 'bi-briefcase'],
             ['id' => 'police', 'name' => 'Nepal Police Service', 'name_nep' => 'नेपाल प्रहरी सेवा', 'icon' => 'bi-shield-shaded'],
@@ -40,12 +39,14 @@ class StudyMaterialController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'category' => 'required|string', // This will be the course slug for simplicity
+            'course_id' => 'required|exists:courses,id',
             'type' => 'required|in:note,pyq,syllabus,model',
             'description' => 'nullable|string',
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:10240', // 10MB limit
+            'file' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:10240',
             'is_premium' => 'boolean'
         ]);
+
+        $course = Course::findOrFail($request->course_id);
 
         $filePath = null;
         if ($request->hasFile('file')) {
@@ -55,9 +56,10 @@ class StudyMaterialController extends Controller
         }
 
         StudyMaterial::create([
+            'course_id' => $request->course_id,
             'title' => $request->title,
             'slug' => Str::slug($request->title . '-' . uniqid()),
-            'category' => $request->category,
+            'category' => $course->slug, // Keep category slug for compatibility
             'type' => $request->type,
             'description' => $request->description ?? null,
             'file_path' => $filePath,
@@ -89,16 +91,19 @@ class StudyMaterialController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'category' => 'required|string',
+            'course_id' => 'required|exists:courses,id',
             'type' => 'required|in:note,pyq,syllabus,model',
             'description' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:10240',
             'is_premium' => 'boolean'
         ]);
 
+        $course = Course::findOrFail($request->course_id);
+
         $data = [
+            'course_id' => $request->course_id,
             'title' => $request->title,
-            'category' => $request->category,
+            'category' => $course->slug,
             'type' => $request->type,
             'description' => $request->description ?? null,
             'is_premium' => $request->has('is_premium'),

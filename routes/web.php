@@ -60,7 +60,6 @@ Route::prefix('service/{slug}')->group(function () {
     Route::get('/syllabus', [ServiceController::class, 'syllabus'])->name('service.syllabus');
     Route::get('/mock-tests', [ServiceController::class, 'mockTests'])->name('service.mock-tests');
     Route::get('/mock-tests/start', [ServiceController::class, 'attemptMock'])->name('service.mock-attempt');
-    Route::post('/mock-tests/submit', [ServiceController::class, 'submitMock'])->name('service.mock-submit');
     Route::post('/enroll', [ServiceController::class, 'enroll'])->name('service.enroll');
 });
 
@@ -77,7 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/settings/email', [App\Http\Controllers\SettingsController::class, 'updateEmail'])->name('settings.email');
     Route::post('/settings/verification', [App\Http\Controllers\SettingsController::class, 'sendVerification'])->name('settings.verification');
     Route::patch('/settings/notifications', [App\Http\Controllers\SettingsController::class, 'updateNotifications'])->name('settings.notifications');
-    Route::patch('/settings/theme', [App\Http\Controllers\SettingsController::class, 'updateTheme'])->name('settings.theme');
     Route::post('/settings/2fa', [App\Http\Controllers\SettingsController::class, 'toggle2FA'])->name('settings.2fa');
     Route::post('/settings/logout-sessions', [App\Http\Controllers\SettingsController::class, 'logoutOtherSessions'])->name('settings.logout-sessions');
 });
@@ -111,6 +109,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/tests', [App\Http\Controllers\Admin\MockTestController::class, 'index'])->name('tests.index');
     Route::get('/tests/create', [App\Http\Controllers\Admin\MockTestController::class, 'create'])->name('tests.create');
     Route::post('/tests', [App\Http\Controllers\Admin\MockTestController::class, 'store'])->name('tests.store');
+    Route::get('/tests/{test}/edit', [App\Http\Controllers\Admin\MockTestController::class, 'edit'])->name('tests.edit');
+    Route::patch('/tests/{test}', [App\Http\Controllers\Admin\MockTestController::class, 'update'])->name('tests.update');
     Route::delete('/tests/{test}', [App\Http\Controllers\Admin\MockTestController::class, 'destroy'])->name('tests.destroy');
     Route::post('/tests/{test}/toggle-publish', [App\Http\Controllers\Admin\MockTestController::class, 'togglePublish'])->name('tests.toggle-publish');
 
@@ -144,6 +144,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/content/plans', [App\Http\Controllers\Admin\ContentController::class, 'storePlan'])->name('content.plans.store');
     Route::patch('/content/plans/{plan}', [App\Http\Controllers\Admin\ContentController::class, 'updatePlan'])->name('content.plans.update');
     Route::delete('/content/plans/{plan}', [App\Http\Controllers\Admin\ContentController::class, 'destroyPlan'])->name('content.plans.destroy');
+    Route::get('/content/features', [App\Http\Controllers\Admin\ContentController::class, 'features'])->name('content.features');
+    Route::post('/content/features', [App\Http\Controllers\Admin\ContentController::class, 'storeFeature'])->name('content.features.store');
+    Route::patch('/content/features/{feature}', [App\Http\Controllers\Admin\ContentController::class, 'updateFeature'])->name('content.features.update');
+    Route::delete('/content/features/{feature}', [App\Http\Controllers\Admin\ContentController::class, 'destroyFeature'])->name('content.features.destroy');
 
     Route::get('/settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');

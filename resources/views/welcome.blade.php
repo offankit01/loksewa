@@ -15,7 +15,7 @@
                     </div>
                     <h1 class="display-2 fw-extrabold mb-4 lh-1">
                         Empower Your <br>
-                        <span class="text-gradient">LokSiksha</span> Journey
+                        <span class="text-gradient">LokSewa</span> Journey
                     </h1>
                     <p class="lead text-muted mb-5 fs-4 fw-light">
                         Unlock your potential with the most advanced LokSewa platform. Expert notes, real-time analytics, and a community of success.
@@ -44,7 +44,7 @@
                 <div class="col-lg-6">
                     <div class="hero-visual position-relative">
                         <div class="hero-glow"></div>
-                        <img src="{{ asset('assets/images/hero.png') }}" alt="LokSiksha Learning" class="img-fluid rounded-5 shadow-2xl animate-float hero-main-img">
+                        <img src="{{ asset('assets/images/hero.png') }}" alt="LokSewa Learning" class="img-fluid rounded-5 shadow-2xl animate-float hero-main-img">
                         
                         <!-- Floating Glass Cards -->
                         <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float" style="top: 15%; right: -5%; z-index: 10;">
@@ -113,19 +113,30 @@
                 <div class="col-lg-6 order-lg-2">
                     <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
                         <div class="badge-icon"><i class="bi bi-patch-check-fill"></i></div>
-                        <span class="badge-text">Why LokSiksha?</span>
+                        <span class="badge-text">Why LokSewa?</span>
                     </div>
                     <h2 class="display-5 fw-extrabold mb-4">Why Aspirants Choose Us?</h2>
                     <p class="text-muted mb-5 fs-5">We provide the most comprehensive ecosystem for your government job preparation journey, trusted by thousands of successful candidates.</p>
                     
                     <div class="row g-4">
+                        @forelse($features as $feature)
+                        <div class="col-md-6">
+                            <div class="feature-card-premium p-4 h-100">
+                                <div class="feature-icon-box bg-{{ $feature->theme_color }}">
+                                    <i class="bi {{ $feature->icon }}"></i>
+                                </div>
+                                <h4 class="fw-bold mb-3">{{ $feature->title }}</h4>
+                                <p class="text-muted small mb-0">{{ $feature->description }}</p>
+                            </div>
+                        </div>
+                        @empty
                         <div class="col-md-6">
                             <div class="feature-card-premium p-4">
                                 <div class="feature-icon-box bg-primary-blue">
-                                    <i class="bi bi-translate"></i>
+                                    <i class="bi bi-person-video3"></i>
                                 </div>
-                                <h4 class="fw-bold mb-3">Bilingual Content</h4>
-                                <p class="text-muted small mb-0">Switch seamlessly between Nepali and English materials with one click.</p>
+                                <h4 class="fw-bold mb-3">Expert Mentorship</h4>
+                                <p class="text-muted small mb-0">Get direct guidance and strategies from former LokSewa officers and toppers.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -137,12 +148,13 @@
                                 <p class="text-muted small mb-0">Real exam simulation with detailed AI-driven performance analytics.</p>
                             </div>
                         </div>
+                        @endforelse
                     </div>
                 </div>
                 <div class="col-lg-6 order-lg-1">
                     <div class="position-relative">
                         <div class="feature-img-glow"></div>
-                        <img src="{{ asset('assets/images/why-us.png') }}" alt="LokSiksha Features" class="img-fluid rounded-5 shadow-2xl position-relative z-1">
+                        <img src="{{ asset('assets/images/why-us.png') }}" alt="LokSewa Features" class="img-fluid rounded-5 shadow-2xl position-relative z-1">
                     </div>
                 </div>
             </div>
@@ -206,7 +218,7 @@
                     <span class="badge-text">Success Stories</span>
                 </div>
                 <h2 class="display-5 fw-extrabold mb-3">Voices of Success</h2>
-                <p class="text-muted fs-5">Join thousands of students who have achieved their dreams with LokSiksha.</p>
+                <p class="text-muted fs-5">Join thousands of students who have achieved their dreams with LokSewa.</p>
             </div>
             <div class="row g-4">
                 @forelse($testimonials as $testimonial)
@@ -236,7 +248,7 @@
                 </div>
                 @empty
                 @foreach([
-                    ['name' => 'Ankit Yadav', 'text' => 'LokSiksha has transformed the way I prepare for LokSewa. The mock tests are incredibly realistic!', 'role' => 'Section Officer Aspirant'],
+                    ['name' => 'Ankit Yadav', 'text' => 'LokSewa has transformed the way I prepare for LokSewa. The mock tests are incredibly realistic!', 'role' => 'Section Officer Aspirant'],
                     ['name' => 'Priya Sharma', 'text' => 'The bilingual notes are a lifesaver. I can switch between Nepali and English easily.', 'role' => 'Nayab Subba Candidate'],
                     ['name' => 'Suman Thapa', 'text' => 'I passed my Kharidar exam thanks to the consistent practice on this platform. Highly recommended!', 'role' => 'Successful Candidate']
                 ] as $item)
@@ -393,8 +405,8 @@
                         </div>
                         @empty
                         @foreach([
-                            ['q' => 'How do I get started with LokSiksha?', 'a' => 'Simply click on the "Get Started" button, create a free account, and you can immediately access our basic study materials and trial mock tests.'],
-                            ['q' => 'Is there a bilingual option for all materials?', 'a' => 'Yes! LokSiksha is designed to be fully bilingual. You can switch between Nepali and English for most of our notes and exam sets.'],
+                            ['q' => 'How do I get started with LokSewa?', 'a' => 'Simply click on the "Get Started" button, create a free account, and you can immediately access our basic study materials and trial mock tests.'],
+                            ['q' => 'Is there a bilingual option for all materials?', 'a' => 'Yes! LokSewa is designed to be fully bilingual. You can switch between Nepali and English for most of our notes and exam sets.'],
                             ['q' => 'How often are the mock tests updated?', 'a' => 'Our expert team updates the test bank weekly to reflect the latest LokSewa patterns and current affairs.']
                         ] as $index => $item)
                         <div class="accordion-item bg-transparent faq-item-custom">

@@ -16,8 +16,8 @@
         <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
             <div class="card-header bg-primary-blue text-white p-4 border-0">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="bg-white bg-opacity-20 p-3 rounded-circle">
-                        <i class="bi bi-cloud-arrow-up fs-3"></i>
+                    <div class="bg-white bg-opacity-10 rounded-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-cloud-arrow-up fs-2"></i>
                     </div>
                     <div>
                         <h5 class="fw-bold mb-1">New Resource Upload</h5>
@@ -26,106 +26,114 @@
                 </div>
             </div>
             
-            <div class="card-body p-4 p-md-5">
+            <div class="card-body p-0">
                 <form action="{{ route('admin.materials.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
-                    <div class="row g-4">
-                        {{-- Resource Title --}}
-                        <div class="col-12">
-                            <label class="form-label fw-bold small">Resource Title</label>
-                            <input type="text" name="title" class="form-control form-control-lg rounded-3 bg-light border-0 @error('title') is-invalid @enderror" 
-                                   value="{{ old('title') }}" placeholder="e.g. Nepal Constitution 2072 Summary" required>
-                            @error('title')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                    {{-- Section 1: Basic Information --}}
+                    <div class="p-4 p-md-5 border-bottom">
+                        <div class="d-flex align-items-center gap-2 mb-4">
+                            <span class="bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 24px; height: 24px; font-size: 12px;">1</span>
+                            <h6 class="fw-bold mb-0 text-primary-blue">Basic Information</h6>
                         </div>
 
-                        {{-- Category Selection (Step 1 & 2) --}}
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold small">Target Exam / Category</label>
-                            <div id="selectedCategoryDisplay" class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#serviceSelectorModal">
-                                <span class="text-muted small" id="selectedCourseName">Select Category...</span>
-                                <i class="bi bi-chevron-down small"></i>
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <label class="form-label fw-bold small">Resource Title</label>
+                                <input type="text" name="title" id="materialTitle" class="form-control form-control-lg rounded-3 bg-light border-0 @error('title') is-invalid @enderror" 
+                                       value="{{ old('title') }}" placeholder="e.g. Nepal Constitution 2072 Summary" required>
+                                <div class="extra-small text-muted mt-1">Slug: <span id="slugPreview" class="text-primary-blue">/resource-title</span></div>
+                                @error('title')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <input type="hidden" name="category" id="course_slug_input" value="{{ old('category') }}" required>
-                            @error('category')
-                                <div class="text-danger extra-small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold small">Resource Type</label>
-                            <div class="row g-2">
-                                <div class="col-6">
-                                    <input type="radio" class="btn-check" name="type" id="type_note" value="note" checked>
-                                    <label class="btn btn-outline-primary w-100 py-2 rounded-3 border-dashed small" for="type_note">
-                                        <i class="bi bi-journal-text me-2"></i>Study Note
-                                    </label>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small">Target Exam / Category</label>
+                                <div id="selectedCategoryDisplay" class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center cursor-pointer hover-shadow transition" data-bs-toggle="modal" data-bs-target="#serviceSelectorModal">
+                                    <span class="text-muted small" id="selectedCourseName">Select Category...</span>
+                                    <i class="bi bi-chevron-down small"></i>
                                 </div>
-                                <div class="col-6">
-                                    <input type="radio" class="btn-check" name="type" id="type_pyq" value="pyq">
-                                    <label class="btn btn-outline-warning w-100 py-2 rounded-3 border-dashed small" for="type_pyq">
-                                        <i class="bi bi-clock-history me-2"></i>PYQ
-                                    </label>
-                                </div>
-                                <div class="col-6">
-                                    <input type="radio" class="btn-check" name="type" id="type_syllabus" value="syllabus">
-                                    <label class="btn btn-outline-info w-100 py-2 rounded-3 border-dashed small" for="type_syllabus">
-                                        <i class="bi bi-list-columns me-2"></i>Syllabus
-                                    </label>
-                                </div>
-                                <div class="col-6">
-                                    <input type="radio" class="btn-check" name="type" id="type_model" value="model">
-                                    <label class="btn btn-outline-success w-100 py-2 rounded-3 border-dashed small" for="type_model">
-                                        <i class="bi bi-file-earmark-check me-2"></i>Model Q.
-                                    </label>
+                                <input type="hidden" name="course_id" id="course_id_input" value="{{ old('course_id') }}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small">Resource Type</label>
+                                <div class="row g-2">
+                                    @foreach(['note' => ['Study Note', 'bi-journal-text', 'primary'], 'pyq' => ['PYQ', 'bi-clock-history', 'warning'], 'syllabus' => ['Syllabus', 'bi-list-columns', 'info'], 'model' => ['Model Q.', 'bi-file-earmark-check', 'success']] as $val => $data)
+                                    <div class="col-6">
+                                        <input type="radio" class="btn-check" name="type" id="type_{{ $val }}" value="{{ $val }}" {{ $val == 'note' ? 'checked' : '' }}>
+                                        <label class="btn btn-outline-{{ $data[2] }} w-100 py-2 rounded-3 border-dashed small d-flex align-items-center justify-content-center gap-2" for="type_{{ $val }}">
+                                            <i class="bi {{ $data[1] }}"></i> {{ $data[0] }}
+                                        </label>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {{-- File Upload Area --}}
-                        <div class="col-12">
-                            <label class="form-label fw-bold small">Upload File (PDF Recommended)</label>
-                            <div class="upload-area p-5 border-dashed rounded-4 text-center bg-light cursor-pointer @error('file') border-danger @enderror" id="dropArea">
-                                <i class="bi bi-file-earmark-pdf text-muted display-4 mb-3 d-block"></i>
-                                <h6 class="fw-bold mb-1">Click to select or drag and drop</h6>
-                                <p class="text-muted extra-small mb-3">PDF, DOCX, JPG, PNG (Max 10MB)</p>
-                                <input type="file" name="file" class="d-none" id="fileInput" required>
-                                <div id="fileNameDisplay" class="badge bg-primary-blue p-2 d-none"></div>
+                    {{-- Section 2: File & Content --}}
+                    <div class="p-4 p-md-5 bg-light bg-opacity-30 border-bottom">
+                        <div class="d-flex align-items-center gap-2 mb-4">
+                            <span class="bg-primary-blue text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 24px; height: 24px; font-size: 12px;">2</span>
+                            <h6 class="fw-bold mb-0 text-primary-blue">Resource File & Access</h6>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <label class="form-label fw-bold small">Upload File</label>
+                                <div class="upload-area p-5 border-dashed rounded-4 text-center bg-white cursor-pointer @error('file') border-danger @enderror" id="dropArea">
+                                    <div id="uploadPlaceholder">
+                                        <i class="bi bi-file-earmark-pdf text-muted display-4 mb-3 d-block"></i>
+                                        <h6 class="fw-bold mb-1">Click to select or drag and drop</h6>
+                                        <p class="text-muted extra-small mb-0">PDF, DOCX, JPG, PNG (Max 10MB)</p>
+                                    </div>
+                                    <div id="fileSelectedView" class="d-none">
+                                        <div class="bg-primary-blue bg-opacity-10 text-primary-blue p-3 rounded-4 d-inline-block mb-3">
+                                            <i class="bi bi-file-check fs-1"></i>
+                                        </div>
+                                        <h6 class="fw-bold mb-1 text-primary-blue" id="fileNameDisplay">Filename.pdf</h6>
+                                        <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none" onclick="resetFileUpload(event)">Change File</button>
+                                    </div>
+                                    <input type="file" name="file" class="d-none" id="fileInput" required>
+                                </div>
+                                @error('file')
+                                    <div class="text-danger extra-small mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('file')
-                                <div class="text-danger extra-small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
 
-                        {{-- Description --}}
-                        <div class="col-12">
-                            <label class="form-label fw-bold small">Short Description (Optional)</label>
-                            <textarea name="description" class="form-control rounded-3 bg-light border-0 @error('description') is-invalid @enderror" rows="3" 
-                                      placeholder="Brief summary of what this resource covers...">{{ old('description') }}</textarea>
-                            @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small">Short Description (Optional)</label>
+                                <textarea name="description" class="form-control rounded-3 bg-white border @error('description') is-invalid @enderror" rows="3" 
+                                          placeholder="Brief summary of what this resource covers...">{{ old('description') }}</textarea>
+                            </div>
 
-                        {{-- Access Level --}}
-                        <div class="col-12">
-                            <div class="form-check form-switch p-3 border rounded-3 bg-light bg-opacity-50">
-                                <input class="form-check-input ms-0 me-3" type="checkbox" name="is_premium" id="is_premium" value="1">
-                                <label class="form-check-label fw-bold small" for="is_premium">
-                                    <i class="bi bi-star-fill text-warning me-2"></i>Mark as Premium Content
-                                </label>
-                                <div class="extra-small text-muted ms-5 mt-1">Premium users will have exclusive access to this resource.</div>
+                            <div class="col-12">
+                                <div class="p-3 border rounded-4 bg-white shadow-sm d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-warning bg-opacity-10 p-3 rounded-circle text-warning">
+                                            <i class="bi bi-star-fill fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">Premium Resource</h6>
+                                            <p class="mb-0 extra-small text-muted">Restrict access to pro members only</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-switch fs-4">
+                                        <input class="form-check-input cursor-pointer" type="checkbox" name="is_premium" id="is_premium" value="1">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        {{-- Submit --}}
-                        <div class="col-12 mt-5">
-                            <button type="submit" class="btn btn-primary-blue w-100 py-3 rounded-pill fw-bold shadow-sm">
-                                <i class="bi bi-check-circle me-2"></i>Publish Resource Now
-                            </button>
-                        </div>
+                    {{-- Section 3: Finalize --}}
+                    <div class="p-4 p-md-5 text-center">
+                        <p class="small text-muted mb-4"><i class="bi bi-info-circle me-1"></i> Once published, this resource will be immediately available to students in the selected category.</p>
+                        <button type="submit" class="btn btn-primary-blue btn-lg px-5 rounded-pill fw-bold shadow-lg">
+                            <i class="bi bi-cloud-upload me-2"></i>Publish Resource Now
+                        </button>
                     </div>
                 </form>
             </div>
@@ -275,7 +283,7 @@
                     const col = document.createElement('div');
                     col.className = 'col-md-6';
                     col.innerHTML = `
-                        <div class="card border rounded-3 p-3 cursor-pointer hover-shadow bg-white" onclick="selectCourse('${course.slug}', '${course.title}')">
+                        <div class="card border rounded-3 p-3 cursor-pointer hover-shadow bg-white" onclick="selectCourse(${course.id}, '${course.title}')">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="bg-accent-orange rounded-circle p-1" style="width: 8px; height: 8px;"></div>
@@ -298,44 +306,76 @@
         document.getElementById('categoryStep').classList.remove('d-none');
     }
 
-    function selectCourse(slug, title) {
-        document.getElementById('course_slug_input').value = slug;
+    function selectCourse(id, title) {
+        document.getElementById('course_id_input').value = id;
         document.getElementById('selectedCourseName').textContent = title;
         document.getElementById('selectedCourseName').classList.remove('text-muted');
         document.getElementById('selectedCourseName').classList.add('text-dark', 'fw-bold');
         bootstrap.Modal.getInstance(document.getElementById('serviceSelectorModal')).hide();
     }
 
-    const dropArea = document.getElementById('dropArea');
     const fileInput = document.getElementById('fileInput');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const dropArea = document.getElementById('dropArea');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+    const fileSelectedView = document.getElementById('fileSelectedView');
 
     dropArea.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', function() {
         if (this.files && this.files[0]) {
-            fileNameDisplay.textContent = 'Selected: ' + this.files[0].name;
-            fileNameDisplay.classList.remove('d-none');
-            dropArea.querySelector('i').classList.remove('text-muted');
-            dropArea.querySelector('i').classList.add('text-primary-blue');
+            fileNameDisplay.textContent = this.files[0].name;
+            uploadPlaceholder.classList.add('d-none');
+            fileSelectedView.classList.remove('d-none');
         }
     });
 
-    dropArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropArea.style.borderColor = 'var(--primary-blue)';
-        dropArea.style.background = '#f8f9ff';
+    function resetFileUpload(e) {
+        e.stopPropagation();
+        fileInput.value = '';
+        uploadPlaceholder.classList.remove('d-none');
+        fileSelectedView.classList.add('d-none');
+    }
+
+    // Slug Preview Logic
+    const titleInput = document.getElementById('materialTitle');
+    const slugPreview = document.getElementById('slugPreview');
+
+    titleInput.addEventListener('input', function() {
+        const slug = this.value
+            .toLowerCase()
+            .replace(/[^\w ]+/g, '')
+            .replace(/ +/g, '-');
+        slugPreview.textContent = '/' + (slug || 'resource-title');
     });
 
-    dropArea.addEventListener('dragleave', () => {
-        dropArea.style.borderColor = '#dee2e6';
-        dropArea.style.background = '#f8f9f9';
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
     });
 
-    dropArea.addEventListener('drop', (e) => {
+    function preventDefaults (e) {
         e.preventDefault();
-        fileInput.files = e.dataTransfer.files;
-        fileInput.dispatchEvent(new Event('change'));
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => dropArea.classList.add('border-primary'), false);
     });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, () => dropArea.classList.remove('border-primary'), false);
+    });
+
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        if (files.length > 0) {
+            fileNameDisplay.textContent = 'Selected: ' + files[0].name;
+            fileNameDisplay.classList.remove('d-none');
+        }
+    }
 </script>
 @endsection

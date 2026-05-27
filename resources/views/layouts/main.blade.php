@@ -29,11 +29,12 @@
 <body class="@yield('body_class')">
 
     <!-- Navbar -->
+    @if(!isset($hide_nav_footer) || !$hide_nav_footer)
     <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom py-3">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary-blue d-flex align-items-center gap-2" href="{{ url('/') }}">
                 <img src="{{ asset('storage/logo1.png') }}" alt="Logo" style="height: 60px; width: auto;">
-                <span class="fs-3 fw-extrabold text-primary-blue tracking-tight">LokSiksha</span>
+                <span class="fs-3 fw-extrabold text-primary-blue tracking-tight">LokSewa</span>
             </a>
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -70,7 +71,11 @@
                     @if (Route::has('login'))
                         @auth
                             <div class="d-flex align-items-center gap-3">
-                                <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary border-primary-blue text-primary-blue">Dashboard</a>
+                                @if(Auth::user()->is_admin)
+                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-primary border-primary-blue text-primary-blue">Admin Panel</a>
+                                @else
+                                    <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary border-primary-blue text-primary-blue">Dashboard</a>
+                                @endif
                                 <form method="POST" action="{{ route('logout') }}" class="m-0">
                                     @csrf
                                     <button type="submit" class="btn btn-primary-custom">
@@ -89,20 +94,40 @@
             </div>
         </div>
     </nav>
+    @endif
 
     <!-- Page Content -->
     <main>
+        @if(session('success'))
+            <div class="container mt-4">
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-4" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="container mt-4">
+                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm rounded-4" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 
     <!-- Footer -->
+    @if(!isset($hide_nav_footer) || !$hide_nav_footer)
     <footer class="footer py-5 bg-dark text-white">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <a class="navbar-brand fw-bold text-white d-flex align-items-center mb-3 gap-2" href="{{ url('/') }}">
                         <img src="{{ asset('storage/logo1.png') }}" alt="Logo" style="height: 80px; width: auto; filter: brightness(0) invert(1);">
-                        <span class="fs-2 fw-extrabold text-white tracking-tight">LokSiksha</span>
+                        <span class="fs-2 fw-extrabold text-white tracking-tight">LokSewa</span>
                     </a>
                     <p class="text-white-50 small mb-4">{{ $site_settings['site_description'] ?? 'Empowering students across Nepal to achieve their dreams of serving the nation.' }}</p>
                     <div class="d-flex gap-3">
@@ -147,6 +172,7 @@
             </div>
         </div>
     </footer>
+    @endif
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>

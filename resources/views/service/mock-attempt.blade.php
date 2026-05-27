@@ -1,10 +1,16 @@
 @extends('layouts.main')
 
+@php
+    $hide_nav_footer = true;
+@endphp
+
 @section('title', 'Attempting ' . $mockTest->title)
+
+@section('body_class', 'exam-mode')
 
 @section('extra_css')
     <style>
-        body { background-color: #f8f9fa; }
+        body.exam-mode { padding-top: 0 !important; background-color: #f8f9fa; }
         .test-header { background: white; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; }
         .timer-badge { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; font-family: monospace; }
         .question-card { background: white; border-radius: 1.25rem; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
@@ -35,6 +41,9 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-4">
+                    <button class="btn btn-outline-primary-blue rounded-pill px-4 fw-bold small" onclick="showReviewGrid()">
+                        <i class="bi bi-grid-3x3-gap me-2"></i> Review All
+                    </button>
                     <div class="timer-badge px-4 py-2 rounded-pill d-flex align-items-center gap-2">
                         <i class="bi bi-clock-history"></i>
                         <span class="fw-bold fs-5" id="timer">{{ $mockTest->time_limit }}:00</span>
@@ -109,9 +118,15 @@
                             <button class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold" onclick="prevQuestion({{ $index }})" {{ $index == 0 ? 'disabled' : '' }}>
                                 <i class="bi bi-arrow-left me-2"></i> Previous
                             </button>
-                            <button class="btn btn-primary-blue rounded-pill px-5 py-2 fw-bold shadow-lg" onclick="nextQuestion({{ $index }})">
-                                {{ $index == count($questions) - 1 ? 'Review All' : 'Next Question' }} <i class="bi bi-arrow-right ms-2"></i>
-                            </button>
+                            @if($index == count($questions) - 1)
+                                <button class="btn btn-primary-blue rounded-pill px-5 py-2 fw-bold shadow-lg" onclick="showCompletionModal()">
+                                    Submit Test <i class="bi bi-check2-all ms-2"></i>
+                                </button>
+                            @else
+                                <button class="btn btn-primary-blue rounded-pill px-5 py-2 fw-bold shadow-lg" onclick="nextQuestion({{ $index }})">
+                                    Next Question <i class="bi bi-arrow-right ms-2"></i>
+                                </button>
+                            @endif
                         </div>
                     </div>
                     @endforeach
@@ -145,10 +160,71 @@
         </div>
     </div>
 
+    <!-- Review Grid Modal -->
+    <div class="modal fade" id="reviewGridModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-0 pt-4 px-4">
+                    <h5 class="fw-bold m-0"><i class="bi bi-grid-3x3-gap text-primary-blue me-2"></i>Review All Questions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-3 mb-4">
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded-3 text-center">
+                                <h4 class="fw-bold mb-0 text-success" id="answeredCount">0</h4>
+                                <div class="extra-small text-muted text-uppercase">Answered</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded-3 text-center">
+                                <h4 class="fw-bold mb-0 text-danger" id="unansweredCount">0</h4>
+                                <div class="extra-small text-muted text-uppercase">Unanswered</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3 bg-light rounded-3 text-center">
+                                <h4 class="fw-bold mb-0 text-primary-blue" id="totalCount">{{ count($questions) }}</h4>
+                                <div class="extra-small text-muted text-uppercase">Total</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap gap-3 justify-content-center" id="reviewGridList">
+                        @foreach($questions as $index => $q)
+                        <div class="question-nav-btn" style="width: 50px; height: 50px; font-size: 1.1rem;" onclick="goToQuestion({{ $index }})" data-bs-dismiss="modal" id="review-nav-{{ $index }}">
+                            {{ $index + 1 }}
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pb-4 px-4">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Continue Exam</button>
+                    <button type="button" class="btn btn-primary-blue rounded-pill px-4 fw-bold" onclick="showCompletionModal()" data-bs-dismiss="modal">Submit Exam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let currentIdx = 0;
         const totalQuestions = {{ count($questions) }};
         const answers = {};
+
+        function showReviewGrid() {
+            const answered = Object.keys(answers).length;
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('unansweredCount').textContent = totalQuestions - answered;
+            
+            // Sync status to grid
+            for(let i=0; i<totalQuestions; i++) {
+                const btn = document.getElementById(`review-nav-${i}`);
+                if (answers[i]) btn.classList.add('answered');
+                else btn.classList.remove('answered');
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('reviewGridModal'));
+            modal.show();
+        }
 
         function selectOption(qIdx, optionKey) {
             // Remove selection from all options of this question

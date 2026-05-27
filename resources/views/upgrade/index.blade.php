@@ -70,10 +70,12 @@
     <div class="row align-items-center">
         <div class="col-md-8">
             <div class="d-flex align-items-center gap-3 mb-2">
-                <span class="badge bg-white text-primary-blue px-3 py-1 rounded-pill fw-bold small">Current Plan</span>
+                <span class="badge rounded-pill fw-bold small" style="background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem;">
+                    <i class="bi bi-star-fill text-accent-orange me-1"></i> Current Plan
+                </span>
                 <h4 class="fw-bold mb-0 text-white">{{ $currentPlan['name'] }}</h4>
             </div>
-            <p class="text-white-50 mb-0">Your plan is active and expires on **{{ $currentPlan['expiry'] }}**.</p>
+            <p class="text-white-50 mb-0">Your plan is active and expires on <span class="text-white fw-bold">{{ $currentPlan['expiry'] }}</span>.</p>
         </div>
         <div class="col-md-4 text-md-end mt-3 mt-md-0">
             <div class="bg-white bg-opacity-10 p-3 rounded-4 d-inline-block text-start">

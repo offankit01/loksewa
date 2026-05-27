@@ -130,34 +130,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach([
-                        ['name' => 'Section Officer - Paper I', 'score' => '62.00', 'accuracy' => '78%', 'status' => 'Passed', 'date' => 'May 02, 2026'],
-                        ['name' => 'Kharidar - GK Set', 'score' => '45.50', 'accuracy' => '62%', 'status' => 'Passed', 'date' => 'Apr 28, 2026'],
-                        ['name' => 'Nayab Subba - IQ', 'score' => '32.00', 'accuracy' => '40%', 'status' => 'Failed', 'date' => 'Apr 25, 2026'],
-                        ['name' => 'TSC - Primary Level', 'score' => '55.00', 'accuracy' => '68%', 'status' => 'Passed', 'date' => 'Apr 20, 2026'],
-                        ['name' => 'Bank & Finance - Set 1', 'score' => '28.00', 'accuracy' => '35%', 'status' => 'Failed', 'date' => 'Apr 15, 2026']
-                    ] as $result)
+                    @forelse($attempts as $attempt)
                     <tr>
                         <td class="px-4 border-0 py-3">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-primary-blue bg-opacity-10 text-primary-blue p-2 rounded-3">
                                     <i class="bi bi-journal-check"></i>
                                 </div>
-                                <span class="fw-bold text-dark">{{ $result['name'] }}</span>
+                                <span class="fw-bold text-dark">{{ $attempt->mockTest->title ?? 'Deleted Exam' }}</span>
                             </div>
                         </td>
                         <td class="text-center border-0 py-3">
-                            <div class="fw-bold">{{ $result['score'] }}</div>
-                            <div class="small text-muted">{{ $result['accuracy'] }} Accuracy</div>
+                            <div class="fw-bold">{{ number_format($attempt->score, 2) }}</div>
+                            <div class="small text-muted">{{ $attempt->total_questions > 0 ? number_format(($attempt->correct_answers / $attempt->total_questions) * 100, 1) : 0 }}% Accuracy</div>
                         </td>
                         <td class="text-center border-0 py-3">
-                            <span class="badge {{ $result['status'] == 'Passed' ? 'bg-success' : 'bg-danger' }} bg-opacity-10 {{ $result['status'] == 'Passed' ? 'text-success' : 'text-danger' }} px-3 py-2 rounded-pill small fw-bold">
-                                {{ $result['status'] }}
+                            @php
+                                $isPassed = $attempt->total_questions > 0 && ($attempt->score / ($attempt->total_questions * 2)) >= 0.4;
+                            @endphp
+                            <span class="badge {{ $isPassed ? 'bg-success' : 'bg-danger' }} bg-opacity-10 {{ $isPassed ? 'text-success' : 'text-danger' }} px-3 py-2 rounded-pill small fw-bold">
+                                {{ $isPassed ? 'Passed' : 'Failed' }}
                             </span>
                         </td>
-                        <td class="text-end px-4 border-0 py-3 text-muted small">{{ $result['date'] }}</td>
+                        <td class="text-end px-4 border-0 py-3 text-muted small">{{ $attempt->completed_at ? $attempt->completed_at->format('M d, Y') : $attempt->created_at->format('M d, Y') }}</td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <i class="bi bi-clipboard-x fs-2 d-block mb-2 opacity-25"></i>
+                            You haven't taken any mock tests yet.
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

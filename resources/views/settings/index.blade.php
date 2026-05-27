@@ -72,53 +72,6 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
 
-    .exam-tag {
-        padding: 0.6rem 1.2rem;
-        border-radius: 12px;
-        border: 2px solid #f1f5f9;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-weight: 700;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin: 0 0.75rem 0.75rem 0;
-        background: white;
-    }
-    
-    .exam-tag.active {
-        border-color: var(--primary-blue);
-        background: var(--primary-blue);
-        color: white;
-        box-shadow: 0 5px 15px rgba(30, 58, 138, 0.2);
-    }
-
-    .theme-picker {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-    }
-    
-    .theme-option {
-        padding: 2rem 1.5rem;
-        border-radius: 1.5rem;
-        border: 2px solid #f1f5f9;
-        cursor: pointer;
-        text-align: center;
-        transition: all 0.3s;
-        background: #fafbfc;
-    }
-    
-    .theme-option:hover {
-        border-color: #e2e8f0;
-        background: white;
-    }
-    
-    .theme-option.active {
-        border-color: var(--primary-blue);
-        background: white;
-        box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1);
-    }
-
     .form-control-custom {
         border-radius: 14px;
         padding: 0.9rem 1.25rem;
@@ -169,11 +122,6 @@
         <i class="bi bi-bell-fill me-2"></i> <strong>Notification preferences saved!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-@elseif(session('status') === 'theme-updated')
-    <div class="alert alert-success alert-dismissible fade show rounded-4 mb-4 shadow-sm" role="alert">
-        <i class="bi bi-palette-fill me-2"></i> <strong>Theme preference saved!</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
 @elseif(session('status') === '2fa-enabled')
     <div class="alert alert-success alert-dismissible fade show rounded-4 mb-4 shadow-sm" role="alert">
         <i class="bi bi-shield-fill-check me-2"></i> <strong>Two-Factor Authentication enabled!</strong>
@@ -205,7 +153,7 @@
                 @endif
             </div>
             <div class="settings-section-body">
-                <form method="POST" action="{{ route('settings.email') }}">
+                <form method="POST" action="{{ route('settings.email') }}" class="mb-4">
                     @csrf
                     @method('PATCH')
                     <div class="mb-4">
@@ -219,19 +167,32 @@
                             <div class="text-danger small mt-2"><i class="bi bi-exclamation-circle me-1"></i>{{ $message }}</div>
                         @enderror
                     </div>
-
-                    @if(!$user->hasVerifiedEmail())
-                    <div class="p-3 bg-warning bg-opacity-10 rounded-4 border border-warning border-opacity-20 mb-4">
-                        <p class="small text-warning-emphasis mb-2 fw-bold"><i class="bi bi-exclamation-triangle me-1"></i>Your email address is not verified.</p>
-                        <form method="POST" action="{{ route('settings.verification') }}" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold">Resend Verification Email</button>
-                        </form>
-                    </div>
-                    @endif
-
                     <button type="submit" class="btn-save-custom w-100">Update Email Address</button>
                 </form>
+
+                @if(!$user->hasVerifiedEmail())
+                <div class="p-3 bg-warning bg-opacity-10 rounded-4 border border-warning border-opacity-20">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="small text-warning-emphasis mb-0 fw-bold"><i class="bi bi-exclamation-triangle me-1"></i>Your email address is not verified.</p>
+                        </div>
+                        <form method="POST" action="{{ route('settings.verification') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold">Resend Link</button>
+                        </form>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </section>
+
+        {{-- Password & Security --}}
+        <section id="security" class="settings-section-card shadow-sm">
+            <div class="settings-section-header">
+                <h5 class="fw-bold mb-0">Password & Security</h5>
+            </div>
+            <div class="settings-section-body">
+                @include('profile.partials.update-password-form')
             </div>
         </section>
 
@@ -264,49 +225,22 @@
                             <p class="text-muted small mb-0">Use an authenticator app like Google Authenticator or Authy.</p>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="toggle2FA" {{ $user->two_fa_enabled ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" id="toggle2FA" {{ $user->two_fa_enabled ? 'checked' : '' }} onchange="this.form.submit()">
                         </div>
                     </div>
-
-                    @if($user->two_fa_enabled)
-                    <div class="mt-4 p-4 border border-success border-opacity-20 rounded-4 bg-success bg-opacity-5">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <i class="bi bi-check-circle-fill text-success fs-4"></i>
-                            <div>
-                                <div class="fw-bold">2FA is Active</div>
-                                <div class="text-muted small">Your account is protected with two-step authentication.</div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-outline-danger rounded-pill px-4 fw-bold">Disable 2FA</button>
-                    </div>
-                    @else
-                    <div id="2fa-setup-area" style="display:none;" class="mt-4 p-4 border rounded-4 bg-light">
-                        <p class="small fw-bold text-center mb-3">Scan this QR code with your Authenticator App</p>
-                        <div class="text-center mb-4">
-                            <div class="d-inline-block p-4 bg-white rounded-4 shadow-sm border">
-                                <i class="bi bi-qr-code" style="font-size: 5rem; opacity: 0.15;"></i>
-                                <div class="text-muted small mt-2">QR Code will appear here once 2FA package is configured</div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold small">Enter 6-digit Verification Code</label>
-                            <input type="text" class="form-control form-control-custom text-center fw-bold fs-5 letter-spacing-wide"
-                                   placeholder="0 0 0 0 0 0" maxlength="6" id="twoFaCode">
-                        </div>
-                        <button type="submit" class="btn btn-primary-custom w-100 fw-bold rounded-pill py-3">Verify & Enable 2FA</button>
-                    </div>
-                    @endif
                 </form>
-            </div>
-        </section>
 
-        {{-- Password & Security --}}
-        <section id="security" class="settings-section-card shadow-sm">
-            <div class="settings-section-header">
-                <h5 class="fw-bold mb-0">Password & Security</h5>
-            </div>
-            <div class="settings-section-body">
-                @include('profile.partials.update-password-form')
+                @if($user->two_fa_enabled)
+                <div class="mt-4 p-4 border border-success border-opacity-20 rounded-4 bg-success bg-opacity-5">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                        <div>
+                            <div class="fw-bold">2FA is Active</div>
+                            <div class="text-muted small">Your account is protected with two-step authentication.</div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </section>
 
@@ -324,7 +258,7 @@
                     </div>
                     <div class="flex-grow-1">
                         <h6 class="fw-bold mb-1">Current Session</h6>
-                        <p class="text-muted small mb-0">{{ request()->userAgent() ? substr(request()->userAgent(), 0, 50) . '...' : 'Unknown browser' }}</p>
+                        <p class="text-muted small mb-0 text-truncate" style="max-width: 300px;">{{ request()->userAgent() }}</p>
                     </div>
                     <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 fw-bold">Active Now</span>
                 </div>
@@ -382,62 +316,6 @@
             </div>
         </section>
 
-        {{-- Display Theme --}}
-        <section id="display" class="settings-section-card shadow-sm">
-            <div class="settings-section-header">
-                <h5 class="fw-bold mb-0">Display Theme</h5>
-            </div>
-            <div class="settings-section-body">
-                <form method="POST" action="{{ route('settings.theme') }}" id="themeForm">
-                    @csrf
-                    @method('PATCH')
-                    <input type="hidden" name="theme" id="themeInput" value="{{ $user->theme_preference ?? 'light' }}">
-                    <div class="theme-picker">
-                        <div class="theme-option {{ ($user->theme_preference ?? 'light') === 'light' ? 'active' : '' }}" data-theme="light">
-                            <i class="bi bi-brightness-high fs-2 mb-2 text-warning"></i>
-                            <div class="fw-bold">Light</div>
-                        </div>
-                        <div class="theme-option {{ ($user->theme_preference ?? '') === 'dark' ? 'active' : '' }}" data-theme="dark">
-                            <i class="bi bi-moon-stars fs-2 mb-2 text-primary"></i>
-                            <div class="fw-bold">Dark</div>
-                        </div>
-                        <div class="theme-option {{ ($user->theme_preference ?? '') === 'system' ? 'active' : '' }}" data-theme="system">
-                            <i class="bi bi-laptop fs-2 mb-2 text-muted"></i>
-                            <div class="fw-bold">System</div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-save-custom w-100 mt-4">Save Theme Preference</button>
-                </form>
-            </div>
-        </section>
-
     </div>
 </div>
 @endsection
-
-@section('extra_js')
-<script>
-    // Theme Picker Toggle
-    document.querySelectorAll('.theme-option').forEach(option => {
-        option.addEventListener('click', function () {
-            document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
-            this.classList.add('active');
-            document.getElementById('themeInput').value = this.dataset.theme;
-        });
-    });
-
-    // 2FA Toggle — show/hide setup area
-    document.getElementById('toggle2FA')?.addEventListener('change', function () {
-        const setupArea = document.getElementById('2fa-setup-area');
-        if (setupArea) {
-            setupArea.style.display = this.checked ? 'block' : 'none';
-        } else if (!this.checked) {
-            // If 2FA is currently enabled, submit form to disable
-            document.getElementById('form2FA').submit();
-        }
-    });
-</script>
-@endsection
-
-
-

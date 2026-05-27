@@ -61,7 +61,9 @@
                             </td>
                             <td class="border-0 text-end">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn btn-sm btn-light p-2 rounded-3"><i class="bi bi-pencil text-primary"></i></button>
+                                    <a href="{{ route('admin.tests.edit', $test) }}" class="btn btn-sm btn-light p-2 rounded-3">
+                                        <i class="bi bi-pencil text-primary"></i>
+                                    </a>
                                     <form action="{{ route('admin.tests.destroy', $test) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                         @csrf
                                         @method('DELETE')

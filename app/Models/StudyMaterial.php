@@ -10,6 +10,7 @@ class StudyMaterial extends Model
     use HasFactory;
 
     protected $fillable = [
+        'course_id',
         'title',
         'slug',
         'description',
@@ -26,6 +27,11 @@ class StudyMaterial extends Model
         'is_active' => 'boolean',
         'is_premium' => 'boolean',
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 
     public function mockTests()
     {

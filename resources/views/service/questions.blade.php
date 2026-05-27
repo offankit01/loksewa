@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $title . ' - Question Bank | LokSiksha')
+@section('title', $title . ' - Question Bank | LokSewa')
 
 @section('content')
     <!-- Subpage Header -->

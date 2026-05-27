@@ -85,5 +85,12 @@ class ServiceController extends Controller
         return redirect()->route('dashboard')->with('success', 'Successfully enrolled in ' . Str::headline($slug) . '!');
     }
 
-    // Attempt logic is now handled by MockTestController for consistency
+    public function attemptMock($slug)
+    {
+        $test = MockTest::where('is_published', true)->latest()->first();
+        if (!$test) {
+            return redirect()->route('service.mock-tests', $slug)->with('error', 'No mock tests available yet.');
+        }
+        return redirect()->route('mock-tests.start', $test->slug);
+    }
 }

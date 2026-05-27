@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Manual Quiz Generator')
+@section('title', 'Edit Mock Test')
 
 @section('breadcrumb')
     <li class="breadcrumb-item small"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
-    <li class="breadcrumb-item small"><a href="{{ route('admin.courses.index') }}" class="text-decoration-none">Services</a></li>
-    <li class="breadcrumb-item active small" aria-current="page">Generator</li>
+    <li class="breadcrumb-item small"><a href="{{ route('admin.tests.index') }}" class="text-decoration-none">Mock Tests</a></li>
+    <li class="breadcrumb-item active small" aria-current="page">Edit Test</li>
 @endsection
 
 @section('extra_css')
@@ -24,11 +24,12 @@
     </style>
 @endsection
 
-@section('page_title', 'Manual Quiz Generator')
+@section('page_title', 'Edit Mock Test')
 
 @section('admin_content')
-<form action="{{ route('admin.tests.store') }}" method="POST" id="manualTestForm">
+<form action="{{ route('admin.tests.update', $test) }}" method="POST" id="manualTestForm">
     @csrf
+    @method('PATCH')
     <div class="row g-4">
         {{-- Configuration Sidebar --}}
         <div class="col-lg-4">
@@ -37,36 +38,36 @@
                 
                 <div class="mb-3">
                     <label class="form-label small fw-bold">Exam Title</label>
-                    <input type="text" name="title" class="form-control rounded-3" placeholder="e.g. Kharidar 2081 Set A" required>
+                    <input type="text" name="title" class="form-control rounded-3" value="{{ old('title', $test->title) }}" placeholder="e.g. Kharidar 2081 Set A" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label small fw-bold">Service Category</label>
                     <div id="selectedServiceDisplay" class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center cursor-pointer" data-bs-toggle="modal" data-bs-target="#serviceSelectorModal">
-                        <span class="text-muted" id="selectedCourseName">Select Service Category...</span>
+                        <span class="text-dark fw-bold" id="selectedCourseName">{{ $test->course->title ?? 'Select Service Category...' }}</span>
                         <i class="bi bi-chevron-right small"></i>
                     </div>
-                    <input type="hidden" name="course_id" id="course_id_input" required>
+                    <input type="hidden" name="course_id" id="course_id_input" value="{{ $test->course_id }}" required>
                 </div>
 
                 <div class="row g-2 mb-3">
                     <div class="col-6">
                         <label class="form-label extra-small fw-bold">Time (Min)</label>
-                        <input type="number" name="time_limit" class="form-control rounded-3" value="45" required>
+                        <input type="number" name="time_limit" class="form-control rounded-3" value="{{ old('time_limit', $test->time_limit) }}" required>
                     </div>
                     <div class="col-6">
                         <label class="form-label extra-small fw-bold">Difficulty</label>
                         <select name="difficulty" class="form-select rounded-3">
-                            <option value="easy">Easy</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="hard">Hard</option>
+                            <option value="easy" {{ $test->difficulty == 'easy' ? 'selected' : '' }}>Easy</option>
+                            <option value="medium" {{ $test->difficulty == 'medium' ? 'selected' : '' }}>Medium</option>
+                            <option value="hard" {{ $test->difficulty == 'hard' ? 'selected' : '' }}>Hard</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="mt-4 pt-4 border-top">
                     <button type="submit" class="btn btn-primary-blue w-100 rounded-pill py-2 fw-bold shadow-sm mb-2">
-                        <i class="bi bi-check2-all me-2"></i>Finalize & Publish
+                        <i class="bi bi-check2-all me-2"></i>Update & Publish
                     </button>
                     <button type="button" class="btn btn-soft-secondary w-100 rounded-pill py-2 small fw-bold" data-bs-toggle="modal" data-bs-target="#bulkImportModal">
                         <i class="bi bi-file-earmark-text me-2"></i>Paste All Questions
@@ -79,62 +80,63 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm rounded-4 p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="fw-bold mb-0">Question List (<span id="totalQuestionsCount">1</span>)</h5>
+                    <h5 class="fw-bold mb-0">Question List (<span id="totalQuestionsCount">{{ $test->questions->count() }}</span>)</h5>
                     <button type="button" class="btn btn-primary-blue rounded-pill px-3 btn-sm" id="addQuestionBtn">
                         <i class="bi bi-plus-lg me-2"></i>Add Question
                     </button>
                 </div>
 
                 <div id="questionsContainer">
-                    {{-- Default first question --}}
-                    <div class="question-item bg-light p-4 rounded-4 mb-4 border" data-index="0">
+                    @foreach($test->questions as $index => $q)
+                    <div class="question-item bg-light p-4 rounded-4 mb-4 border" data-index="{{ $index }}">
                         <div class="d-flex justify-content-between mb-3">
-                            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-bold">Question 1</span>
-                            <button type="button" class="btn btn-sm btn-link text-danger remove-question d-none">Remove</button>
+                            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill fw-bold">Question {{ $index + 1 }}</span>
+                            <button type="button" class="btn btn-sm btn-link text-danger remove-question {{ $test->questions->count() == 1 ? 'd-none' : '' }}">Remove</button>
                         </div>
                         
                         <div class="mb-3">
                             <label class="form-label small fw-bold">Question</label>
-                            <textarea name="questions[0][text]" class="form-control rounded-3 border-0 shadow-sm" rows="2" required></textarea>
+                            <textarea name="questions[{{ $index }}][text]" class="form-control rounded-3 border-0 shadow-sm" rows="2" required>{{ $q->question_text }}</textarea>
                         </div>
 
                         <div class="row g-3">
-                            <div class="col-md-6"><input type="text" name="questions[0][a]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option A" required></div>
-                            <div class="col-md-6"><input type="text" name="questions[0][b]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option B" required></div>
-                            <div class="col-md-6"><input type="text" name="questions[0][c]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option C" required></div>
-                            <div class="col-md-6"><input type="text" name="questions[0][d]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option D" required></div>
+                            <div class="col-md-6"><input type="text" name="questions[{{ $index }}][a]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option A" value="{{ $q->option_a }}" required></div>
+                            <div class="col-md-6"><input type="text" name="questions[{{ $index }}][b]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option B" value="{{ $q->option_b }}" required></div>
+                            <div class="col-md-6"><input type="text" name="questions[{{ $index }}][c]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option C" value="{{ $q->option_c }}" required></div>
+                            <div class="col-md-6"><input type="text" name="questions[{{ $index }}][d]" class="form-control rounded-3 border-0 shadow-sm" placeholder="Option D" value="{{ $q->option_d }}" required></div>
                         </div>
 
                         <div class="mt-3 d-flex align-items-center gap-3">
                             <label class="form-label small fw-bold mb-0 text-muted">Correct:</label>
                             <div class="btn-group" role="group">
-                                <input type="radio" class="btn-check" name="questions[0][correct]" id="q0a" value="a" checked>
-                                <label class="btn btn-outline-primary btn-sm rounded-start-pill px-3" for="q0a">A</label>
+                                <input type="radio" class="btn-check" name="questions[{{ $index }}][correct]" id="q{{ $index }}a" value="a" {{ $q->correct_option == 'a' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary btn-sm rounded-start-pill px-3" for="q{{ $index }}a">A</label>
                                 
-                                <input type="radio" class="btn-check" name="questions[0][correct]" id="q0b" value="b">
-                                <label class="btn btn-outline-primary btn-sm px-3" for="q0b">B</label>
+                                <input type="radio" class="btn-check" name="questions[{{ $index }}][correct]" id="q{{ $index }}b" value="b" {{ $q->correct_option == 'b' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary btn-sm px-3" for="q{{ $index }}b">B</label>
                                 
-                                <input type="radio" class="btn-check" name="questions[0][correct]" id="q0c" value="c">
-                                <label class="btn btn-outline-primary btn-sm px-3" for="q0c">C</label>
+                                <input type="radio" class="btn-check" name="questions[{{ $index }}][correct]" id="q{{ $index }}c" value="c" {{ $q->correct_option == 'c' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary btn-sm px-3" for="q{{ $index }}c">C</label>
                                 
-                                <input type="radio" class="btn-check" name="questions[0][correct]" id="q0d" value="d">
-                                <label class="btn btn-outline-primary btn-sm rounded-end-pill px-3" for="q0d">D</label>
+                                <input type="radio" class="btn-check" name="questions[{{ $index }}][correct]" id="q{{ $index }}d" value="d" {{ $q->correct_option == 'd' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary btn-sm rounded-end-pill px-3" for="q{{ $index }}d">D</label>
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-@endsection
-
-{{-- Re-use Modals from Partials --}}
+{{-- Re-use Modals and JS from Create --}}
 @include('admin.tests.partials.bulk_modal')
 @include('admin.tests.partials.service_modal')
 
-{{-- Category Mapping Data for JS --}}
+@endsection
+
+@section('extra_js')
 <script>
     const allCourses = @json($courses);
     const categoryMapping = {
@@ -161,7 +163,7 @@
             { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)'] }
         ],
         'parliament': [
-            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab Subba (नायब सुब्बा)'] },
+            { label: 'NON-GAZETTED (गैर-राजपत्रांकित)', items: ['Kharidar (खरिदार)', 'Nayab सुब्बा (नायब सुब्बा)'] },
             { label: 'GAZETTED (राजपत्रांकित)', items: ['Section Officer (शाखा अधिकृत)'] }
         ],
         'technical': [
@@ -172,10 +174,7 @@
             { label: 'EDUCATION (शिक्षा)', items: ['Primary Teacher', 'Secondary Teacher', 'Education Officer'] }
         ]
     };
-</script>
 
-@section('extra_js')
-<script>
     function showSubCategories(catId, catName) {
         document.getElementById('selectorTitle').textContent = catName;
         document.getElementById('categoryStep').classList.add('d-none');
@@ -192,13 +191,11 @@
         }
 
         subGroups.forEach(group => {
-            // Create Group Header
             const header = document.createElement('div');
             header.className = 'col-12 mt-4 first:mt-0';
             header.innerHTML = `<h6 class="text-primary-blue fw-bold small border-bottom pb-2 mb-3">${group.label}</h6>`;
             list.appendChild(header);
 
-            // Filter items for this group
             const filtered = allCourses.filter(course => {
                 return group.items.some(key => course.title === key);
             });
@@ -246,7 +243,7 @@
         bootstrap.Modal.getInstance(document.getElementById('serviceSelectorModal')).hide();
     }
 
-    let questionCount = 1;
+    let questionCount = {{ $test->questions->count() }};
     const container = document.getElementById('questionsContainer');
     const addBtn = document.getElementById('addQuestionBtn');
     const countDisplay = document.getElementById('totalQuestionsCount');
@@ -295,6 +292,7 @@
         container.insertAdjacentHTML('beforeend', createQuestionHtml(questionCount));
         questionCount++;
         updateCount();
+        reindexQuestions();
     });
 
     container.addEventListener('click', (e) => {
@@ -323,30 +321,29 @@
                 const fr = label.getAttribute('for');
                 if (fr && fr.startsWith('q')) label.setAttribute('for', fr.replace(/q\d+/, `q${idx}`));
             });
+            
+            // Toggle remove button visibility
+            const removeBtn = item.querySelector('.remove-question');
+            if (items.length === 1) removeBtn.classList.add('d-none');
+            else removeBtn.classList.remove('d-none');
         });
         questionCount = items.length;
     }
 
-    // Bulk Import Logic
+    // Re-use bulk parsing logic
     let lastParsedQuestions = [];
-
     document.getElementById('processBulkBtn').addEventListener('click', () => {
         const text = document.getElementById('bulkDataInput').value;
         if (!text.trim()) return;
-
         lastParsedQuestions = parseBulkQuestions(text);
-        
         if (lastParsedQuestions.length === 0) {
-            alert('Could not detect any valid questions. Please check the format and try again.');
+            alert('Could not detect any valid questions.');
             return;
         }
-
-        // Show preview
         const previewList = document.getElementById('previewList');
         const previewSection = document.getElementById('importPreview');
         const confirmBtn = document.getElementById('confirmImportBtn');
         const processBtn = document.getElementById('processBulkBtn');
-        
         previewList.innerHTML = lastParsedQuestions.map((q, i) => `
             <div class="mb-3 pb-3 border-bottom last:border-0">
                 <div class="fw-bold mb-1">${i+1}. ${q.text}</div>
@@ -358,7 +355,6 @@
                 </div>
             </div>
         `).join('');
-
         document.getElementById('parsedCount').textContent = lastParsedQuestions.length;
         previewSection.classList.remove('d-none');
         confirmBtn.classList.remove('d-none');
@@ -367,133 +363,50 @@
 
     document.getElementById('confirmImportBtn').addEventListener('click', () => {
         if (lastParsedQuestions.length === 0) return;
-
-        // Check if we should remove the initial empty question
-        const currentQuestions = container.querySelectorAll('.question-item');
-        if (currentQuestions.length === 1) {
-            const firstQText = currentQuestions[0].querySelector('textarea').value.trim();
-            if (!firstQText) {
-                currentQuestions[0].remove();
-                questionCount = 0;
-            }
+        if (confirm('This will append these questions to the current list. Continue?')) {
+            lastParsedQuestions.forEach(data => {
+                container.insertAdjacentHTML('beforeend', createQuestionHtml(questionCount, data));
+                questionCount++;
+            });
+            updateCount();
+            reindexQuestions();
+            bootstrap.Modal.getInstance(document.getElementById('bulkImportModal')).hide();
+            document.getElementById('bulkDataInput').value = '';
         }
-
-        lastParsedQuestions.forEach(data => {
-            container.insertAdjacentHTML('beforeend', createQuestionHtml(questionCount, data));
-            questionCount++;
-        });
-        
-        updateCount();
-        reindexQuestions();
-        
-        // Reset and hide modal
-        bootstrap.Modal.getInstance(document.getElementById('bulkImportModal')).hide();
-        document.getElementById('bulkDataInput').value = '';
-        document.getElementById('importPreview').classList.add('d-none');
-        document.getElementById('confirmImportBtn').classList.add('d-none');
-        document.getElementById('processBulkBtn').innerHTML = '<i class="bi bi-magic me-2"></i>Analyze & Parse';
-        lastParsedQuestions = [];
     });
 
     function parseBulkQuestions(text) {
         const results = [];
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         if (lines.length === 0) return results;
-
-        // 1. Check for tabular formats (Pipe |, Tab \t, or Semicolon ;)
-        const hasPipesOrTabs = lines.some(l => l.includes('|') || l.includes('\t') || (l.split(';').length >= 6));
-        if (hasPipesOrTabs) {
-            lines.forEach(line => {
-                let separator = '|';
-                if (line.includes('\t')) separator = '\t';
-                else if (line.split(';').length >= 6) separator = ';';
-
-                const parts = line.split(separator).map(p => p.trim()).filter(p => p.length > 0);
-                if (parts.length >= 6) {
-                    let qText = parts[0].replace(/^\d+[\.\)]\s*/, '');
-                    let correctVal = parts[5].replace(/^[^a-dA-D]*([a-dA-D]).*$/, '$1').toLowerCase();
-                    if (['a','b','c','d'].includes(correctVal)) {
-                        results.push({
-                            text: qText,
-                            a: parts[1].replace(/^[A-D][\.\)]\s*/i, ''),
-                            b: parts[2].replace(/^[A-D][\.\)]\s*/i, ''),
-                            c: parts[3].replace(/^[A-D][\.\)]\s*/i, ''),
-                            d: parts[4].replace(/^[A-D][\.\)]\s*/i, ''),
-                            correct: correctVal
-                        });
-                    }
-                }
-            });
-            if (results.length > 0) return results;
-        }
-
-        // 2. Multi-line block parser (Word / PDF / ChatGPT format)
         let currentQ = null;
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-            
-            // Detect Answer line first to prevent it being caught as a question or option
             const ansMatch = line.match(/^(?:ans(?:wer)?|correct|solution|key|right\s*option)[\s\:\-\=]*([a-d])\b/i) 
                           || line.match(/^[\(\[]\s*([a-d])\s*[\)\]]$/i)
                           || line.match(/^([a-d])[\.\)]\s*is\s*the\s*correct/i);
-
-            // Detect Options: "A. Option", "(A) Option", "A) Option"
             const optMatch = line.match(/^([A-D])[\.\)\s]+\s*(.*)/i);
-
-            // Detect Question Start:
-            // - Starts with number/Q: "1. What...", "Q1. What..."
-            // - Ends with question mark: "What is...?"
-            // - Is a fresh line and doesn't look like an option or answer
             const isNumbered = /^(?:Q[a-z]*\s*)?\d+[\.\)]/i.test(line);
-            const isQuestionMark = line.endsWith('?');
             const isPotentialQuestion = !ansMatch && !optMatch && line.length > 5;
-
             if (isNumbered || (isPotentialQuestion && (!currentQ || currentQ.correct || currentQ.options.length >= 4))) {
-                if (currentQ && isValidQuestion(currentQ)) {
-                    results.push(formatParsedQuestion(currentQ));
-                }
-                currentQ = {
-                    text: line.replace(/^(?:Q[a-z]*\s*)?\d+[\.\)]\s*/i, ''),
-                    options: [],
-                    correct: null
-                };
+                if (currentQ && isValidQuestion(currentQ)) results.push(formatParsedQuestion(currentQ));
+                currentQ = { text: line.replace(/^(?:Q[a-z]*\s*)?\d+[\.\)]\s*/i, ''), options: [], correct: null };
             } else if (currentQ) {
-                if (ansMatch) {
-                    currentQ.correct = (ansMatch[1] || ansMatch[2]).toLowerCase();
-                } else if (optMatch) {
-                    currentQ.options.push(optMatch[2]);
-                } else if (currentQ.options.length === 0 && !currentQ.correct) {
-                    currentQ.text += ' ' + line;
-                } else if (currentQ.options.length < 4 && !currentQ.correct) {
-                    currentQ.options.push(line);
-                }
+                if (ansMatch) currentQ.correct = (ansMatch[1] || ansMatch[2]).toLowerCase();
+                else if (optMatch) currentQ.options.push(optMatch[2]);
+                else if (currentQ.options.length === 0 && !currentQ.correct) currentQ.text += ' ' + line;
+                else if (currentQ.options.length < 4 && !currentQ.correct) currentQ.options.push(line);
             }
         }
-        
-        if (currentQ && isValidQuestion(currentQ)) {
-            results.push(formatParsedQuestion(currentQ));
-        }
-
+        if (currentQ && isValidQuestion(currentQ)) results.push(formatParsedQuestion(currentQ));
         return results;
     }
 
-    function isValidQuestion(q) {
-        return q.text && q.text.length > 5 && q.options.length >= 2;
-    }
-
+    function isValidQuestion(q) { return q.text && q.text.length > 5 && q.options.length >= 2; }
     function formatParsedQuestion(q) {
-        // Handle cases with 2 or 3 options by padding
         const opts = [...q.options];
         while (opts.length < 4) opts.push('---');
-        
-        return {
-            text: q.text.trim(),
-            a: opts[0],
-            b: opts[1],
-            c: opts[2],
-            d: opts[3],
-            correct: q.correct || 'a'
-        };
+        return { text: q.text.trim(), a: opts[0], b: opts[1], c: opts[2], d: opts[3], correct: q.correct || 'a' };
     }
 </script>
 @endsection

@@ -38,10 +38,13 @@
                                     <div class="bg-danger bg-opacity-10 text-danger p-2 rounded-3">
                                         <i class="bi bi-file-earmark-pdf fs-5"></i>
                                     </div>
-                                    <div class="fw-bold">{{ $material->title }}</div>
+                                    <div class="fw-bold text-dark">{{ $material->title }}</div>
                                 </div>
                             </td>
-                            <td class="border-0 text-muted small">{{ $material->category }}</td>
+                            <td class="border-0">
+                                <div class="fw-bold small">{{ $material->course->title ?? 'General' }}</div>
+                                <div class="extra-small text-muted text-uppercase">{{ $material->category }}</div>
+                            </td>
                             <td class="border-0 text-center">
                                 @if($material->type == 'note')
                                     <span class="badge bg-primary bg-opacity-10 text-primary px-3 rounded-pill border border-primary border-opacity-10 small">Study Note</span>

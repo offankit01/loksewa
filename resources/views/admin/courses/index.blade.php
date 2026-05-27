@@ -10,45 +10,131 @@
 @section('page_title', 'LokSewa Services (Courses)')
 
 @section('admin_content')
+    {{-- Statistics Row --}}
     <div class="row g-4 mb-5">
-        @foreach($courses as $course)
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden hover-shadow transition-all">
-                <div class="card-body p-4 text-center">
-                    <div class="d-flex justify-content-end mb-2">
-                        <form action="{{ route('admin.courses.toggle-status', $course) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-sm {{ $course->is_active ? 'btn-soft-success' : 'btn-soft-secondary' }} rounded-pill extra-small px-2">
-                                {{ $course->is_active ? 'Active' : 'Inactive' }}
-                            </button>
-                        </form>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-primary-blue text-white p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-white bg-opacity-10 rounded-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-grid-fill fs-2"></i>
                     </div>
-                    <div class="bg-primary-blue bg-opacity-10 text-primary-blue d-inline-flex p-3 rounded-circle mb-3">
-                        <i class="bi {{ $course->icon ?? 'bi-briefcase' }} fs-3"></i>
-                    </div>
-                    <h5 class="fw-bold mb-1">{{ $course->title }}</h5>
-                    <p class="text-muted small mb-4">{{ $course->mock_tests_count }} Mock Tests Available</p>
-                    
-                    <div class="d-grid gap-2">
-                        <a href="{{ route('admin.tests.create', ['course_id' => $course->id]) }}" class="btn btn-primary-blue rounded-pill py-2 fw-bold small">
-                            <i class="bi bi-plus-circle me-2"></i>New Test
-                        </a>
+                    <div>
+                        <h4 class="fw-bold mb-0">{{ $courses->count() }}</h4>
+                        <p class="mb-0 extra-small text-white-50 text-uppercase fw-bold">Total Services</p>
                     </div>
                 </div>
-                <div class="card-footer bg-light border-0 px-4 py-3 d-flex justify-content-between align-items-center">
-                    <button class="btn btn-link p-0 extra-small text-decoration-none fw-bold text-primary-blue" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editCourseModal{{ $course->id }}">
-                        <i class="bi bi-pencil-square me-1"></i>Edit Details
-                    </button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-success bg-opacity-10 text-success rounded-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-check-circle-fill fs-2"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark">{{ $courses->where('is_active', true)->count() }}</h4>
+                        <p class="mb-0 extra-small text-muted text-uppercase fw-bold">Active Now</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-warning bg-opacity-10 text-warning rounded-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-journal-bookmark-fill fs-2"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0 text-dark">{{ $courses->sum('mock_tests_count') }}</h4>
+                        <p class="mb-0 extra-small text-muted text-uppercase fw-bold">Total Tests</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-white p-4 cursor-pointer hover-shadow transition-all" data-bs-toggle="modal" data-bs-target="#addServiceModal">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary-blue bg-opacity-10 text-primary-blue rounded-4 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="bi bi-plus-lg fs-2"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0 text-primary-blue">Add New</h6>
+                        <p class="mb-0 extra-small text-muted text-uppercase fw-bold">Create Service</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @foreach($courses as $course)
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden hover-shadow transition-all bg-white">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div class="bg-primary-blue bg-opacity-10 text-primary-blue d-flex align-items-center justify-content-center rounded-4" style="width: 60px; height: 60px;">
+                            <i class="bi {{ $course->icon ?? 'bi-briefcase' }} fs-2"></i>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm rounded-circle p-2" type="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 p-2">
+                                <li>
+                                    <button class="dropdown-item rounded-2 py-2 small" data-bs-toggle="modal" data-bs-target="#editCourseModal{{ $course->id }}">
+                                        <i class="bi bi-pencil-square me-2 text-primary"></i> Edit Details
+                                    </button>
+                                </li>
+                                <li>
+                                    <form action="{{ route('admin.courses.toggle-status', $course) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item rounded-2 py-2 small">
+                                            <i class="bi {{ $course->is_active ? 'bi-eye-slash' : 'bi-eye' }} me-2 text-warning"></i> 
+                                            {{ $course->is_active ? 'Set Inactive' : 'Set Active' }}
+                                        </button>
+                                    </form>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{{ route('admin.courses.destroy', $course) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item rounded-2 py-2 small text-danger">
+                                            <i class="bi bi-trash me-2"></i> Delete Service
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mb-2 text-dark">{{ $course->title }}</h5>
+                    <p class="text-muted small mb-4 line-clamp-2" style="min-height: 40px;">{{ $course->description ?? 'Comprehensive preparation materials and mock tests for ' . $course->title . '.' }}</p>
                     
-                    <form action="{{ route('admin.courses.destroy', $course) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this service? This cannot be undone.')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-link p-0 extra-small text-decoration-none fw-bold text-danger">
-                            <i class="bi bi-trash me-1"></i>Delete
-                        </button>
-                    </form>
+                    <div class="bg-light rounded-4 p-3 mb-4 d-flex justify-content-around text-center">
+                        <div>
+                            <div class="fw-bold text-dark">{{ $course->mock_tests_count }}</div>
+                            <div class="extra-small text-muted text-uppercase fw-bold">Tests</div>
+                        </div>
+                        <div class="border-start"></div>
+                        <div>
+                            <div class="fw-bold text-dark">{{ $course->study_materials_count ?? 0 }}</div>
+                            <div class="extra-small text-muted text-uppercase fw-bold">Notes</div>
+                        </div>
+                        <div class="border-start"></div>
+                        <div>
+                            <div class="fw-bold text-success">
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill extra-small">Active</span>
+                            </div>
+                            <div class="extra-small text-muted text-uppercase fw-bold">Status</div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a href="{{ route('admin.tests.create', ['course_id' => $course->id]) }}" class="btn btn-primary-blue rounded-pill py-2 fw-bold small shadow-sm">
+                            <i class="bi bi-plus-circle me-2"></i>Add New Test
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,10 +249,23 @@
     .btn-soft-success { background: #dcfce7; color: #15803d; }
     .btn-soft-secondary { background: #f1f5f9; color: #475569; }
     .cursor-pointer { cursor: pointer; }
-    .hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important; }
+    .hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1) !important; }
     .hover-bg-white:hover { background: white !important; border-style: solid !important; border-color: var(--primary-blue) !important; }
     .transition-all { transition: all 0.3s ease; }
     .extra-small { font-size: 0.7rem; }
     .btn-check:checked + label { background-color: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+    .card-footer-transparent {
+        background: transparent;
+        border: none;
+    }
 </style>
 @endsection

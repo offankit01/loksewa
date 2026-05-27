@@ -253,4 +253,60 @@ class ContentController extends Controller
         $plan->delete();
         return back()->with('success', 'Pricing plan deleted successfully.');
     }
+
+    public function features()
+    {
+        $features = \App\Models\Feature::orderBy('order')->latest()->get();
+        return view('admin.content.features', compact('features'));
+    }
+
+    public function storeFeature(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'icon' => 'required|string|max:255',
+            'theme_color' => 'required|string|max:255',
+            'order' => 'nullable|integer',
+        ]);
+
+        \App\Models\Feature::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'icon' => $request->icon,
+            'theme_color' => $request->theme_color,
+            'order' => $request->order ?? 0,
+            'is_active' => true,
+        ]);
+
+        return back()->with('success', 'Feature added successfully.');
+    }
+
+    public function updateFeature(Request $request, \App\Models\Feature $feature)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'icon' => 'required|string|max:255',
+            'theme_color' => 'required|string|max:255',
+            'order' => 'nullable|integer',
+        ]);
+
+        $feature->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'icon' => $request->icon,
+            'theme_color' => $request->theme_color,
+            'order' => $request->order ?? 0,
+            'is_active' => $request->has('is_active'),
+        ]);
+
+        return back()->with('success', 'Feature updated successfully.');
+    }
+
+    public function destroyFeature(\App\Models\Feature $feature)
+    {
+        $feature->delete();
+        return back()->with('success', 'Feature deleted successfully.');
+    }
 }

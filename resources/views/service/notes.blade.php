@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $title . ' - Study Notes | LokSiksha')
+@section('title', $title . ' - Study Notes | LokSewa')
 
 @section('content')
     <!-- Subpage Header -->

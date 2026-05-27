@@ -15,7 +15,11 @@ class HomeController extends Controller
         $faqs = \App\Models\Faq::where('is_active', true)
             ->orderBy('order')
             ->get();
+        $features = \App\Models\Feature::where('is_active', true)
+            ->orderBy('order')
+            ->take(4)
+            ->get();
             
-        return view('welcome', compact('testimonials', 'faqs'));
+        return view('welcome', compact('testimonials', 'faqs', 'features'));
     }
 }

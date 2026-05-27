@@ -92,13 +92,15 @@ class UserController extends Controller
         return back()->with('success', 'User status updated.');
     }
 
-    public function resetPassword(User $user)
+    public function resetPassword(Request $request, User $user)
     {
-        // For simplicity, we'll reset to a default password and notify (in real app, send reset link)
-        $newPassword = 'password123';
-        $user->password = \Illuminate\Support\Facades\Hash::make($newPassword);
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
         $user->save();
 
-        return back()->with('success', "Password reset successfully to 'password123' for {$user->name}.");
+        return back()->with('success', "Password changed successfully for {$user->name}.");
     }
 }

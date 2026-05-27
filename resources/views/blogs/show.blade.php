@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $blog['title'] . ' - LokSiksha')
+@section('title', $blog['title'] . ' - LokSewa')
 
 @section('content')
     <!-- Blog Post Header -->

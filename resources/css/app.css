@@ -4,6 +4,8 @@
 :root {
     --primary-blue: #1E3A8A; /* Deep Blue for Trust */
     --accent-orange: #F97316; /* Vibrant Orange for Action */
+    --primary-blue-rgb: 30, 58, 138;
+    --accent-orange-rgb: 249, 115, 22;
     --light-bg: #F8FAFC;
     --dark-text: #0F172A;
     --muted-text: #64748B;
@@ -18,11 +20,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Utilities */
-.text-primary-blue { color: var(--primary-blue) !important; }
-.bg-primary-blue { background-color: var(--primary-blue) !important; }
-.text-accent-orange { color: var(--accent-orange) !important; }
-.bg-accent-orange { background-color: var(--accent-orange) !important; }
+/* Custom Utilities with Opacity Support */
+.text-primary-blue { color: rgba(var(--primary-blue-rgb), var(--bs-text-opacity, 1)) !important; }
+.bg-primary-blue { background-color: rgba(var(--primary-blue-rgb), var(--bs-bg-opacity, 1)) !important; }
+.text-accent-orange { color: rgba(var(--accent-orange-rgb), var(--bs-text-opacity, 1)) !important; }
+.bg-accent-orange { background-color: rgba(var(--accent-orange-rgb), var(--bs-bg-opacity, 1)) !important; }
+
+/* Badge Text Color Fix */
+.badge[class*="text-"] {
+    color: inherit !important;
+}
 
 /* Buttons */
 .btn-primary-custom {

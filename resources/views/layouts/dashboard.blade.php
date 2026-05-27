@@ -21,6 +21,8 @@
         :root {
             --sidebar-width: 280px;
             --top-nav-height: 70px;
+            --primary-blue: #1e3a8a;
+            --accent-orange: #f97316;
         }
         
         body {
@@ -63,7 +65,7 @@
             align-items: center;
             gap: 12px;
             padding: 12px 24px;
-            color: var(--muted-text);
+            color: #64748b;
             text-decoration: none;
             font-weight: 500;
             border-radius: 12px;
@@ -78,7 +80,7 @@
 
         .sidebar-link.active {
             background: var(--primary-blue);
-            color: white;
+            color: white !important;
             box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
 
