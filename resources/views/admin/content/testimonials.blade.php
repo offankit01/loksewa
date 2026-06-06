@@ -26,6 +26,7 @@
                             <th class="text-muted small fw-medium text-uppercase border-0">Feedback</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-center">Rating</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-center">Featured</th>
+                            <th class="text-muted small fw-medium text-uppercase border-0 text-center">Status</th>
                             <th class="text-muted small fw-medium text-uppercase border-0 text-end">Actions</th>
                         </tr>
                     </thead>
@@ -37,6 +38,8 @@
                                     <div class="bg-light rounded-circle overflow-hidden d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                                         @if($testimonial->avatar)
                                             <img src="{{ Storage::url($testimonial->avatar) }}" class="w-100 h-100 object-fit-cover" alt="User">
+                                        @elseif($testimonial->user && $testimonial->user->avatar)
+                                            <img src="{{ Storage::url($testimonial->user->avatar) }}" class="w-100 h-100 object-fit-cover" alt="User">
                                         @else
                                             <i class="bi bi-person text-muted fs-5"></i>
                                         @endif
@@ -44,10 +47,13 @@
                                     <div>
                                         <div class="fw-bold small text-dark">{{ $testimonial->user_name }}</div>
                                         <div class="extra-small text-muted">{{ $testimonial->designation ?? 'Student' }}</div>
+                                        @if($testimonial->user_id)
+                                            <span class="badge bg-primary bg-opacity-10 text-primary extra-small rounded-pill mt-1">User Submitted</span>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
-                            <td class="border-0 small text-muted" style="max-width: 300px;">
+                            <td class="border-0 small text-muted" style="max-width: 250px;">
                                 <div class="text-truncate" title="{{ $testimonial->content }}">"{{ $testimonial->content }}"</div>
                             </td>
                             <td class="border-0 text-center text-warning small">
@@ -60,6 +66,13 @@
                                     <span class="badge bg-warning bg-opacity-10 text-warning px-3 rounded-pill extra-small">Featured</span>
                                 @else
                                     <span class="text-muted extra-small">-</span>
+                                @endif
+                            </td>
+                            <td class="border-0 text-center">
+                                @if($testimonial->is_active)
+                                    <span class="badge bg-success bg-opacity-10 text-success px-3 rounded-pill extra-small">Published</span>
+                                @else
+                                    <span class="badge bg-warning bg-opacity-10 text-warning px-3 rounded-pill extra-small">Pending</span>
                                 @endif
                             </td>
                             <td class="border-0 text-end">

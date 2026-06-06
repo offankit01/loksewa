@@ -97,6 +97,28 @@
         transition: all 0.3s;
         box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
     }
+
+    /* Rating Stars */
+    .rating-stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+    .rating-stars input {
+        display: none;
+    }
+    .rating-stars label {
+        cursor: pointer;
+        font-size: 2rem;
+        color: #e2e8f0;
+        transition: color 0.2s;
+    }
+    .rating-stars input:checked ~ label,
+    .rating-stars label:hover,
+    .rating-stars label:hover ~ label {
+        color: #fbbf24;
+    }
 </style>
 @endsection
 
@@ -137,10 +159,58 @@
         <i class="bi bi-display me-2"></i> <strong>All other sessions have been logged out.</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
+@elseif(session('success'))
+    <div class="alert alert-success alert-dismissible fade show rounded-4 mb-4 shadow-sm" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 @endif
 
 <div class="settings-container">
     <div class="settings-content">
+
+        {{-- Feedback & Testimonial --}}
+        <section id="feedback" class="settings-section-card shadow-sm">
+            <div class="settings-section-header">
+                <h5 class="fw-bold mb-0">Feedback & Testimonial</h5>
+                @if($testimonial)
+                    @if($testimonial->is_active)
+                        <span class="badge bg-success bg-opacity-10 text-success px-4 py-2 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i> Published</span>
+                    @else
+                        <span class="badge bg-warning bg-opacity-10 text-warning px-4 py-2 rounded-pill"><i class="bi bi-clock-history me-1"></i> Pending Review</span>
+                    @endif
+                @endif
+            </div>
+            <div class="settings-section-body">
+                <p class="text-muted small mb-4">Share your experience with LokSiksha. Your testimonial helps others choose the right preparation platform.</p>
+                
+                <form method="POST" action="{{ route('testimonials.store') }}">
+                    @csrf
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase">Your Rating</label>
+                        <div class="rating-stars">
+                            @for($i = 5; $i >= 1; $i--)
+                                <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" {{ ($testimonial && $testimonial->rating == $i) || (!$testimonial && $i == 5) ? 'checked' : '' }}>
+                                <label for="star{{ $i }}"><i class="bi bi-star-fill"></i></label>
+                            @endfor
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase">Your Review</label>
+                        <textarea name="content" class="form-control form-control-custom @error('content') is-invalid @enderror" 
+                                  rows="4" placeholder="How has LokSiksha helped you in your preparation?" required>{{ old('content', $testimonial->content ?? '') }}</textarea>
+                        @error('content')
+                            <div class="text-danger small mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn-save-custom w-100">
+                        {{ $testimonial ? 'Update Testimonial' : 'Submit Testimonial' }}
+                    </button>
+                </form>
+            </div>
+        </section>
 
         {{-- Email & Identity --}}
         <section id="identity" class="settings-section-card shadow-sm">

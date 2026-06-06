@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Pricing Plans - LokSewa Tayari')
+@section('title', 'Pricing Plans - Lok Siksha')
 
 @section('extra_css')
     <style>

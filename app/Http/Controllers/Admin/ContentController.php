@@ -87,7 +87,7 @@ class ContentController extends Controller
 
     public function testimonials()
     {
-        $testimonials = \App\Models\Testimonial::latest()->get();
+        $testimonials = \App\Models\Testimonial::with('user')->latest()->get();
         return view('admin.content.testimonials', compact('testimonials'));
     }
 

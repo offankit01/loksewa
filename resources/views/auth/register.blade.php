@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $site_settings['site_name'] ?? 'LokSewa Tayari' }} - Create Account</title>
+    <title>{{ $site_settings['site_name'] ?? 'Lok Siksha' }} - Create Account</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,14 +161,8 @@
         <div class="visual-side">
             <div class="text-center mb-5">
                 <a href="{{ url('/') }}" class="text-decoration-none text-white d-inline-flex align-items-center gap-3 mb-5">
-                    @if(isset($site_settings['site_logo']))
-                        <img src="{{ asset('storage/' . $site_settings['site_logo']) }}" alt="Logo" style="height: 50px; filter: brightness(0) invert(1);">
-                    @else
-                        <div class="bg-accent-orange p-3 rounded-4 shadow">
-                            <i class="bi bi-journal-bookmark-fill fs-2"></i>
-                        </div>
-                    @endif
-                    <h2 class="fw-bold m-0">{{ $site_settings['site_name'] ?? 'LokSewa Tayari' }}</h2>
+                    <img src="/storage/logo1.png" alt="Logo" style="height: 50px; width: auto; filter: brightness(0) invert(1);">
+                    <h2 class="fw-bold m-0">{{ $site_settings['site_name'] ?? 'Lok Siksha' }}</h2>
                 </a>
             </div>
 
@@ -200,7 +194,7 @@
             </div>
 
             <div class="position-absolute bottom-0 start-0 p-5 text-white-50 small">
-                &copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'LokSewa Tayari' }} Platform
+                &copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'Lok Siksha' }} Platform
             </div>
         </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', config('app.name', 'LokSewa Tayari') . ' - Services Roadmap')
+@section('title', config('app.name', 'Lok Siksha') . ' - Services Roadmap')
 
 @section('extra_css')
     <style>

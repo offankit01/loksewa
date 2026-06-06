@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin Panel') - LokSewa Tayari</title>
+    <title>@yield('title', 'Admin Panel') - Lok Siksha</title>
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -129,14 +129,8 @@
     <div class="sidebar d-flex flex-column">
         <div class="sidebar-brand">
             <h4 class="fw-bold d-flex align-items-center m-0 text-white">
-                @if(isset($site_settings['site_logo']))
-                    <img src="{{ asset('storage/' . $site_settings['site_logo']) }}" alt="Logo" style="height: 35px; filter: brightness(0) invert(1);" class="me-2">
-                @else
-                    <div class="bg-accent-orange p-2 rounded-3 me-3 shadow-sm">
-                        <i class="bi bi-shield-lock-fill text-white fs-5"></i>
-                    </div>
-                @endif
-                Lok<span class="text-accent-orange ms-1">Siksha</span>
+                <img src="/storage/logo1.png" alt="Logo" style="height: 35px; width: auto; filter: brightness(0) invert(1);" class="me-2">
+                Lok <span class="text-accent-orange">Siksha</span>
             </h4>
         </div>
         

@@ -16,7 +16,8 @@ class SettingsController extends Controller
     {
         // return "Settings page is working";
         $user = Auth::user();
-        return view('settings.index', compact('user'));
+        $testimonial = \App\Models\Testimonial::where('user_id', $user->id)->first();
+        return view('settings.index', compact('user', 'testimonial'));
     }
 
     /**

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Dashboard') - LokSewa Tayari</title>
+    <title>@yield('title', 'Dashboard') - Lok Siksha</title>
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -129,8 +129,8 @@
     <aside class="sidebar shadow-sm" id="sidebar">
         <a href="{{ url('/') }}" class="text-decoration-none">
             <div class="sidebar-brand">
-                <i class="bi bi-journal-bookmark-fill text-accent-orange"></i>
-                <span>LokSewa Portal</span>
+                <img src="/storage/logo1.png" alt="Lok Siksha" style="height: 35px; width: auto;" class="me-2">
+                <span>Lok Siksha</span>
             </div>
         </a>
         

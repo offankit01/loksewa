@@ -24,16 +24,16 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::get('/mock-tests', [App\Http\Controllers\MockTestController::class, 'index'])->name('mock-tests.index');
-Route::get('/mock-tests/{mockTest:slug}/start', [App\Http\Controllers\MockTestController::class, 'start'])->name('mock-tests.start');
-Route::post('/mock-tests/{mockTest:slug}/attempt', [App\Http\Controllers\MockTestController::class, 'attempt'])->name('mock-tests.attempt');
-Route::post('/mock-tests/{mockTest:slug}/submit', [App\Http\Controllers\MockTestController::class, 'submit'])->name('mock-tests.submit');
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    // Mock Tests
+    Route::get('/mock-tests', [App\Http\Controllers\MockTestController::class, 'index'])->name('mock-tests.index');
+    Route::get('/mock-tests/{mockTest:slug}/start', [App\Http\Controllers\MockTestController::class, 'start'])->name('mock-tests.start');
+    Route::post('/mock-tests/{mockTest:slug}/attempt', [App\Http\Controllers\MockTestController::class, 'attempt'])->name('mock-tests.attempt');
+    Route::post('/mock-tests/{mockTest:slug}/submit', [App\Http\Controllers\MockTestController::class, 'submit'])->name('mock-tests.submit');
 
     Route::get('/performance', [App\Http\Controllers\PerformanceController::class, 'index'])->name('performance');
     Route::get('/upgrade-plan', [App\Http\Controllers\UpgradeController::class, 'index'])->name('upgrade-plan');
@@ -78,6 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/settings/notifications', [App\Http\Controllers\SettingsController::class, 'updateNotifications'])->name('settings.notifications');
     Route::post('/settings/2fa', [App\Http\Controllers\SettingsController::class, 'toggle2FA'])->name('settings.2fa');
     Route::post('/settings/logout-sessions', [App\Http\Controllers\SettingsController::class, 'logoutOtherSessions'])->name('settings.logout-sessions');
+
+    // Testimonials
+    Route::post('/testimonials', [App\Http\Controllers\TestimonialController::class, 'store'])->name('testimonials.store');
 });
 
 require __DIR__.'/auth.php';

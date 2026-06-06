@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Knowledge Hub - LokSewa')
+@section('title', 'Knowledge Hub - Lok Siksha')
 
 @section('content')
     <!-- Blog Hero -->
@@ -47,25 +47,25 @@
                         <div class="blog-card-premium h-100">
                             <div class="blog-img-wrap">
                                 <div class="blog-badge">Preparation</div>
-                                <img src="{{ $blog['image'] }}" alt="{{ $blog['title'] }}">
+                                <img src="{{ $blog->image ? Storage::url($blog->image) : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' }}" alt="{{ $blog->title }}">
                             </div>
                             <div class="card-body p-4 d-flex flex-column">
                                 <div class="blog-date-styled">
-                                    <i class="bi bi-calendar3 text-primary-blue"></i> {{ $blog['date'] }}
+                                    <i class="bi bi-calendar3 text-primary-blue"></i> {{ $blog->created_at->format('M d, Y') }}
                                 </div>
                                 <h4 class="fw-bold mb-3 lh-base">
-                                    <a href="{{ route('blogs.show', $blog['slug']) }}" class="text-dark text-decoration-none hover-text-primary">{{ $blog['title'] }}</a>
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" class="text-dark text-decoration-none hover-text-primary">{{ $blog->title }}</a>
                                 </h4>
-                                <p class="text-muted small mb-4 line-clamp-3">{{ $blog['excerpt'] }}</p>
+                                <p class="text-muted small mb-4 line-clamp-3">{{ $blog->excerpt }}</p>
                                 
                                 <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top border-light">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="user-avatar-styled" style="width: 32px; height: 32px; font-size: 0.8rem; border-radius: 8px;">
-                                            {{ strtoupper(substr($blog['author'], 0, 1)) }}
+                                            {{ strtoupper(substr($blog->author->name ?? 'A', 0, 1)) }}
                                         </div>
-                                        <span class="small fw-bold text-dark">{{ $blog['author'] }}</span>
+                                        <span class="small fw-bold text-dark">{{ $blog->author->name ?? 'Admin' }}</span>
                                     </div>
-                                    <a href="{{ route('blogs.show', $blog['slug']) }}" class="btn btn-link text-primary-blue fw-bold text-decoration-none p-0 small">
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" class="btn btn-link text-primary-blue fw-bold text-decoration-none p-0 small">
                                         Read Full <i class="bi bi-arrow-right"></i>
                                     </a>
                                 </div>

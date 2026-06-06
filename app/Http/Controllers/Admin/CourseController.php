@@ -19,12 +19,14 @@ class CourseController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'category' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:50',
             'description' => 'nullable|string'
         ]);
 
         Course::create([
             'title' => $request->title,
+            'category' => $request->category,
             'slug' => Str::slug($request->title),
             'icon' => $request->icon ?? 'bi-briefcase',
             'description' => $request->description,
@@ -38,12 +40,14 @@ class CourseController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'category' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:50',
             'description' => 'nullable|string'
         ]);
 
         $course->update([
             'title' => $request->title,
+            'category' => $request->category,
             'slug' => Str::slug($request->title),
             'icon' => $request->icon ?? 'bi-briefcase',
             'description' => $request->description

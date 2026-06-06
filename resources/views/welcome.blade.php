@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', config('app.name', 'LokSewa Tayari') . ' - Home')
+@section('title', config('app.name', 'Lok Siksha') . ' - Home')
 
 @section('content')
     <!-- Hero Section -->
@@ -11,14 +11,14 @@
                 <div class="col-lg-6">
                     <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
                         <div class="badge-icon"><i class="bi bi-shield-check"></i></div>
-                        <span class="badge-text">The Future of LokSewa Preparation</span>
+                        <span class="badge-text">The Future of Lok Siksha Preparation</span>
                     </div>
                     <h1 class="display-2 fw-extrabold mb-4 lh-1">
                         Empower Your <br>
-                        <span class="text-gradient">LokSewa</span> Journey
+                        <span class="text-gradient">Lok Siksha</span> Journey
                     </h1>
                     <p class="lead text-muted mb-5 fs-4 fw-light">
-                        Unlock your potential with the most advanced LokSewa platform. Expert notes, real-time analytics, and a community of success.
+                        Unlock your potential with the most advanced Lok Siksha platform. Expert notes, real-time analytics, and a community of success.
                     </p>
                     
                     <div class="d-flex flex-wrap gap-3">
@@ -44,7 +44,7 @@
                 <div class="col-lg-6">
                     <div class="hero-visual position-relative">
                         <div class="hero-glow"></div>
-                        <img src="{{ asset('assets/images/hero.png') }}" alt="LokSewa Learning" class="img-fluid rounded-5 shadow-2xl animate-float hero-main-img">
+                        <img src="{{ asset('assets/images/hero.png') }}" alt="Lok Siksha Learning" class="img-fluid rounded-5 shadow-2xl animate-float hero-main-img">
                         
                         <!-- Floating Glass Cards -->
                         <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float" style="top: 15%; right: -5%; z-index: 10;">
@@ -80,7 +80,7 @@
     <section class="py-5 bg-white position-relative overflow-hidden">
         <div class="container text-center mb-5">
             <h2 class="fw-extrabold display-5 mb-3">Popular Exam Categories</h2>
-            <p class="text-muted max-w-2xl mx-auto">Specialized preparation for all major LokSewa positions in Nepal.</p>
+            <p class="text-muted max-w-2xl mx-auto">Specialized preparation for all major Lok Siksha positions in Nepal.</p>
         </div>
         <div class="container">
             <div class="row g-4">
@@ -113,7 +113,7 @@
                 <div class="col-lg-6 order-lg-2">
                     <div class="badge-premium d-inline-flex align-items-center gap-2 mb-4 animate-fade-in">
                         <div class="badge-icon"><i class="bi bi-patch-check-fill"></i></div>
-                        <span class="badge-text">Why LokSewa?</span>
+                        <span class="badge-text">Why Lok Siksha?</span>
                     </div>
                     <h2 class="display-5 fw-extrabold mb-4">Why Aspirants Choose Us?</h2>
                     <p class="text-muted mb-5 fs-5">We provide the most comprehensive ecosystem for your government job preparation journey, trusted by thousands of successful candidates.</p>
@@ -136,7 +136,7 @@
                                     <i class="bi bi-person-video3"></i>
                                 </div>
                                 <h4 class="fw-bold mb-3">Expert Mentorship</h4>
-                                <p class="text-muted small mb-0">Get direct guidance and strategies from former LokSewa officers and toppers.</p>
+                                <p class="text-muted small mb-0">Get direct guidance and strategies from former Lok Siksha officers and toppers.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -154,7 +154,7 @@
                 <div class="col-lg-6 order-lg-1">
                     <div class="position-relative">
                         <div class="feature-img-glow"></div>
-                        <img src="{{ asset('assets/images/why-us.png') }}" alt="LokSewa Features" class="img-fluid rounded-5 shadow-2xl position-relative z-1">
+                        <img src="{{ asset('assets/images/why-us.png') }}" alt="Lok Siksha Features" class="img-fluid rounded-5 shadow-2xl position-relative z-1">
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
                     <span class="badge-text">Success Stories</span>
                 </div>
                 <h2 class="display-5 fw-extrabold mb-3">Voices of Success</h2>
-                <p class="text-muted fs-5">Join thousands of students who have achieved their dreams with LokSewa.</p>
+                <p class="text-muted fs-5">Join thousands of students who have achieved their dreams with Lok Siksha.</p>
             </div>
             <div class="row g-4">
                 @forelse($testimonials as $testimonial)
@@ -248,7 +248,7 @@
                 </div>
                 @empty
                 @foreach([
-                    ['name' => 'Ankit Yadav', 'text' => 'LokSewa has transformed the way I prepare for LokSewa. The mock tests are incredibly realistic!', 'role' => 'Section Officer Aspirant'],
+                    ['name' => 'Ankit Yadav', 'text' => 'Lok Siksha has transformed the way I prepare for LokSewa. The mock tests are incredibly realistic!', 'role' => 'Section Officer Aspirant'],
                     ['name' => 'Priya Sharma', 'text' => 'The bilingual notes are a lifesaver. I can switch between Nepali and English easily.', 'role' => 'Nayab Subba Candidate'],
                     ['name' => 'Suman Thapa', 'text' => 'I passed my Kharidar exam thanks to the consistent practice on this platform. Highly recommended!', 'role' => 'Successful Candidate']
                 ] as $item)
@@ -286,7 +286,7 @@
                         <span class="badge-text">Knowledge Hub</span>
                     </div>
                     <h2 class="display-5 fw-extrabold mb-2">Latest from Our Blog</h2>
-                    <p class="text-muted mb-0 fs-5">Stay updated with the latest news, prep strategies, and LokSewa insights.</p>
+                    <p class="text-muted mb-0 fs-5">Stay updated with the latest news, prep strategies, and Lok Siksha insights.</p>
                 </div>
                 <a href="{{ route('blogs.index') }}" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold border-2 hover-bg-light">
                     View All Posts <i class="bi bi-arrow-up-right ms-1"></i>
@@ -296,12 +296,41 @@
             <!-- Blog Slider -->
             <div class="swiper blogSwiper pb-5">
                 <div class="swiper-wrapper">
+                    @forelse($blogs as $blog)
+                    <div class="swiper-slide h-auto">
+                        <div class="blog-card-premium h-100">
+                            <div class="blog-img-wrap">
+                                <div class="blog-badge">Preparation</div>
+                                <img src="{{ $blog->image ? Storage::url($blog->image) : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' }}" alt="{{ $blog->title }}">
+                            </div>
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="blog-date-styled">
+                                    <i class="bi bi-calendar3 text-primary-blue"></i> {{ $blog->created_at->format('M d, Y') }}
+                                </div>
+                                <h4 class="fw-bold mb-3 lh-base">
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" class="text-dark text-decoration-none hover-text-primary">{{ $blog->title }}</a>
+                                </h4>
+                                <p class="text-muted small mb-4 line-clamp-2">{{ $blog->excerpt }}</p>
+                                
+                                <div class="d-flex align-items-center justify-content-between mt-auto pt-3 border-top border-light">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="user-avatar-styled" style="width: 32px; height: 32px; font-size: 0.8rem; border-radius: 8px;">
+                                            {{ strtoupper(substr($blog->author->name ?? 'A', 0, 1)) }}
+                                        </div>
+                                        <span class="small fw-bold text-dark">{{ $blog->author->name ?? 'Admin' }}</span>
+                                    </div>
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" class="btn btn-link text-primary-blue fw-bold text-decoration-none p-0 small">
+                                        Read Full <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
                     @foreach([
-                        ['title' => 'Top 10 Tips to Crack LokSewa Exams', 'tag' => 'Strategy', 'date' => 'May 15', 'img' => 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800'],
+                        ['title' => 'Top 10 Tips to Crack Lok Siksha Exams', 'tag' => 'Strategy', 'date' => 'May 15', 'img' => 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800'],
                         ['title' => 'Daily Current Affairs: Nepal & Global', 'tag' => 'News', 'date' => 'May 14', 'img' => 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800'],
-                        ['title' => 'How to Master Mathematics for Exams', 'tag' => 'Study Guide', 'date' => 'May 12', 'img' => 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=800'],
-                        ['title' => 'Understanding the New Syllabus Pattern', 'tag' => 'Updates', 'date' => 'May 10', 'img' => 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=800'],
-                        ['title' => 'Memory Techniques for Fast Learning', 'tag' => 'Psychology', 'date' => 'May 08', 'img' => 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=800']
+                        ['title' => 'How to Master Mathematics for Exams', 'tag' => 'Study Guide', 'date' => 'May 12', 'img' => 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=800']
                     ] as $blog)
                     <div class="swiper-slide h-auto">
                         <div class="blog-card-premium h-100">
@@ -314,7 +343,7 @@
                                     <i class="bi bi-calendar3 text-primary-blue"></i> {{ $blog['date'] }}, 2024
                                 </div>
                                 <h4 class="fw-bold mb-3 lh-base">
-                                    <a href="{{ route('blogs.show', \Illuminate\Support\Str::slug($blog['title'])) }}" class="text-dark text-decoration-none hover-text-primary">{{ $blog['title'] }}</a>
+                                    <a href="#" class="text-dark text-decoration-none hover-text-primary">{{ $blog['title'] }}</a>
                                 </h4>
                                 <p class="text-muted small mb-4 line-clamp-2">Master the essential strategies and time management skills needed to ace your upcoming civil service examinations.</p>
                                 
@@ -323,7 +352,7 @@
                                         <div class="user-avatar-styled">A</div>
                                         <span class="small fw-bold text-dark">Admin</span>
                                     </div>
-                                    <a href="{{ route('blogs.show', \Illuminate\Support\Str::slug($blog['title'])) }}" class="btn btn-link text-primary-blue fw-bold text-decoration-none p-0 small">
+                                    <a href="#" class="btn btn-link text-primary-blue fw-bold text-decoration-none p-0 small">
                                         Read Full <i class="bi bi-arrow-right"></i>
                                     </a>
                                 </div>
@@ -331,6 +360,7 @@
                         </div>
                     </div>
                     @endforeach
+                    @endforelse
                 </div>
                 
                 <!-- Navigation Buttons -->
@@ -405,9 +435,9 @@
                         </div>
                         @empty
                         @foreach([
-                            ['q' => 'How do I get started with LokSewa?', 'a' => 'Simply click on the "Get Started" button, create a free account, and you can immediately access our basic study materials and trial mock tests.'],
-                            ['q' => 'Is there a bilingual option for all materials?', 'a' => 'Yes! LokSewa is designed to be fully bilingual. You can switch between Nepali and English for most of our notes and exam sets.'],
-                            ['q' => 'How often are the mock tests updated?', 'a' => 'Our expert team updates the test bank weekly to reflect the latest LokSewa patterns and current affairs.']
+                            ['q' => 'How do I get started with Lok Siksha?', 'a' => 'Simply click on the "Get Started" button, create a free account, and you can immediately access our basic study materials and trial mock tests.'],
+                            ['q' => 'Is there a bilingual option for all materials?', 'a' => 'Yes! Lok Siksha is designed to be fully bilingual. You can switch between Nepali and English for most of our notes and exam sets.'],
+                            ['q' => 'How often are the mock tests updated?', 'a' => 'Our expert team updates the test bank weekly to reflect the latest Lok Siksha patterns and current affairs.']
                         ] as $index => $item)
                         <div class="accordion-item bg-transparent faq-item-custom">
                             <h2 class="accordion-header">
@@ -437,7 +467,7 @@
                 <div class="cta-pattern-2"></div>
                 <div class="position-relative z-1">
                     <h2 class="display-3 fw-extrabold mb-4">Start Your Preparation Today</h2>
-                    <p class="lead mb-5 opacity-75 max-w-2xl mx-auto">Join thousands of aspirants who are already ahead of the competition. Your government career starts here.</p>
+                    <p class="lead mb-5 opacity-75 max-w-2xl mx-auto">Join thousands of aspirants who are already ahead of the competition. Your government career starts here with Lok Siksha.</p>
                     <div class="d-flex flex-wrap justify-content-center gap-3">
                         <a href="{{ route('register') }}" class="btn btn-accent-custom btn-lg rounded-pill px-5 py-3 shadow-lg hover-scale">
                             Join for Free <i class="bi bi-arrow-right ms-2"></i>

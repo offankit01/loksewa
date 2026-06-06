@@ -20,6 +20,12 @@ class HomeController extends Controller
             ->take(4)
             ->get();
             
-        return view('welcome', compact('testimonials', 'faqs', 'features'));
+        $blogs = \App\Models\Blog::where('is_published', true)
+            ->with('author')
+            ->latest()
+            ->take(6)
+            ->get();
+            
+        return view('welcome', compact('testimonials', 'faqs', 'features', 'blogs'));
     }
 }

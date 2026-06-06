@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $blog['title'] . ' - LokSewa')
+@section('title', $blog->title . ' - Lok Siksha')
 
 @section('content')
     <!-- Blog Post Header -->
@@ -13,24 +13,24 @@
                         <div class="badge-icon"><i class="bi bi-tag-fill"></i></div>
                         <span class="badge-text">Preparation Guide</span>
                     </div>
-                    <h1 class="display-3 fw-extrabold text-white mb-4 lh-tight">{{ $blog['title'] }}</h1>
+                    <h1 class="display-3 fw-extrabold text-white mb-4 lh-tight">{{ $blog->title }}</h1>
                     
                     <div class="d-flex align-items-center justify-content-center gap-4 flex-wrap mt-4">
                         <div class="d-flex align-items-center gap-2">
                             <div class="user-avatar-styled bg-white bg-opacity-10" style="width: 40px; height: 40px;">
-                                {{ strtoupper(substr($blog['author'], 0, 1)) }}
+                                {{ strtoupper(substr($blog->author->name ?? 'A', 0, 1)) }}
                             </div>
-                            <span class="fw-bold">{{ $blog['author'] }}</span>
+                            <span class="fw-bold">{{ $blog->author->name ?? 'Admin' }}</span>
                         </div>
                         <div class="vr opacity-25 d-none d-md-block"></div>
                         <div class="d-flex align-items-center gap-2 opacity-75">
                             <i class="bi bi-calendar3"></i>
-                            <span>{{ $blog['date'] }}</span>
+                            <span>{{ $blog->created_at->format('M d, Y') }}</span>
                         </div>
                         <div class="vr opacity-25 d-none d-md-block"></div>
                         <div class="d-flex align-items-center gap-2 opacity-75">
-                            <i class="bi bi-clock"></i>
-                            <span>8 Min Read</span>
+                            <i class="bi bi-eye"></i>
+                            <span>{{ $blog->views }} Views</span>
                         </div>
                     </div>
                 </div>
@@ -47,37 +47,12 @@
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-2xl rounded-5 overflow-hidden animate-slide-up">
                         <div class="position-relative">
-                            <img src="{{ $blog['image'] }}" alt="{{ $blog['title'] }}" class="w-100" style="height: 450px; object-fit: cover;">
+                            <img src="{{ $blog->image ? Storage::url($blog->image) : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' }}" alt="{{ $blog->title }}" class="w-100" style="height: 450px; object-fit: cover;">
                             <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-gradient-to-t from-black opacity-50 h-50"></div>
                         </div>
                         <div class="card-body p-5">
                             <div class="blog-content-rich fs-5 text-muted lh-lg">
-                                <p class="lead fw-bold text-dark mb-4">{{ $blog['excerpt'] }}</p>
-                                
-                                <h3 class="fw-bold text-dark mb-3 mt-5">The Importance of Strategy</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                
-                                <div class="p-4 bg-light rounded-4 border-start border-primary-blue border-5 my-5">
-                                    <p class="fst-italic mb-0">"Success in LokSewa isn't just about how much you study, but how effectively you plan your preparation journey."</p>
-                                </div>
-
-                                <h3 class="fw-bold text-dark mb-3 mt-5">Core Preparation Pillars</h3>
-                                <ul class="list-unstyled">
-                                    <li class="mb-3 d-flex gap-3">
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                        <span><strong>Syllabus Mastery:</strong> Understand every sub-topic and its weightage in the final score.</span>
-                                    </li>
-                                    <li class="mb-3 d-flex gap-3">
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                        <span><strong>Consistent Revision:</strong> Information retention is key for GK and written papers.</span>
-                                    </li>
-                                    <li class="mb-3 d-flex gap-3">
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                        <span><strong>Mock Practice:</strong> Simulate the exam environment weekly to improve speed.</span>
-                                    </li>
-                                </ul>
-
-                                <p class="mt-5">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                {!! $blog->content !!}
                             </div>
 
                             <!-- Share Section -->
@@ -98,9 +73,9 @@
                     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 animate-slide-up" style="animation-delay: 0.1s;">
                         <div class="text-center">
                             <div class="user-avatar-styled mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
-                                {{ strtoupper(substr($blog['author'], 0, 1)) }}
+                                {{ strtoupper(substr($blog->author->name ?? 'A', 0, 1)) }}
                             </div>
-                            <h5 class="fw-bold mb-1">{{ $blog['author'] }}</h5>
+                            <h5 class="fw-bold mb-1">{{ $blog->author->name ?? 'Admin' }}</h5>
                             <p class="text-primary-blue small fw-bold mb-3 text-uppercase">Senior Content Strategist</p>
                             <p class="text-muted small mb-4">Dedicated to helping students navigate the complex world of civil service exams with expert insights.</p>
                             <a href="#" class="btn btn-outline-primary-blue w-100 rounded-pill">View Profile</a>
@@ -112,12 +87,12 @@
                         <h5 class="fw-bold mb-4">Recent Articles</h5>
                         @foreach($recentBlogs as $recent)
                         <div class="d-flex gap-3 mb-4 last-child-mb-0">
-                            <img src="{{ $recent['image'] }}" class="rounded-3" style="width: 80px; height: 60px; object-fit: cover;">
+                            <img src="{{ $recent->image ? Storage::url($recent->image) : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' }}" class="rounded-3" style="width: 80px; height: 60px; object-fit: cover;">
                             <div>
                                 <h6 class="fw-bold mb-1 small lh-base">
-                                    <a href="{{ route('blogs.show', $recent['slug']) }}" class="text-dark text-decoration-none hover-text-primary">{{ $recent['title'] }}</a>
+                                    <a href="{{ route('blogs.show', $recent->slug) }}" class="text-dark text-decoration-none hover-text-primary">{{ $recent->title }}</a>
                                 </h6>
-                                <p class="text-muted small mb-0">{{ $recent['date'] }}</p>
+                                <p class="text-muted small mb-0">{{ $recent->created_at->format('M d, Y') }}</p>
                             </div>
                         </div>
                         @endforeach

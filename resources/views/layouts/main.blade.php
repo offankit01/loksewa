@@ -24,6 +24,81 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet">
     @endif
 
+    <style>
+        /* Premium Dropdown Styling */
+        .dropdown-menu-premium {
+            min-width: 280px;
+            padding: 1rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            animation: dropdownFadeIn 0.3s ease-out;
+        }
+
+        @keyframes dropdownFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item-premium {
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+
+        .dropdown-item-premium:hover {
+            background-color: rgba(var(--primary-blue-rgb), 0.05);
+            color: var(--primary-blue);
+            transform: translateX(5px);
+        }
+
+        .dropdown-item-premium i {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item-premium:hover i {
+            background-color: var(--primary-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .item-desc {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--muted-text);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .dropdown-header-premium {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted-text);
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .navbar-custom .nav-link.active {
+            color: var(--primary-blue) !important;
+            font-weight: 700;
+        }
+    </style>
     @yield('extra_css')
 </head>
 <body class="@yield('body_class')">
@@ -32,9 +107,9 @@
     @if(!isset($hide_nav_footer) || !$hide_nav_footer)
     <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary-blue d-flex align-items-center gap-2" href="{{ url('/') }}">
-                <img src="{{ asset('storage/logo1.png') }}" alt="Logo" style="height: 60px; width: auto;">
-                <span class="fs-3 fw-extrabold text-primary-blue tracking-tight">LokSewa</span>
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
+                <img src="/storage/logo1.png" alt="Lok Siksha" width="42" height="42" class="d-inline-block align-text-top rounded-circle shadow-sm">
+                <span class="fw-extrabold fs-4 tracking-tight text-primary-blue">Lok <span class="text-accent-orange">Siksha</span></span>
             </a>
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -45,16 +120,67 @@
                         <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ Request::is('services') || Request::is('service/*') ? 'active' : '' }}" href="{{ route('services') }}">
+                        <a class="nav-link dropdown-toggle {{ Request::is('services') || Request::is('service/*') ? 'active' : '' }}" href="{{ route('services') }}" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Services
                         </a>
-                        <!-- Submenu logic simplified for layout -->
-                        <ul class="dropdown-menu shadow-sm border-0">
-                             <li><a class="dropdown-item" href="{{ route('services') }}">All Services Roadmap</a></li>
-                             <li><hr class="dropdown-divider"></li>
-                             <li><a class="dropdown-item" href="{{ route('service.show', 'kharidar') }}">Kharidar</a></li>
-                             <li><a class="dropdown-item" href="{{ route('service.show', 'nayab-subba') }}">Nayab Subba</a></li>
-                             <li><a class="dropdown-item" href="{{ route('service.show', 'section-officer') }}">Section Officer</a></li>
+                        <ul class="dropdown-menu dropdown-menu-premium" aria-labelledby="servicesDropdown">
+                             <li class="dropdown-header-premium">Academic Roadmap</li>
+                             <li>
+                                <a class="dropdown-item dropdown-item-premium" href="{{ route('services') }}">
+                                    <i class="bi bi-map text-primary-blue bg-primary-blue bg-opacity-10"></i>
+                                    <div>
+                                        <span>All Services Roadmap</span>
+                                        <span class="item-desc">Explore all career paths</span>
+                                    </div>
+                                </a>
+                             </li>
+                             <li><hr class="dropdown-divider mx-3"></li>
+                             <li class="dropdown-header-premium">All Services</li>
+                             <li>
+                                <a class="dropdown-item dropdown-item-premium" href="{{ route('service.show', 'nepal-administrative-service') }}">
+                                    <i class="bi bi-building text-accent-orange bg-accent-orange bg-opacity-10"></i>
+                                    <div>
+                                        <span>Administrative Service</span>
+                                        <span class="item-desc">Nepal Administrative Service</span>
+                                    </div>
+                                </a>
+                             </li>
+                             <li>
+                                <a class="dropdown-item dropdown-item-premium" href="{{ route('service.show', 'nepal-police-service') }}">
+                                    <i class="bi bi-shield-check text-primary-blue bg-primary-blue bg-opacity-10"></i>
+                                    <div>
+                                        <span>Police Service</span>
+                                        <span class="item-desc">Nepal Police Service</span>
+                                    </div>
+                                </a>
+                             </li>
+                             <li>
+                                <a class="dropdown-item dropdown-item-premium" href="{{ route('service.show', 'nepal-army-service') }}">
+                                    <i class="bi bi-star text-danger bg-danger bg-opacity-10"></i>
+                                    <div>
+                                        <span>Army Service</span>
+                                        <span class="item-desc">Nepal Army Service</span>
+                                    </div>
+                                </a>
+                             </li>
+                             <li>
+                                <a class="dropdown-item dropdown-item-premium" href="{{ route('service.show', 'nepal-judicial-service') }}">
+                                    <i class="bi bi-bank text-info bg-info bg-opacity-10"></i>
+                                    <div>
+                                        <span>Judicial Service</span>
+                                        <span class="item-desc">Nepal Judicial Service</span>
+                                    </div>
+                                </a>
+                             </li>
+                             <li>
+                                <a class="dropdown-item dropdown-item-premium" href="{{ route('service.show', 'nepal-foreign-affairs-service') }}">
+                                    <i class="bi bi-globe text-success bg-success bg-opacity-10"></i>
+                                    <div>
+                                        <span>Foreign Affairs Service</span>
+                                        <span class="item-desc">Nepal Foreign Affairs Service</span>
+                                    </div>
+                                </a>
+                             </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -126,8 +252,8 @@
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <a class="navbar-brand fw-bold text-white d-flex align-items-center mb-3 gap-2" href="{{ url('/') }}">
-                        <img src="{{ asset('storage/logo1.png') }}" alt="Logo" style="height: 80px; width: auto; filter: brightness(0) invert(1);">
-                        <span class="fs-2 fw-extrabold text-white tracking-tight">LokSewa</span>
+                        <img src="/storage/logo1.png" alt="Lok Siksha" style="height: 45px; width: auto; filter: brightness(0) invert(1);">
+                        <span class="fs-2 fw-extrabold text-white tracking-tight">Lok Siksha</span>
                     </a>
                     <p class="text-white-50 small mb-4">{{ $site_settings['site_description'] ?? 'Empowering students across Nepal to achieve their dreams of serving the nation.' }}</p>
                     <div class="d-flex gap-3">
@@ -167,7 +293,7 @@
             </div>
             <hr class="border-secondary mt-5 mb-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50 small">
-                <p class="mb-0">&copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'LokSewa Tayari' }}. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'Lok Siksha' }}. All rights reserved.</p>
                 <p class="mb-0">Made with <i class="bi bi-heart-fill text-danger"></i> for aspirants.</p>
             </div>
         </div>
