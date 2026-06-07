@@ -10,8 +10,6 @@
 /.git
 /.github
 /.vscode
-/Dockerfile
-/docker
 .dockerignore
 .gitignore
 .env.example
