@@ -1,46 +1,63 @@
-FROM php:8.3-fpm-alpine
-
-# Install system dependencies
-RUN apk add --no-cache \
+FROM php:8.2-fpm
+ 
+# System dependencies
+RUN apt-get update && apt-get install -y \
     nginx \
     supervisor \
-    libpng-dev \
-    oniguruma-dev \
-    libxml2-dev \
+    curl \
     zip \
     unzip \
     git \
-    curl \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
     libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
-
-# Get latest Composer
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        mbstring \
+        exif \
+        pcntl \
+        bcmath \
+        gd \
+        zip \
+        intl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+ 
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+ 
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Set working directory
+ 
+# App files
 WORKDIR /var/www/html
-
-# Copy project files
 COPY . .
-
+ 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Setup Nginx and Supervisor configs
-COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+ 
+# Build frontend assets
+RUN npm install && npm run build
+ 
+# Permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 storage bootstrap/cache
+ 
+# Nginx config
+RUN rm -f /etc/nginx/sites-enabled/default
+COPY docker/nginx.conf /etc/nginx/sites-enabled/laravel.conf
+ 
+# Supervisor config
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-
-# Fix permissions for Laravel
-RUN chmod +x /usr/local/bin/entrypoint.sh && \
-    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Optimized PHP settings for production
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-# Render.com expects port 80 or uses $PORT env var
+ 
 EXPOSE 80
-
-# Use our entrypoint script
-ENTRYPOINT ["entrypoint.sh"]
+ 
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
