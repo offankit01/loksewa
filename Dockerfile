@@ -27,13 +27,11 @@ RUN apt-get update && apt-get install -y \
         intl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
- 
+
 # Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
+RUN apt-get update && apt-get install -y nodejs npm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
- 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
  
