@@ -12,7 +12,8 @@
 /.vscode
 .dockerignore
 .gitignore
-.env.example
 README.md
 phpunit.xml
 tests
+scratch
+composer.phar
