@@ -4,9 +4,18 @@ FROM node:20-slim AS node-builder
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY vite.config.js postcss.config.js tailwind.config.js ./
+COPY vite.config.js postcss.config.js ./
 COPY resources ./resources
 RUN npm run build
+
+# Verify build output exists and ensure manifest is at legacy path too
+RUN ls -la public/build/ && \
+    if [ -f public/build/.vite/manifest.json ]; then \
+        cp public/build/.vite/manifest.json public/build/manifest.json; \
+        echo "Copied .vite/manifest.json to legacy path"; \
+    fi && \
+    echo "=== Manifest contents ===" && \
+    cat public/build/manifest.json
 
 # ---- Stage 2: PHP application ----
 FROM php:8.2-fpm
@@ -37,6 +46,13 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Generate app key if not set
 RUN php artisan key:generate --force || true
+
+# Verify assets are in place
+RUN echo "=== Checking build assets ===" && \
+    ls -la public/build/ && \
+    ls -la public/build/assets/ && \
+    echo "=== Manifest ===" && \
+    cat public/build/manifest.json
 
 RUN mkdir -p /var/log/supervisor \
     storage/framework/cache/data \
