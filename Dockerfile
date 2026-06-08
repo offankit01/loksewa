@@ -1,16 +1,21 @@
+# ---- Stage 1: Build frontend assets with official Node image ----
+FROM node:20-slim AS node-builder
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY vite.config.js postcss.config.js tailwind.config.js ./
+COPY resources ./resources
+RUN npm run build
+
+# ---- Stage 2: PHP application ----
 FROM php:8.2-fpm
 
-# System dependencies in one clean step
+# System dependencies (NO NodeSource needed)
 RUN apt-get update && apt-get install -y \
     nginx supervisor curl zip unzip git \
     libpng-dev libjpeg-dev libfreetype6-dev \
     libonig-dev libxml2-dev libzip-dev \
-    ca-certificates gnupg \
-    && mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
-    && apt-get update \
-    && apt-get install -y nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip intl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -21,12 +26,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
+# Copy built frontend assets from node stage
+COPY --from=node-builder /app/public/build ./public/build
+
 # Create .env file for build (artisan commands need it)
-# Runtime env vars from Render will override these
 RUN cp .env.example .env || true
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
-RUN npm install && npm run build
 
 # Generate app key if not set
 RUN php artisan key:generate --force || true
