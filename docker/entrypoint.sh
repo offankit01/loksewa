@@ -29,6 +29,10 @@ php artisan view:cache
 echo "📂 Running database migrations..."
 php artisan migrate --force || echo "⚠️ Migration failed or no database configured yet"
 
+# Seed database (firstOrCreate ensures no duplicates)
+echo "🌱 Seeding database..."
+php artisan db:seed --force || echo "⚠️ Seeding skipped"
+
 # Link storage
 php artisan storage:link || true
 
