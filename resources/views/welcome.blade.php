@@ -21,11 +21,11 @@
                         Unlock your potential with the most advanced Lok Siksha platform. Expert notes, real-time analytics, and a community of success.
                     </p>
                     
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="{{ route('register') }}" class="btn btn-primary-custom btn-lg rounded-pill px-5 py-3 shadow-xl hover-scale d-inline-flex align-items-center gap-2">
+                    <div class="d-flex flex-column flex-sm-row flex-wrap gap-3">
+                        <a href="{{ route('register') }}" class="btn btn-primary-custom btn-lg rounded-pill px-4 px-md-5 py-3 shadow-xl hover-scale d-inline-flex align-items-center justify-content-center gap-2">
                             Get Started Free <i class="bi bi-arrow-right-circle-fill"></i>
                         </a>
-                        <a href="{{ route('services') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-bold border-2 hover-bg-light">
+                        <a href="{{ route('services') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-bold border-2 hover-bg-light d-inline-flex align-items-center justify-content-center">
                             View Study Roadmap
                         </a>
                     </div>
@@ -47,7 +47,7 @@
                         <img src="{{ asset('assets/images/hero.png') }}" alt="Lok Siksha Learning" class="img-fluid rounded-5 shadow-2xl animate-float hero-main-img">
                         
                         <!-- Floating Glass Cards -->
-                        <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float" style="top: 15%; right: -5%; z-index: 10;">
+                        <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float d-none d-lg-block" style="top: 15%; right: -5%; z-index: 10;">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="icon-circle bg-success">
                                     <i class="bi bi-check-lg"></i>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
 
-                        <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float-delayed" style="bottom: 15%; left: -5%; z-index: 10;">
+                        <div class="glass-card p-3 rounded-4 shadow-lg position-absolute animate-float-delayed d-none d-lg-block" style="bottom: 15%; left: -5%; z-index: 10;">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="icon-circle bg-accent-orange">
                                     <i class="bi bi-lightning-charge-fill"></i>
@@ -92,7 +92,7 @@
                     ['name' => 'Security Forces', 'icon' => 'bi-shield-shaded', 'count' => '50+ Sets', 'color' => '#10b981'],
                     ['name' => 'TSC (Teachers)', 'icon' => 'bi-mortarboard-fill', 'count' => '110+ Sets', 'color' => 'var(--accent-orange)']
                 ] as $exam)
-                <div class="col-md-4 col-lg-2">
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="category-card p-4 text-center h-100 hover-translate shadow-sm">
                         <div class="category-icon-wrapper mb-3" style="background-color: {{ $exam['color'] }}20; color: {{ $exam['color'] }};">
                             <i class="bi {{ $exam['icon'] }}"></i>
@@ -222,7 +222,7 @@
             </div>
             <div class="row g-4">
                 @forelse($testimonials as $testimonial)
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="testimonial-card-premium h-100">
                         <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
                         <div class="star-rating mb-3">
@@ -252,7 +252,7 @@
                     ['name' => 'Priya Sharma', 'text' => 'The bilingual notes are a lifesaver. I can switch between Nepali and English easily.', 'role' => 'Nayab Subba Candidate'],
                     ['name' => 'Suman Thapa', 'text' => 'I passed my Kharidar exam thanks to the consistent practice on this platform. Highly recommended!', 'role' => 'Successful Candidate']
                 ] as $item)
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="testimonial-card-premium h-100">
                         <div class="testimonial-quote"><i class="bi bi-quote"></i></div>
                         <div class="star-rating mb-3">

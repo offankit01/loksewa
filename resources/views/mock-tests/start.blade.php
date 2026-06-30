@@ -13,8 +13,13 @@
     }
     .exam-start-header {
         background: linear-gradient(135deg, var(--primary-blue), #1e3a8a);
-        padding: 4rem 3rem;
+        padding: 3rem 1.5rem;
         position: relative;
+    }
+    @media (min-width: 768px) {
+        .exam-start-header {
+            padding: 4rem 3rem;
+        }
     }
     .exam-start-header::after {
         content: '';
@@ -81,7 +86,7 @@
                 <div class="card-body p-4 p-md-5">
                     {{-- Exam Metadata Row --}}
                     <div class="row g-4 mb-5">
-                        <div class="col-md-4">
+                        <div class="col-6 col-md-4">
                             <div class="stat-pill">
                                 <div class="text-primary-blue fs-3 mb-2"><i class="bi bi-clock-history"></i></div>
                                 <div class="text-muted extra-small fw-bold text-uppercase mb-1 tracking-wider">Time Limit</div>

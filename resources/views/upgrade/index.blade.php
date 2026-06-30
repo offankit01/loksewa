@@ -54,11 +54,17 @@
         bottom: -100px;
         right: -50px;
     }
+
+    @media (max-width: 576px) {
+        .plan-card { padding: 1.75rem; border-radius: 1.25rem; }
+        .price-value { font-size: 2.25rem; }
+        .current-plan-banner { padding: 1.5rem; border-radius: 1rem; }
+    }
 </style>
 @endsection
 
 @section('dashboard_content')
-<div class="d-flex justify-content-between align-items-center mb-5">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 mb-md-5">
     <div>
         <h3 class="fw-bold mb-1">Upgrade Your Plan</h3>
         <p class="text-muted small mb-0">Unlock premium features and accelerate your preparation</p>

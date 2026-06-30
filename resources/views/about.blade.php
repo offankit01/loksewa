@@ -36,7 +36,7 @@
                 <p class="text-muted fs-5">Our core values guide every feature we build and every note we curate.</p>
             </div>
             <div class="row g-4">
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="category-card p-5 h-100 text-center animate-slide-up">
                         <div class="category-icon-wrapper bg-primary-blue bg-opacity-10 text-primary-blue mb-4">
                             <i class="bi bi-eye"></i>
@@ -45,7 +45,7 @@
                         <p class="text-muted mb-0">To be the definitive digital ecosystem for civil service preparation in Nepal, fostering a merit-based future.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="category-card p-5 h-100 text-center animate-slide-up" style="animation-delay: 0.1s;">
                         <div class="category-icon-wrapper bg-accent-orange bg-opacity-10 text-accent-orange mb-4">
                             <i class="bi bi-bullseye"></i>
@@ -54,7 +54,7 @@
                         <p class="text-muted mb-0">To democratize education by providing expert-led materials and AI-driven analytics that reveal student potential.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="category-card p-5 h-100 text-center animate-slide-up" style="animation-delay: 0.2s;">
                         <div class="category-icon-wrapper bg-success bg-opacity-10 text-success mb-4">
                             <i class="bi bi-heart-pulse"></i>
@@ -116,7 +116,7 @@
                     ['name' => 'Prabin Rai', 'role' => 'Technical Architect', 'desc' => 'Innovation-driven developer focused on building intuitive preparation tools.'],
                     ['name' => 'Anjali Thapa', 'role' => 'Exam Analyst', 'desc' => 'Expert in pattern recognition and syllabus optimization for LokSewa exams.']
                 ] as $member)
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="feature-card-premium p-5 text-center h-100">
                         <div class="bg-soft-light rounded-4 mx-auto mb-4 d-flex align-items-center justify-content-center shadow-inner" style="width: 120px; height: 120px;">
                             <i class="bi bi-person-badge display-4 text-primary-blue"></i>

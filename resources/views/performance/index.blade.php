@@ -66,11 +66,18 @@
         box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
         margin: 0 auto 1.5rem;
     }
+
+    @media (max-width: 576px) {
+        .trend-bar { width: 24px; border-radius: 6px 6px 0 0; }
+        .trend-container { height: 150px; padding: 0 4px; margin-top: 1.5rem; }
+        .rank-badge { width: 80px; height: 80px; font-size: 1.25rem; }
+        .subject-pill { padding: 1.25rem; }
+    }
 </style>
 @endsection
 
 @section('dashboard_content')
-<div class="d-flex justify-content-between align-items-center mb-5">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 mb-md-5">
     <div>
         <h3 class="fw-bold mb-1">Performance Analytics</h3>
         <p class="text-muted small mb-0">Deep dive into your preparation progress and competitive standing</p>

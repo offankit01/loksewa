@@ -99,12 +99,54 @@
         @media (max-width: 991px) {
             .sidebar {
                 left: calc(-1 * var(--sidebar-width));
+                box-shadow: none;
             }
             .sidebar.show {
                 left: 0;
+                box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
             }
             .main-wrapper {
                 margin-left: 0;
+            }
+            .sidebar-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.35);
+                z-index: 1025;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                display: none;
+            }
+            .sidebar-backdrop.show {
+                display: block;
+                opacity: 1;
+            }
+            .content-area {
+                padding: 1rem;
+            }
+            .top-navbar {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-area {
+                padding: 0.75rem;
+            }
+            .top-navbar {
+                padding: 0 0.75rem;
+                height: 56px;
+            }
+            .sidebar-link {
+                padding: 10px 20px;
+                margin: 3px 12px;
+                font-size: 0.95rem;
+            }
+            .sidebar-brand {
+                padding: 18px;
             }
         }
 
@@ -125,12 +167,18 @@
 </head>
 <body>
 
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <!-- Sidebar -->
     <aside class="sidebar shadow-sm" id="sidebar">
         <a href="{{ url('/') }}" class="text-decoration-none">
             <div class="sidebar-brand">
                 <img src="/storage/logo1.png" alt="Lok Siksha" style="height: 35px; width: auto;" class="me-2">
                 <span>Lok Siksha</span>
+                <button class="btn d-lg-none ms-auto p-0 text-muted border-0" type="button" id="sidebarClose">
+                    <i class="bi bi-x-lg"></i>
+                </button>
             </div>
         </a>
         
@@ -268,11 +316,38 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+    @if (!(file_exists(public_path('build/manifest.json')) || file_exists(public_path('build/.vite/manifest.json')) || file_exists(public_path('hot'))))
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+    @endif
     <script>
-        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('show');
-        });
+        // Sidebar Toggle with Backdrop
+        const sidebar = document.getElementById('sidebar');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarClose = document.getElementById('sidebarClose');
+
+        function openSidebar() {
+            sidebar.classList.add('show');
+            sidebarBackdrop.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('show');
+            sidebarBackdrop.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        sidebarToggle?.addEventListener('click', openSidebar);
+        sidebarClose?.addEventListener('click', closeSidebar);
+        sidebarBackdrop?.addEventListener('click', closeSidebar);
+
+        // Close sidebar on link click (mobile)
+        if (window.innerWidth < 992) {
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+        }
 
         // Notifications Logic
         async function markAsRead(id) {

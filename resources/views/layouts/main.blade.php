@@ -105,13 +105,13 @@
 
     <!-- Navbar -->
     @if(!isset($hide_nav_footer) || !$hide_nav_footer)
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom py-3">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-custom py-2 py-lg-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
                 <img src="/storage/logo1.png" alt="Lok Siksha" width="42" height="42" class="d-inline-block align-text-top rounded-circle shadow-sm">
                 <span class="fw-extrabold fs-4 tracking-tight text-primary-blue">Lok <span class="text-accent-orange">Siksha</span></span>
             </a>
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -247,10 +247,10 @@
 
     <!-- Footer -->
     @if(!isset($hide_nav_footer) || !$hide_nav_footer)
-    <footer class="footer py-5 bg-dark text-white">
+    <footer class="footer py-4 py-md-5 bg-dark text-white">
         <div class="container">
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6 col-12">
                     <a class="navbar-brand fw-bold text-white d-flex align-items-center mb-3 gap-2" href="{{ url('/') }}">
                         <img src="/storage/logo1.png" alt="Lok Siksha" style="height: 45px; width: auto; filter: brightness(0) invert(1);">
                         <span class="fs-2 fw-extrabold text-white tracking-tight">Lok Siksha</span>
@@ -263,8 +263,8 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-2 col-md-6">
-                    <h6 class="fw-bold text-white mb-4">Platform</h6>
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="fw-bold text-white mb-3 mb-md-4">Platform</h6>
                     <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
                         <li><a href="{{ route('pricing') }}" class="text-decoration-none text-white-50 hover-text-white">Pricing Plans</a></li>
                         <li><a href="#" class="text-decoration-none text-white-50 hover-text-white">Mock Tests</a></li>
@@ -274,8 +274,8 @@
                     </ul>
                 </div>
                 
-                <div class="col-lg-2 col-md-6">
-                    <h6 class="fw-bold text-white mb-4">Company</h6>
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6 class="fw-bold text-white mb-3 mb-md-4">Company</h6>
                     <ul class="list-unstyled text-white-50 small d-flex flex-column gap-2">
                         <li><a href="#" class="text-decoration-none text-white-50 hover-text-white">About Us</a></li>
                         <li><a href="#" class="text-decoration-none text-white-50 hover-text-white">Contact</a></li>
@@ -283,16 +283,16 @@
                     </ul>
                 </div>
                 
-                <div class="col-lg-4 col-md-6">
-                    <h6 class="fw-bold text-white mb-4">Subscribe</h6>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <h6 class="fw-bold text-white mb-3 mb-md-4">Subscribe</h6>
                     <div class="input-group mb-3">
                         <input type="email" class="form-control bg-dark border-secondary text-white" placeholder="Email">
                         <button class="btn btn-accent-custom" type="button">Join</button>
                     </div>
                 </div>
             </div>
-            <hr class="border-secondary mt-5 mb-4">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50 small">
+            <hr class="border-secondary mt-4 mt-md-5 mb-3 mb-md-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50 small gap-2">
                 <p class="mb-0">&copy; {{ date('Y') }} {{ $site_settings['site_name'] ?? 'Lok Siksha' }}. All rights reserved.</p>
                 <p class="mb-0">Made with <i class="bi bi-heart-fill text-danger"></i> for aspirants.</p>
             </div>
@@ -301,7 +301,9 @@
     @endif
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+    @if (!(file_exists(public_path('build/manifest.json')) || file_exists(public_path('build/.vite/manifest.json')) || file_exists(public_path('hot'))))
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+    @endif
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
@@ -318,6 +320,35 @@
                 }
             }
         });
+
+        // Mobile navbar backdrop overlay
+        (function() {
+            const navCollapse = document.getElementById('navbarNav');
+            if (!navCollapse) return;
+
+            let backdrop = null;
+
+            navCollapse.addEventListener('show.bs.collapse', function() {
+                backdrop = document.createElement('div');
+                backdrop.className = 'navbar-backdrop';
+                backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);z-index:1029;opacity:0;transition:opacity 0.3s ease;';
+                document.body.appendChild(backdrop);
+                requestAnimationFrame(() => backdrop.style.opacity = '1');
+                backdrop.addEventListener('click', function() {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                    if (bsCollapse) bsCollapse.hide();
+                });
+                document.body.style.overflow = 'hidden';
+            });
+
+            navCollapse.addEventListener('hide.bs.collapse', function() {
+                if (backdrop) {
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => { backdrop.remove(); backdrop = null; }, 300);
+                }
+                document.body.style.overflow = '';
+            });
+        })();
     </script>
     @yield('extra_js')
 </body>

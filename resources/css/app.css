@@ -796,3 +796,811 @@ body {
 }
 
 
+/* ============================================
+   RESPONSIVE DESIGN — COMPREHENSIVE OVERRIDES
+   ============================================ */
+
+/* -------------------------------------------
+   iPad / Small Laptop (max-width: 991px)
+   ------------------------------------------- */
+@media (max-width: 991px) {
+    body {
+        padding-top: 72px;
+    }
+
+    /* Navbar mobile menu */
+    .navbar-custom .navbar-collapse {
+        background: white;
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        margin-top: 1rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .navbar-custom .navbar-nav {
+        gap: 0.25rem;
+    }
+
+    .navbar-custom .nav-link {
+        padding: 0.85rem 1rem !important;
+        border-radius: 12px;
+        transition: background 0.2s ease;
+    }
+
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .nav-link.active {
+        background: rgba(30, 58, 138, 0.05);
+    }
+
+    /* Mobile auth buttons stack */
+    .navbar-custom .navbar-collapse > .d-flex {
+        flex-direction: column;
+        gap: 0.75rem !important;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        margin-top: 0.75rem;
+        width: 100%;
+    }
+
+    .navbar-custom .navbar-collapse > .d-flex .btn,
+    .navbar-custom .navbar-collapse > .d-flex a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Dropdown styling for mobile */
+    .dropdown-menu-premium {
+        min-width: unset;
+        box-shadow: none !important;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 1rem;
+        margin-top: 0.5rem;
+        background: #f8fafc;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        padding: 3rem 0;
+    }
+
+    .hero-section h1.display-2 {
+        font-size: 2.5rem;
+    }
+
+    .hero-section .lead.fs-4 {
+        font-size: 1.1rem !important;
+    }
+
+    /* Glass cards on hero — reposition */
+    .glass-card.position-absolute {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin: 0.5rem 0;
+    }
+
+    .hero-visual {
+        padding: 15px;
+    }
+
+    .hero-visual .position-absolute {
+        display: none;
+    }
+
+    /* Display headings scaling */
+    .display-2 { font-size: 2.5rem; }
+    .display-3 { font-size: 2.25rem; }
+    .display-4 { font-size: 2rem; }
+    .display-5 { font-size: 1.75rem; }
+
+    /* Step cards */
+    .step-card-glass {
+        padding: 2rem 1.5rem;
+    }
+
+    .step-number-wrap {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1.5rem;
+    }
+
+    .step-number {
+        font-size: 2rem;
+    }
+
+    /* CTA block */
+    .cta-block-premium {
+        border-radius: 24px;
+        padding: 3rem 1.5rem;
+    }
+
+    /* Pricing card — remove scale on featured */
+    .pricing-card.featured {
+        transform: none;
+    }
+
+    .pricing-card.featured:hover {
+        transform: translateY(-10px);
+    }
+
+    /* Testimonial cards */
+    .testimonial-card-premium {
+        padding: 2rem;
+    }
+
+    /* Feature section image */
+    .feature-img-glow {
+        display: none;
+    }
+
+    /* Category cards — 3 per row on tablet */
+    .category-card {
+        padding: 1.25rem;
+    }
+}
+
+/* -------------------------------------------
+   Tablet Portrait (max-width: 768px)
+   ------------------------------------------- */
+@media (max-width: 768px) {
+    body {
+        padding-top: 68px;
+    }
+
+    /* Hero */
+    .hero-section {
+        padding: 2.5rem 0;
+    }
+
+    .hero-section h1.display-2,
+    .display-2 {
+        font-size: 2rem;
+        line-height: 1.15;
+    }
+
+    .display-3 { font-size: 1.85rem; }
+    .display-4 { font-size: 1.65rem; }
+    .display-5 { font-size: 1.5rem; }
+
+    .hero-section .lead.fs-4,
+    .lead.fs-4 {
+        font-size: 1rem !important;
+    }
+
+    .hero-main-img {
+        border-width: 4px !important;
+    }
+
+    /* Hero buttons */
+    .hero-section .btn-lg {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    /* Aspirant count strip */
+    .hero-section .mt-5.d-flex {
+        margin-top: 2rem !important;
+        flex-wrap: wrap;
+        gap: 1rem !important;
+    }
+
+    /* Avatar circles smaller */
+    .avatar-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 0.8rem;
+        margin-right: -12px;
+    }
+
+    /* Sections vertical spacing */
+    section.py-5 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    /* Feature cards */
+    .feature-card-premium {
+        border-radius: 20px;
+    }
+
+    /* Blog cards */
+    .blog-img-wrap {
+        height: 180px;
+    }
+
+    /* FAQ buttons */
+    .faq-btn-custom {
+        font-size: 1rem;
+        padding: 1.25rem 0 !important;
+    }
+
+    /* CTA */
+    .cta-block-premium {
+        border-radius: 20px;
+        padding: 2.5rem 1.25rem;
+    }
+
+    .cta-block-premium h2.display-3 {
+        font-size: 1.75rem;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+    }
+
+    .footer .navbar-brand {
+        justify-content: center;
+    }
+
+    .footer .d-flex.gap-3 {
+        justify-content: center;
+    }
+
+    .footer .col-lg-2,
+    .footer .col-lg-4 {
+        text-align: center;
+    }
+
+    .footer .input-group {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .footer .d-flex.flex-column.flex-md-row {
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    /* Stats section */
+    .display-4.fw-extrabold {
+        font-size: 2rem;
+    }
+
+    /* About page feedback card */
+    .card .row.g-0 .col-md-5 {
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    /* Contact page map */
+    .rounded-5.overflow-hidden[style*="height: 450px"] {
+        height: 300px !important;
+    }
+
+    /* Service detail action cards */
+    .action-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .action-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+
+    /* Pricing */
+    .pricing-header {
+        padding: 4rem 0 3rem;
+    }
+
+    .price-tag {
+        font-size: 2.5rem;
+    }
+
+    /* Dashboard content area */
+    .content-area {
+        padding: 1.25rem;
+    }
+
+    .top-navbar {
+        padding: 0 1rem;
+    }
+}
+
+/* -------------------------------------------
+   Phone (max-width: 576px)
+   ------------------------------------------- */
+@media (max-width: 576px) {
+    body {
+        padding-top: 64px;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .navbar-brand .fs-4 {
+        font-size: 1.15rem !important;
+    }
+
+    .navbar-brand img {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .navbar-custom .navbar-collapse {
+        padding: 1rem;
+    }
+
+    .navbar-custom .nav-link {
+        padding: 0.75rem 0.85rem !important;
+        font-size: 0.95rem;
+    }
+
+    /* Dropdown on phone */
+    .dropdown-menu-premium {
+        padding: 0.75rem;
+    }
+
+    .dropdown-item-premium {
+        padding: 0.7rem 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .dropdown-item-premium i {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+    }
+
+    .item-desc {
+        font-size: 0.7rem;
+    }
+
+    /* Hero */
+    .hero-section {
+        padding: 2rem 0;
+    }
+
+    .hero-section h1,
+    h1.display-2 {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+
+    .hero-section h1 br {
+        display: none;
+    }
+
+    .hero-section .lead,
+    .hero-section .lead.fs-4 {
+        font-size: 0.95rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .hero-section .btn-lg {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .hero-section .d-flex.flex-wrap.gap-3 {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-section .d-flex.flex-wrap.gap-3 .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Badge premium */
+    .badge-premium {
+        padding: 4px 12px 4px 4px;
+    }
+
+    .badge-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .badge-text {
+        font-size: 0.75rem;
+    }
+
+    /* Display headings */
+    .display-2 { font-size: 1.75rem; }
+    .display-3 { font-size: 1.6rem; }
+    .display-4 { font-size: 1.5rem; }
+    .display-5 { font-size: 1.35rem; }
+    .display-6 { font-size: 1.25rem; }
+
+    /* Glass cards on hero — hide floating, show inline instead */
+    .hero-visual .glass-card.position-absolute {
+        display: none;
+    }
+
+    .hero-visual {
+        padding: 10px;
+    }
+
+    .hero-glow {
+        filter: blur(80px);
+        opacity: 0.1;
+    }
+
+    /* Section spacing */
+    section.py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .container.py-5 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    /* Exam Categories */
+    .category-card {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .category-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        font-size: 1.5rem;
+    }
+
+    .category-card h6 {
+        font-size: 0.85rem;
+    }
+
+    /* Feature cards */
+    .feature-card-premium {
+        border-radius: 16px;
+        padding: 1.25rem;
+    }
+
+    .feature-icon-box {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card-premium h4 {
+        font-size: 1.1rem;
+    }
+
+    /* How It Works */
+    .step-card-glass {
+        border-radius: 24px;
+        padding: 1.75rem 1.25rem;
+    }
+
+    .step-number-wrap {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 1.25rem;
+    }
+
+    .step-number {
+        font-size: 1.75rem;
+    }
+
+    .step-icon-overlay {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+
+    /* Testimonials */
+    .testimonial-card-premium {
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .testimonial-content {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .user-avatar-styled {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+
+    .testimonial-quote {
+        font-size: 2rem;
+        top: 1.25rem;
+        right: 1.25rem;
+    }
+
+    /* Blog */
+    .blog-img-wrap {
+        height: 160px;
+    }
+
+    .blog-card-premium {
+        border-radius: 18px;
+    }
+
+    .blog-badge {
+        top: 1rem;
+        left: 1rem;
+        font-size: 0.7rem;
+        padding: 4px 12px;
+    }
+
+    /* FAQ */
+    .faq-btn-custom {
+        font-size: 0.95rem;
+        padding: 1rem 0 !important;
+    }
+
+    /* CTA */
+    .cta-block-premium {
+        border-radius: 16px;
+        padding: 2rem 1rem;
+    }
+
+    .cta-block-premium h2 {
+        font-size: 1.5rem !important;
+    }
+
+    .cta-block-premium .lead {
+        font-size: 0.9rem;
+    }
+
+    .cta-block-premium .btn-lg {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .cta-block-premium .d-flex.flex-wrap {
+        flex-direction: column;
+        gap: 0.75rem !important;
+    }
+
+    .cta-block-premium .d-flex.flex-wrap .btn {
+        width: 100%;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+    }
+
+    .footer .navbar-brand {
+        justify-content: center;
+    }
+
+    .footer .navbar-brand .fs-2 {
+        font-size: 1.35rem !important;
+    }
+
+    .footer .navbar-brand img {
+        height: 36px !important;
+    }
+
+    .footer .d-flex.gap-3 {
+        justify-content: center;
+    }
+
+    .footer h6 {
+        margin-bottom: 1rem !important;
+        margin-top: 0.5rem;
+    }
+
+    .footer .input-group {
+        max-width: 100%;
+    }
+
+    .footer hr {
+        margin-top: 2rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .footer .d-flex.flex-column.flex-md-row {
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    /* Pricing */
+    .pricing-header {
+        padding: 3.5rem 0 2.5rem;
+    }
+
+    .pricing-card {
+        padding: 2rem 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .pricing-card.featured {
+        transform: none;
+        margin: 0;
+    }
+
+    .pricing-card.featured:hover {
+        transform: translateY(-5px);
+    }
+
+    .price-tag {
+        font-size: 2.25rem;
+        margin: 1rem 0;
+    }
+
+    .feature-list li {
+        padding: 0.6rem 0;
+        font-size: 0.9rem;
+    }
+
+    .featured-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 1.25rem;
+    }
+
+    /* Contact */
+    .contact .card {
+        padding: 1.5rem !important;
+    }
+
+    /* Service detail */
+    .service-header {
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+    }
+
+    .action-card {
+        padding: 1.5rem 1rem;
+        border-radius: 1rem;
+    }
+
+    .action-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .action-title {
+        font-size: 1.1rem;
+    }
+
+    .action-desc {
+        font-size: 0.85rem;
+    }
+
+    /* Services page */
+    .page-header {
+        padding: 2.5rem 0;
+    }
+
+    .accordion-button {
+        padding: 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .service-category {
+        padding: 1rem;
+    }
+
+    .service-list li {
+        font-size: 0.9rem;
+    }
+
+    /* About page */
+    .card .row.g-0 .col-md-5.p-5,
+    .card .row.g-0 .col-md-7.p-5 {
+        padding: 1.5rem !important;
+    }
+
+    /* Dashboard */
+    .content-area {
+        padding: 1rem;
+    }
+
+    .top-navbar {
+        padding: 0 0.75rem;
+        height: 56px;
+    }
+
+    .course-card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .course-card h2 {
+        font-size: 1.25rem;
+    }
+
+    .info-card {
+        padding: 1.25rem;
+    }
+
+    /* Swiper navigation */
+    .swiper-button-next-custom,
+    .swiper-button-prev-custom {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        font-size: 1rem;
+    }
+
+    .swiper-button-next-index-custom,
+    .swiper-button-prev-index-custom {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+    }
+
+    /* General fixes */
+    .shadow-2xl {
+        box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.12);
+    }
+
+    .shadow-xl {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Make inline max-width overrides more flexible */
+    [style*="max-width: 700px"],
+    [style*="max-width: 600px"] {
+        max-width: 100% !important;
+    }
+
+    /* Touch-friendly links and buttons */
+    .btn {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Prevent horizontal scrolling */
+    .container {
+        overflow-x: hidden;
+    }
+}
+
+/* -------------------------------------------
+   Extra Small (max-width: 380px) — tiny phones
+   ------------------------------------------- */
+@media (max-width: 380px) {
+    .display-2 { font-size: 1.5rem; }
+    .display-3 { font-size: 1.4rem; }
+    .display-4 { font-size: 1.3rem; }
+    .display-5 { font-size: 1.2rem; }
+
+    .hero-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .navbar-brand .fs-4 {
+        font-size: 1.05rem !important;
+    }
+
+    .cta-block-premium {
+        padding: 1.5rem 0.75rem;
+        border-radius: 12px;
+    }
+
+    .step-card-glass {
+        padding: 1.5rem 1rem;
+    }
+
+    .testimonial-card-premium {
+        padding: 1.25rem;
+    }
+
+    .pricing-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .feature-list li {
+        font-size: 0.85rem;
+    }
+}

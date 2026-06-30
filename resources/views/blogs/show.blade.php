@@ -13,7 +13,7 @@
                         <div class="badge-icon"><i class="bi bi-tag-fill"></i></div>
                         <span class="badge-text">Preparation Guide</span>
                     </div>
-                    <h1 class="display-3 fw-extrabold text-white mb-4 lh-tight">{{ $blog->title }}</h1>
+                    <h1 class="display-4 display-md-3 fw-extrabold text-white mb-4 lh-tight">{{ $blog->title }}</h1>
                     
                     <div class="d-flex align-items-center justify-content-center gap-4 flex-wrap mt-4">
                         <div class="d-flex align-items-center gap-2">
@@ -47,10 +47,10 @@
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-2xl rounded-5 overflow-hidden animate-slide-up">
                         <div class="position-relative">
-                            <img src="{{ $blog->image ? Storage::url($blog->image) : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' }}" alt="{{ $blog->title }}" class="w-100" style="height: 450px; object-fit: cover;">
+                            <img src="{{ $blog->image ? Storage::url($blog->image) : 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800' }}" alt="{{ $blog->title }}" class="w-100" style="max-height: 450px; object-fit: cover;">
                             <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-gradient-to-t from-black opacity-50 h-50"></div>
                         </div>
-                        <div class="card-body p-5">
+                        <div class="card-body p-3 p-md-5">
                             <div class="blog-content-rich fs-5 text-muted lh-lg">
                                 {!! $blog->content !!}
                             </div>

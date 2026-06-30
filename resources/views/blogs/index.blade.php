@@ -23,16 +23,16 @@
             <!-- Search & Filter Bar (Visual) -->
             <div class="row mb-5 justify-content-center">
                 <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm rounded-pill p-2 animate-slide-up">
-                        <div class="row g-0 align-items-center">
-                            <div class="col px-4">
+                    <div class="card border-0 shadow-sm rounded-4 rounded-md-pill p-2 animate-slide-up">
+                        <div class="row g-2 g-md-0 align-items-center">
+                            <div class="col-12 col-md px-3 px-md-4">
                                 <div class="input-group border-0">
                                     <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-search"></i></span>
                                     <input type="text" class="form-control border-0 bg-transparent shadow-none" placeholder="Search for articles, topics, or news...">
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <button class="btn btn-primary-blue rounded-pill px-4 py-2 fw-bold">Search Hub</button>
+                            <div class="col-12 col-md-auto px-3 px-md-0">
+                                <button class="btn btn-primary-blue rounded-pill px-4 py-2 fw-bold w-100 w-md-auto">Search Hub</button>
                             </div>
                         </div>
                     </div>

@@ -118,20 +118,61 @@
         
         body.admin-layout-body {
             padding-top: 0 !important;
-            background-color: #f4f7fe; /* Keep dashboard background clean */
+            background-color: #f4f7fe;
+        }
+
+        @media (max-width: 991px) {
+            .sidebar {
+                left: calc(-1 * var(--sidebar-width));
+                box-shadow: none;
+            }
+            .sidebar.show {
+                left: 0;
+                box-shadow: 10px 0 50px rgba(0, 0, 0, 0.2);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+            .admin-backdrop {
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 1025;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                display: none;
+            }
+            .admin-backdrop.show {
+                display: block;
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 1rem;
+            }
         }
     </style>
     @yield('extra_css')
 </head>
 <body class="admin-layout-body">
 
+    <!-- Admin Sidebar Backdrop -->
+    <div class="admin-backdrop" id="adminBackdrop"></div>
+
     <!-- Sidebar -->
-    <div class="sidebar d-flex flex-column">
-        <div class="sidebar-brand">
+    <div class="sidebar d-flex flex-column" id="adminSidebar">
+        <div class="sidebar-brand d-flex align-items-center justify-content-between">
             <h4 class="fw-bold d-flex align-items-center m-0 text-white">
                 <img src="/storage/logo1.png" alt="Logo" style="height: 35px; width: auto; filter: brightness(0) invert(1);" class="me-2">
                 Lok <span class="text-accent-orange">Siksha</span>
             </h4>
+            <button class="btn d-lg-none p-0 text-white-50 border-0" type="button" id="adminSidebarClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
         </div>
         
         <div class="flex-grow-1 overflow-y-auto custom-scrollbar">
@@ -229,8 +270,12 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <header class="d-flex justify-content-between align-items-center mb-5">
-            <div>
+        <header class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 mb-md-5">
+            <div class="d-flex align-items-center gap-3 w-100 w-md-auto">
+                <button class="btn d-lg-none p-0 text-muted border-0" type="button" id="adminSidebarToggle">
+                    <i class="bi bi-list fs-2"></i>
+                </button>
+                <div>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-1">
                         <li class="breadcrumb-item small"><a href="#" class="text-decoration-none">Admin</a></li>
@@ -238,6 +283,7 @@
                     </ol>
                 </nav>
                 <h2 class="fw-bold mb-0 text-dark">@yield('page_title', 'Dashboard Overview')</h2>
+                </div>
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="dropdown">
@@ -277,6 +323,28 @@
     @else
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @endif
+    <script>
+        // Admin sidebar toggle
+        const adminSidebar = document.getElementById('adminSidebar');
+        const adminBackdrop = document.getElementById('adminBackdrop');
+        const adminToggle = document.getElementById('adminSidebarToggle');
+        const adminClose = document.getElementById('adminSidebarClose');
+
+        function openAdminSidebar() {
+            adminSidebar?.classList.add('show');
+            adminBackdrop?.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAdminSidebar() {
+            adminSidebar?.classList.remove('show');
+            adminBackdrop?.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        adminToggle?.addEventListener('click', openAdminSidebar);
+        adminClose?.addEventListener('click', closeAdminSidebar);
+        adminBackdrop?.addEventListener('click', closeAdminSidebar);
+    </script>
     @yield('extra_js')
 </body>
 </html>

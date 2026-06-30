@@ -15,6 +15,12 @@
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .stat-value { font-size: 2.5rem; font-weight: 800; color: var(--primary-blue); }
         .stat-label { font-size: 0.85rem; color: var(--muted-text); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        @media (max-width: 576px) {
+            .stat-value { font-size: 1.75rem; }
+            .stat-card { padding: 1.25rem 1rem; }
+            .stat-label { font-size: 0.75rem; letter-spacing: 0.5px; }
+        }
         
         .topic-progress { margin-bottom: 1.5rem; }
         .progress { height: 10px; border-radius: 5px; }
@@ -33,7 +39,7 @@
 @endsection
 
 @section('dashboard_content')
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
             <h3 class="fw-bold mb-1">My Mock Tests</h3>
             <p class="text-muted small mb-0">Track your performance and start new practice sets</p>
@@ -43,7 +49,7 @@
 
     @auth
     <div class="row g-4 mb-5">
-        <div class="col-md-3">
+        <div class="col-6 col-md-3">
             <div class="stat-card shadow-sm">
                 <div class="stat-value">{{ $totalTests }}</div>
                 <div class="stat-label">Tests Taken</div>
